@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Footer from "../Footer/Footer";
 import banner from "../../assets/Images/tvtl.jpg";
-import CardInFor from "./CardInFor";
+import Card from "./Card";
 import logo from "../../assets/Images/logo.jpg";
 import { useNavigate } from "react-router-dom";
 
@@ -168,7 +168,7 @@ function HomePage() {
       <div>
         <img src={banner} alt="" className="p-1 w-full h-full object-cover" />
       </div>
-      <CardInFor />
+      <Card />
       <Footer />
     </AppBar>
   );
