@@ -58,11 +58,11 @@ const profiles = [
 
 export default function InforLecture() {
   return (
-    <div className="p-4 grid grid-cols-3 gap-8 border rounded-b-xl">
+    <div className="p-2 grid grid-cols-3 gap-8 border rounded-b-xl">
       {profiles.map((profile, index) => (
-        <Card key={index} sx={{ maxWidth: "100%", borderRadius: 5 }}>
+        <Card key={index} sx={{ maxWidth: "90%", borderRadius: 5, }}>
           <CardMedia
-            sx={{ height: 300, width: "100%", objectFit: "cover" }}
+            sx={{ height: 600, width: "90%", objectFit: "cover", margin:'auto', mt:2,borderRadius:5 }}
             image={profile.image}
             title={profile.name}
           />
