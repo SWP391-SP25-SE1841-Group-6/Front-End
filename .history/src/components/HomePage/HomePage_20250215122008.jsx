@@ -13,13 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Footer from "../Footer/Footer";
+import banner from "../../assets/Images/tvtl.jpg";
 import logo from "../../assets/Images/logo.jpg";
 import { useNavigate } from "react-router-dom";
 import InforLecture from "./InforLecture";
-// import SimpleSlider from "./Banner";
-// import l1 from "../../assets/Images/logo.jpg";
-// import l2 from "../../assets/Images/tvtl.jpg";
-import banner from "../../assets/Images/tvtl.jpg"
+
+
 const pages = ["About US", "Contact", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -70,9 +69,8 @@ function HomePage() {
               alt="Logo"
               style={{ height: 40, width: "auto", borderRadius: 30 }}
             />
-           
           </Typography>
-          
+
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -100,7 +98,6 @@ function HomePage() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-            
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography sx={{ textAlign: "center" }}>{page}</Typography>
@@ -168,27 +165,8 @@ function HomePage() {
           </Box>
         </Toolbar>
       </Container>
-      <div className="ml-20 flex flex-col-5"> prev
       <div>
-        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
-      </div>
-      <div>
-        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
-      </div>  
-      <div>
-        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
-      </div>
-      <div>
-        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
-      </div>
-      <div>
-        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
-      </div>
-      next
-      </div>
-      <div className="block justify-center align-middle">
-        <h1  className="flex justify-center text-xl text-red-300">ĐỘI NGŨ CHUYÊN GIA, COACH</h1>
-        <span className="flex justify-center text-2xl text-red-700">Hỗ trợ tư vấn, tham vấn, trị liệu tâm lý</span>
+        <img src={banner} alt="" className="p-1 w-full h-full object-cover" />
       </div>
       <InforLecture />
       <Footer />
