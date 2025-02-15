@@ -12,7 +12,7 @@ const profiles = [
     teaching: "School psychology consultancy",
     unit: "Faculty of Psychology, University of Social Sciences and Humanities, VNU-HCM",
     image:
-      "https://plus.unsplash.com/premium_photo-1670884441012-c5cf195c062a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1670884441012-c5cf195c062a?w=500&auto=format&fit=crop&q=60",
   },
   {
     name: "Dr. Emily Carter",
@@ -20,7 +20,7 @@ const profiles = [
     teaching: "Emotional Regulation in Schools",
     unit: "Department of School Psychology, Stanford University",
     image:
-      "https://plus.unsplash.com/premium_photo-1658527049634-15142565537a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8JUUzJTgyJUEyJUUzJTgzJTkwJUUzJTgyJUJGJUUzJTgzJUJDfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1658527049634-15142565537a?w=500&auto=format&fit=crop&q=60",
   },
   {
     name: "Prof. Lisa Nguyen",
@@ -36,7 +36,7 @@ const profiles = [
     teaching: "Positive Behavior Support in Schools",
     unit: "School of Psychology, University of Toronto",
     image:
-      "https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fCVFMyU4MiVBMiVFMyU4MyU5MCVFMyU4MiVCRiVFMyU4MyVCQ3xlbnwwfHwwfHx8MA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?w=500&auto=format&fit=crop&q=60",
   },
   {
     name: "Dr. Olivia Brown",
@@ -56,31 +56,28 @@ const profiles = [
   },
 ];
 
-export default function CardInFor() {
+export default function InforLecture() {
   return (
-    <div className="p-4 grid grid-cols-3 grid-rows-2 gap-8 border rounded-b-xl">
+    <div className="p-2 grid grid-cols-3 gap-8 border rounded-b-xl">
       {profiles.map((profile, index) => (
-        <Card key={index} sx={{ maxWidth: "100%", borderRadius: 5 }}>
+        <Card key={index} sx={{ maxWidth: "90%", borderRadius: 5, }}>
           <CardMedia
-            sx={{ height: 900, width: "100%", objectFit: "cover" }}
+            sx={{ height: 600, width: "90%", objectFit: "cover", margin:'auto', mt:2,borderRadius:5 }}
             image={profile.image}
             title={profile.name}
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography gutterBottom variant="h5">
               {profile.name}
             </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              <p className="profile-text">
-              <span className="text-md text-black">Specialization:</span>{" "}
-                {profile.specialization}
-              </p>
-              <p className="profile-text">
-                <span className="text-md text-black">Teaching:</span> {profile.teaching}
-              </p>
-              <p className="profile-text">
-              <span className="text-md text-black">Working unit:</span> {profile.unit}
-              </p>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Specialization:</strong> {profile.specialization}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Teaching:</strong> {profile.teaching}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Working unit:</strong> {profile.unit}
             </Typography>
           </CardContent>
           <CardActions>
