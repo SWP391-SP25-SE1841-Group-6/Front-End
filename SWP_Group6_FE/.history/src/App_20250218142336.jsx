@@ -1,9 +1,10 @@
+
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import ProtectedRoute from "./components/protected-route";
 import Dashboard from "./components/HomePage/DashBoard";
 import HomePage from "./components/HomePage/HomePage";
 import Login from "./components/Login/Login";
-import './index.css';
 
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
     {
       path: "/homepage",
       element: (
-        <ProtectedRoute>
+        <ProtectedRoute >
           <HomePage />
         </ProtectedRoute>
       ),

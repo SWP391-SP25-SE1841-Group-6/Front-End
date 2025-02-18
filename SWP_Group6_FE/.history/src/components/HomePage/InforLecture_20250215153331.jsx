@@ -56,11 +56,7 @@ const profiles = [
   },
 ];
 
-<<<<<<<< HEAD:SWP_Group6_FE/.history/src/components/HomePage/InforLecture_20250215154349.jsx
 export default function InforLecture() {
-========
-export default function Nav() {
->>>>>>>> 9a964a7c7b83e4185da565a5bad7f2c16d4f0c0a:SWP_Group6_FE/src/components/HomePage/Nav.jsx
   return (
     <div className="p-2 grid grid-cols-3 gap-8 border rounded-b-xl">
       {profiles.map((profile, index) => (
