@@ -1,44 +1,3 @@
-<<<<<<< HEAD
-import {
-  AppBar,
-  Box,
-  Button,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { Outlet, Link, useNavigate } from "react-router-dom";
-
-export default function HomePage() {
-  const navigate = useNavigate();
-  return (
-    <div>
-      <AppBar component="nav">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            GROUP6
-          </Typography>
-          <Box>
-            <Button component={Link} to="/home" sx={{ color: "#fff" }}>
-              Trang chủ
-            </Button>
-            
-            <Button component={Link} to="/dashboard" sx={{ color: "#fff" }}
-            onClick={() => {
-              navigate("dashboard");
-            }}>
-              Thống kê
-            </Button>
-            <Button component={Link} to="/contact" sx={{ color: "#fff" }}>
-              Liên hệ
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Outlet /> {/* Để hiển thị route con */}
-    </div>
-  );
-};
-=======
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -55,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Footer from "../Footer/Footer";
 import banner from "../../assets/Images/tvtl.jpg";
-import CardInFor from "./CardInFor";
+import CardInfor from "./CardInfor";
 import logo from "../../assets/Images/logo.jpg";
 import { useNavigate } from "react-router-dom";
 
@@ -209,10 +168,9 @@ function HomePage() {
       <div>
         <img src={banner} alt="" className="p-1 w-full h-full object-cover" />
       </div>
-      <CardInFor />
+      <CardInfor />
       <Footer />
     </AppBar>
   );
 }
 export default HomePage;
->>>>>>> 21fdeb15b961b0735fb22e8ff5962ddb58019ba2
