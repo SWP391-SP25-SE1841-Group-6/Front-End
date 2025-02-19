@@ -1,24 +1,24 @@
+
+
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./components/protected-route";
 import Dashboard from "./components/HomePage/DashBoard";
-import HomePage from "./components/HomePage/HomePage";
-import Login from "./components/Login/Login";
-import './index.css';
+import AuthPage from "./components/Login/loginv2";
 
 
-function App() {
+function App () {
   const router = createBrowserRouter([
     {
       path: "/homepage",
       element: (
-        <ProtectedRoute>
+        <ProtectedRoute >
           <HomePage />
         </ProtectedRoute>
       ),
     },
     {
       path: "/",
-      element: <Login />,
+      element: <AuthPage />,
     },
     {
       path: "/dashboard",
@@ -30,3 +30,6 @@ function App() {
 }
 
 export default App;
+
+
+
