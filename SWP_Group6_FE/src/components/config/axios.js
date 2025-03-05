@@ -1,6 +1,6 @@
 
 import axios from "axios";
-const baseUrl = "http://localhost:5121/api";
+const baseUrl = "http://localhost:5121/api/";
 
 const config = {
   baseURL: baseUrl,
