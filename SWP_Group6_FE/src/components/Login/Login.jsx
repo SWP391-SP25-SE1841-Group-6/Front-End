@@ -1,16 +1,16 @@
-<<<<<<< HEAD
 import { useState } from "react";
+import { FiMail, FiLock, FiUser } from "react-icons/fi";
+import api from "../config/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import api from "../config/axios";
 
 const Login = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [formData, setFormData] = useState({
     accName: "",
-    accPass: "",
     accEmail: "",
-    dob: new Date('2025-02-17T16:40:55.902Z').toISOString().split('T')[0],  
+    accPass: "",
+    dob: new Date("2025-02-19T06:56:28.116Z"),
     gender: true,
   });
   const [errors, setErrors] = useState({});
@@ -18,83 +18,107 @@ const Login = () => {
 
   const validateForm = () => {
     const newErrors = {};
-
     if (activeTab === "register") {
-      if (!formData.accName) newErrors.accName = "Username is required";
+      if (!formData.accName) newErrors.accName = "Full name is required";
       if (!formData.accEmail) {
         newErrors.accEmail = "Email is required";
       } else if (!/\S+@\S+\.\S+/.test(formData.accEmail)) {
         newErrors.accEmail = "Email is invalid";
       }
-      if (!formData.accPass) {
-        newErrors.accPass = "Password is required";
-      } else if (formData.accPass.length < 6) {
-        newErrors.accPass = "Password must be at least 6 characters";
-      }      
     }
-
     if (!formData.accEmail) newErrors.accEmail = "Email is required";
-    if (!formData.accPass) {
-      newErrors.accPass = "Password is required";
-    } else if (formData.accPass.length < 6) {
-      newErrors.accPass = "Password must be at least 6 characters";
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
     }
     return newErrors;
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const newErrors = validateForm();
+  //   if (Object.keys(newErrors).length === 0) {
+  //     try {
+  //       if (activeTab === "login") {
+  //         const response = await api.post("Account/Login", {
+  //           email: formData.accEmail,
+  //           password: formData.accPass,
+  //         });
+  //         console.log("Response:", response);
+  //         if (response.status === 200) {
+  //           const { token } = response.data.data;
+  //           localStorage.setItem("token", token);
+  //           navigate("/homepage");
+  //         } else {
+  //           toast.error("Login failed. Please try again.");
+  //         }
+  //       } else {
+  //         const response = await api.post("Account/Register", formData);
+  //         console.log("register",response);
+  //         toast.success("Registration successful");
+  //         setFormData({
+  //           accName: "",
+  //           accEmail: "",
+  //           accPass: "",
+  //           dob: "",
+  //           gender: true,
+  //         });
+  //         setActiveTab("login");
+  //       }
+  //       setErrors({});
+  //     } catch (err) {
+  //       toast.error(
+  //         err.response?.data?.message || "Request failed. Please try again."
+  //       );
+  //     }
+  //   } else {
+  //     setErrors(newErrors);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
-   
     if (Object.keys(newErrors).length === 0) {
-      try {
-        console.log("cc",formData)
-        let response;
-        if (activeTab === "login") {
-          response = await api.post("Account/Login", {
-            email: formData.accEmail,
-            password: formData.accPass,
-          });
-          const { token } = response.data.data;
-          localStorage.setItem("token", token);
-          navigate("/homepage");
-        } else {
-          response = await api.post("Account/Register", {
-            accName: formData.accName,
-            accPass: formData.accPass,
-            accEmail: formData.accEmail,
-            dob: formData.dob,
-            gender: formData.gender,
-          });
-          toast.success("Registration successful! Please login.");
-          setActiveTab("login");
+      if (activeTab == "login") {
+        console.log("login",formData);
+        try {
+          const response = await api.post("Account/Login", formData);
+          console.log(response.data);
+        
+          if (response.data && response.data.data) {
+            const { token } = response.data.data;
+            localStorage.setItem("token", token);
+            navigate("/homepage");
+          } else {
+            toast.error("Invalid response from server");
+          }
+        } catch (err) {
+          console.error(err.response?.data || err.message);
+          toast.error(err.response?.data?.message || "Login failed. Please try again.");
+        }
+        try {
+          const response = await api.post("Account/Register", formData);
+          console.log("Register response:", response.data);
+          toast.success("Registration successful");
           setFormData({
             accName: "",
-            accPass: "",
             accEmail: "",
+            accPass: "",
             dob: "",
             gender: true,
-            confirmPassword: "",
           });
+          setActiveTab("login");
+        } catch (err) {
+          console.error(err.response?.data || err.message);
+          toast.error(err.response?.data?.message || "Register failed. Please try again.");
         }
-        console.log("API Response:", response?.data);
-      } catch (error) {
-        console.error("API Error:", error);
-        if (error.response && error.response.data) {
-          toast.error(error.response.data);
-        } else if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("An error occurred. Please try again later.");
-        }
-      } finally {
         setErrors({});
       }
     } else {
       setErrors(newErrors);
     }
   };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -116,21 +140,19 @@ const Login = () => {
 
         <div className="flex border-b border-gray-200">
           <button
-            className={`flex-1 py-4 px-6 text-center ${
-              activeTab === "login"
+            className={`flex-1 py-4 px-6 text-center ${activeTab === "login"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500 hover:text-gray-700"
-            }`}
+              }`}
             onClick={() => setActiveTab("login")}
           >
             Login
           </button>
           <button
-            className={`flex-1 py-4 px-6 text-center ${
-              activeTab === "register"
+            className={`flex-1 py-4 px-6 text-center ${activeTab === "register"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500 hover:text-gray-700"
-            }`}
+              }`}
             onClick={() => setActiveTab("register")}
           >
             Register
@@ -138,108 +160,6 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          {activeTab === "register" && (
-            <>
-              <div>
-                <label
-                  htmlFor="username"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  UserName
-                </label>
-                <input
-                  type="text"
-                  name="accName"
-                  id="accName"
-                  value={formData.accName}
-                  onChange={handleChange}
-                  className={`block w-full pl-3 py-2 border ${
-                    errors.accName ? "border-red-500" : "border-gray-300"
-                  } rounded-md`}
-                />
-                {errors.accName && (
-                  <p className="mt-2 text-sm text-red-600">{errors.accName}</p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="accEmail"
-                  id="accEmail"
-                  value={formData.accEmail}
-                  onChange={handleChange}
-                  className={`block w-full pl-3 py-2 border ${
-                    errors.accEmail ? "border-red-500" : "border-gray-300"
-                  } rounded-md`}
-                />
-                {errors.accEmail && (
-                  <p className="mt-2 text-sm text-red-600">{errors.accEmail}</p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="accPass"
-                  id="password"
-                  value={formData.accPass}
-                  onChange={handleChange}
-                  className={`block w-full pl-3 py-2 border ${
-                    errors.accPass ? "border-red-500" : "border-gray-300"
-                  } rounded-md`}
-                />
-                {errors.accPass && (
-                  <p className="mt-2 text-sm text-red-600">{errors.accPass}</p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="dob"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Date of Birth
-                </label>
-                <input
-                  type="date"
-                  name="dob"
-                  id="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                  className="block w-full border border-gray-300 rounded-md"
-                />
-                {errors.dob && (
-                  <p className="mt-2 text-sm text-red-600">{errors.dob}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Gender
-                </label>
-                <select
-                  name="gender"
-                  id="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  className="block w-full border border-gray-300 rounded-md"
-                >
-                  <option value={true}>Male</option>
-                  <option value={false}>Female</option>
-                </select>
-              </div>
-            </>
-          )}
           {activeTab === "login" && (
             <>
               <div>
@@ -249,20 +169,25 @@ const Login = () => {
                 >
                   Email
                 </label>
-                <input
-                  type="email"
-                  name="accEmail"
-                  id="accEmail"
-                  value={formData.accEmail}
-                  onChange={handleChange}
-                  className={`block w-full pl-3 py-2 border ${
-                    errors.accEmail ? "border-red-500" : "border-gray-300"
-                  } rounded-md`}
-                />
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiMail className="h-5 w-5 text-gray-400" />
+                  </div>
+
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.accEmail}
+                    onChange={handleChange}
+                    className={`block w-full pl-10 pr-3 py-2 border ${errors.accEmail ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                  />
+                </div>
                 {errors.accEmail && (
                   <p className="mt-2 text-sm text-red-600">{errors.accEmail}</p>
                 )}
               </div>
+
               <div>
                 <label
                   htmlFor="password"
@@ -270,18 +195,156 @@ const Login = () => {
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  name="accPass"
-                  id="password"
-                  value={formData.accPass}
-                  onChange={handleChange}
-                  className={`block w-full pl-3 py-2 border ${
-                    errors.accPass ? "border-red-500" : "border-gray-300"
-                  } rounded-md`}
-                />
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiLock className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="password"
+                    name="accPass"
+                    value={formData.accPass}
+                    onChange={handleChange}
+                    className={`block w-full pl-10 pr-3 py-2 border ${errors.accPass ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                  />
+                </div>
                 {errors.accPass && (
                   <p className="mt-2 text-sm text-red-600">{errors.accPass}</p>
+                )}
+              </div>
+            </>
+          )}
+
+          {activeTab === "register" && (
+            <>
+              <div>
+                <label
+                  htmlFor="accName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Full Name
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiUser className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    name="accName"
+                    id="accName"
+                    value={formData.accName}
+                    onChange={handleChange}
+                    className={`block w-full pl-10 pr-3 py-2 border ${errors.accName ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                  />
+                </div>
+                {errors.accName && (
+                  <p className="mt-2 text-sm text-red-600">{errors.accName}</p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="accEmail"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiMail className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="email"
+                    name="accEmail"
+                    value={formData.accEmail}
+                    onChange={handleChange}
+                    className={`block w-full pl-10 pr-3 py-2 border ${errors.accEmail ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                  />
+
+                </div>
+                {errors.accEmail && (
+                  <p className="mt-2 text-sm text-red-600">{errors.accEmail}</p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiLock className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="password"
+                    name="accPass"
+                    id="password"
+                    value={formData.accPass}
+                    onChange={handleChange}
+                    className={`block w-full pl-10 pr-3 py-2 border ${errors.accPass ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                  />
+                </div>
+                {errors.accPass && (
+                  <p className="mt-2 text-sm text-red-600">{errors.accPass}</p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="dob"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Date of Birth
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <input
+                    type="date"
+                    name="dob"
+                    id="dob"
+                    value={formData.dob}
+                    onChange={handleChange}
+                    className={`block w-full pl-3 pr-3 py-2 border ${errors.dob ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                  />
+                </div>
+                {errors.dob && (
+                  <p className="mt-2 text-sm text-red-600">{errors.dob}</p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="gender"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Gender
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <select
+                    name="gender"
+                    id="gender"
+                    value={formData.gender}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        gender: e.target.value === "true",
+                      })
+                    }
+                    className={`block w-full pl-3 pr-3 py-2 border ${errors.gender ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                  >
+                    <option value={true}>Male</option>
+                    <option value={false}>Female</option>
+                  </select>
+                </div>
+                {errors.gender && (
+                  <p className="mt-2 text-sm text-red-600">{errors.gender}</p>
                 )}
               </div>
             </>
@@ -290,7 +353,7 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
             >
               {activeTab === "login" ? "Sign In" : "Register"}
             </button>
@@ -302,71 +365,3 @@ const Login = () => {
 };
 
 export default Login;
-=======
-
-import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-const SignUpForm = () => {
-  const navigate = useNavigate();
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      password: "",
-    },
-    validationSchema: Yup.object({
-      name: Yup.string().max(20, "Must be 20 characters or less").required("Account name not empty"),
-      password: Yup.string().max(10, "Must be 10 characters or less").required("Password  not empty"),
-    }),
-    onSubmit: (values) => {
-      console.log(values);
-      navigate("/homepage");
-    },
-  });
-  return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="p-10 w-full max-w-[500px] mx-auto"
-    >
-      <div className="flex flex-col gap-2 mb-5">
-        <label htmlFor="name">Name Account </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="enter your Name Account"
-          className="p-4 rounded-md border border-gray-600"
-          {...formik.getFieldProps("name")} 
-        />
-        {formik.touched.name && formik.errors.name ? (
-          <div className="text-sm text-red-500">{formik.errors.name} </div>
-        ) : null}
-      </div>
-
-      <div className="flex flex-col gap-2 mb-5">
-        <label htmlFor="password">Password</label>
-        <input
-          type="text"
-          id="password"
-          placeholder="enter your password"
-          className="p-4 rounded-md border border-gray-600"
-          {...formik.getFieldProps("password")} 
-        />
-      </div>
-
-      {formik.touched.password && formik.errors.password ? (
-        <div className="text-sm text-red-500">{formik.errors.password} </div>
-      ) : null}
-      <div>
-        <button
-          type="submit"
-          className="w-full p-4 bg-blue-600 text-white font-semibold rounded-lg"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
-  );
-};
-
-export default SignUpForm;
->>>>>>> 21fdeb15b961b0735fb22e8ff5962ddb58019ba2

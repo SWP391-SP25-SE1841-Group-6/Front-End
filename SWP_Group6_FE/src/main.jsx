@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
@@ -9,17 +8,4 @@ createRoot(document.getElementById("root")).render(
     <App />
     <ToastContainer />
   </>
-=======
-
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import "./index.css";
-
-import { BrowserRouter } from 'react-router-dom';
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
->>>>>>> 21fdeb15b961b0735fb22e8ff5962ddb58019ba2
 );
