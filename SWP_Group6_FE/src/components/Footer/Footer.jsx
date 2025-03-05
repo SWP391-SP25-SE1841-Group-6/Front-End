@@ -1,5 +1,6 @@
 import logo from "../../assets/Images/logo.jpg";
-const Footer = () => {
+export const Footer = () => {
+
     return (
       <div >
              <footer className="page-footer " style={{ backgroundImage:"linear-gradient(to right,black,blue ) " }}>
@@ -34,4 +35,3 @@ const Footer = () => {
     );
 };
 
-export default Footer;
