@@ -1,12 +1,10 @@
-import axios from "axios";
 
-// Cập nhật baseURL đến localhost:5121
-const baseURL = "http://localhost:5121/api";  // Thay đổi địa chỉ tại đây
+import axios from "axios";
+const baseUrl = "http://localhost:5121/api/";
 
 const config = {
-  baseURL: baseURL,  // Sử dụng baseURL đã khai báo ở trên
+  baseURL: baseUrl,
 };
-
 const api = axios.create(config);
 
 const handleBefore = (config) => {

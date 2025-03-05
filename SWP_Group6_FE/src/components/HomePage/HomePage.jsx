@@ -1,44 +1,3 @@
-<<<<<<< HEAD
-import {
-  AppBar,
-  Box,
-  Button,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { Outlet, Link, useNavigate } from "react-router-dom";
-
-export default function HomePage() {
-  const navigate = useNavigate();
-  return (
-    <div>
-      <AppBar component="nav">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            GROUP6
-          </Typography>
-          <Box>
-            <Button component={Link} to="/home" sx={{ color: "#fff" }}>
-              Trang chủ
-            </Button>
-            
-            <Button component={Link} to="/dashboard" sx={{ color: "#fff" }}
-            onClick={() => {
-              navigate("dashboard");
-            }}>
-              Thống kê
-            </Button>
-            <Button component={Link} to="/contact" sx={{ color: "#fff" }}>
-              Liên hệ
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Outlet /> {/* Để hiển thị route con */}
-    </div>
-  );
-};
-=======
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -54,12 +13,14 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Footer from "../Footer/Footer";
-import banner from "../../assets/Images/tvtl.jpg";
-import CardInFor from "./CardInFor";
 import logo from "../../assets/Images/logo.jpg";
 import { useNavigate } from "react-router-dom";
-
-
+import InforLecture from "./InforLecture";
+// import SimpleSlider from "./Banner";
+// import l1 from "../../assets/Images/logo.jpg";
+// import l2 from "../../assets/Images/tvtl.jpg";
+//import banner from "../../assets/Images/tvtl.jpg"
+import Banner from "./Banner";
 const pages = ["About US", "Contact", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -110,8 +71,9 @@ function HomePage() {
               alt="Logo"
               style={{ height: 40, width: "auto", borderRadius: 30 }}
             />
+           
           </Typography>
-
+          
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -139,6 +101,7 @@ function HomePage() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
+            
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography sx={{ textAlign: "center" }}>{page}</Typography>
@@ -206,13 +169,32 @@ function HomePage() {
           </Box>
         </Toolbar>
       </Container>
+      {/* <div className="ml-20 flex flex-col-5"> prev
       <div>
-        <img src={banner} alt="" className="p-1 w-full h-full object-cover" />
+        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
       </div>
-      <CardInFor />
+      <div>
+        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
+      </div>  
+      <div>
+        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
+      </div>
+      <div>
+        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
+      </div>
+      <div>
+        <img src={banner} alt="" className="p-1 w-90 h-full object-cover" />
+      </div>
+      next
+      </div>
+      <div className="block justify-center align-middle">
+        <h1  className="flex justify-center text-xl text-red-300">ĐỘI NGŨ CHUYÊN GIA, COACH</h1>
+        <span className="flex justify-center text-2xl text-red-700">Hỗ trợ tư vấn, tham vấn, trị liệu tâm lý</span>
+      </div> */}
+      <Banner />
+      <InforLecture />
       <Footer />
     </AppBar>
   );
 }
 export default HomePage;
->>>>>>> 21fdeb15b961b0735fb22e8ff5962ddb58019ba2
