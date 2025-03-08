@@ -7,6 +7,7 @@ import EditAccount from "./components/EditAccount/EditAccount"
 import Login from "./components/Login/Login";
 import AdminDashboard from "./components/AdminPages/AdminDashboard";
 import loginwithapi from "./components/Login/LoginWithAPI";
+import { ChakraBaseProvider } from "@chakra-ui/react";
 
 
 function App() {
@@ -39,7 +40,11 @@ function App() {
 
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <ChakraBaseProvider>
+      <RouterProvider router={router} />;
+    </ChakraBaseProvider>
+  )
 }
 
 export default App;

@@ -14,4 +14,4 @@
     corePlugins: {
       preflight: false,
     },
-   };
+  };
