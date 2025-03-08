@@ -1,29 +1,46 @@
-import { TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { useState } from "react";
 //import api from "../config/axios";
 import axios from "axios";
-import {Select} from "@mui/material";
-import {InputLabel} from "@mui/material";
-import {Input} from "@mui/material";
 import MuiCard from "@mui/material/Card"
+import {Visibility} from '@mui/icons-material';
+import { VisibilityOff } from "@mui/icons-material";
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateField } from '@mui/x-date-pickers/DateField';
+import {
+  OutlinedInput,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Typography,
+  FormLabel,
+  FormControl,
+  Stack,
+  Box,
+  Button,
+  styled,
+  CssBaseline,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+} from '@mui/material';
+/*
 import { styled } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import {MenuItem} from "@mui/material";
-import {InputBase} from "@mui/material";
-import {NativeSelect} from"@mui/material";
+import Box from '@mui/material/Box';
+import { TextField } from "@mui/material";
+import {OutlinedInput} from '@mui/material';
+import {InputAdornment} from '@mui/material';
+import {IconButton} from '@mui/material';
+import {Visibility} from '@mui/icons-material';
+import { VisibilityOff } from "@mui/icons-material";
+import CssBaseline from '@mui/material/CssBaseline';s
+*/
 
-const Card = styled(MuiCard)(({ theme }) => ({
+  {/*Card style settings*/}
+  const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
@@ -41,8 +58,10 @@ const Card = styled(MuiCard)(({ theme }) => ({
         'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
     }),
   }));
+  {/*Card style settings*/}
 
-  const SignInContainer = styled(Stack)(({ theme }) => ({
+  {/*Container style settings*/}
+  const EditProfileContainer = styled(Stack)(({ theme }) => ({
     height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
     minHeight: '100%',
     padding: theme.spacing(2),
@@ -64,55 +83,42 @@ const Card = styled(MuiCard)(({ theme }) => ({
       }),
     },
   }));
+  {/*Container style settings*/}
 
-  const BootstrapInput = styled(InputBase)(({ theme }) => ({
-    'label + &': {
-      marginTop: theme.spacing(3),
-    },
-    '& .MuiInputBase-input': {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-      // Use the system font instead of the default Roboto font.
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-        borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-      },
-    },
-  }));
-
+  {/*accounts DTO*/}
   var Accounts = {
     accID : Number,
     accName : String,
-    Role : String,
-}
+    accPass : String,
+    accEmail : String,
+    dob : Date,
+    gender :  Boolean,
+    role : String,
+  }
+  {/*Accounts DTO*/}
 
-export default function EditProfile(props){
-
+export default function EditProfile(){
     const [accounts, setAccounts] = useState([]);
-    const [age, setAge] = React.useState('');
+    const [dob, setDob] = React.useState(dayjs(accounts.dob).format('YYYY-MM-DD'));
+    {/*password show / hide handling */}
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+    };
+
+    const handleMouseUpPassword = (event) => {
+      event.preventDefault();
+    };
+    {/*password show / hide handling */}
 
     const handleChange = (event) => {
         setAge(event.target.value);
       };
 
+    {/* API call function get account by id*/}
     const fetchAccounts= async (id) => {
         const { data } = await axios.get(
       "http://localhost:5121/api/Account/id?id="+1,
@@ -120,12 +126,169 @@ export default function EditProfile(props){
     const accounts = data;
     setAccounts(accounts.data);
     console.log(accounts);
-  };
-
+     };
+    {/* API call function get account by id*/}
+    
+    const genderBooltoString = () => {
+      let stringGender = "female" ;
+      if(accounts.gender === true){
+        stringGender = "male";
+      }
+      return stringGender;
+    }
   useEffect(() => {
     fetchAccounts();
+    setDob();
   }, []);
-    /*async function getAll() {
+    return (
+    <>
+      <CssBaseline enableColorScheme />
+      <EditProfileContainer direction="column" justifyContent="space-between">
+        <Card variant="outlined">
+          <Typography
+            component="h1"
+            variant="h4"
+            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+          >
+            Edit Account
+          </Typography>
+          <Box
+            component="form"
+
+            //onSubmit//{handleSubmit}
+            //noValidate
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              flexWrap: 'wrap',
+              width: '100%',
+              gap: 2,
+            }}
+          >
+
+          {/* Form Control Email */}
+          <FormControl fullWidth>
+            <FormLabel htmlFor="email">Email</FormLabel>     
+            <TextField
+              id="email"
+              name="email"
+              type="email"
+              value={accounts.accEmail || ''}
+              //onChange={(e) => setAccounts({...accounts, accEmail: e.target.value})}
+              placeholder="Enter your email"
+              autoComplete="email"
+              size="medium"
+              required
+              fullWidth
+              variant="outlined"
+              
+            />
+          </FormControl>
+          {/* Form Control Email*/}
+
+          {/* Form Control Username */}
+          <FormControl fullWidth>
+            <FormLabel htmlFor="username">Username</FormLabel>
+            <TextField
+              id="username"
+              name="username"
+              type=""
+              value={accounts.accName || ''}
+              onChange={(e) => setAccounts({...accounts, accName: e.target.value})}
+              placeholder="Enter your username"
+              autoComplete="username"
+              size="medium"
+              required
+              fullWidth
+              variant="outlined"
+            />
+          </FormControl>
+          {/* Form Control Username */}
+
+          {/* Form Control Password */}
+          <FormControl >
+          <FormLabel htmlFor="default-adornment-password">Password</FormLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type= {showPassword ? "text" : "password"}
+            defaultValue={accounts.accPass}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={
+                    showPassword ? 'hide the password' : 'display the password'
+                  }
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  onMouseUp={handleMouseUpPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+            />
+          </FormControl>
+          {/* Form Control Password */}
+            
+          {/* Form Control dob */}
+          <FormControl>
+          <FormLabel htmlFor="dob">Date of birth</FormLabel>
+           <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateField
+              value={dayjs(accounts.dob)}
+              //onChange={(newValue) => setDob(newValue)}
+
+            />
+            {/*actual dob : {accounts.dob}*/}
+          </LocalizationProvider>
+          </FormControl>
+          {/* Form Control dob */}
+
+          {/* Form Control gender */}
+          <FormControl fullWidth margin="normal">
+              <FormLabel>Gender</FormLabel>
+              <RadioGroup
+                row
+                value="false"
+                //onChange={(e) => setAccount({ ...account, gender: e.target.value === 'true' })}
+              >
+                <FormControlLabel value={false} control={<Radio />} label="Female" />
+                <FormControlLabel value={true} control={<Radio />} label="Male" />
+              </RadioGroup>
+            </FormControl>
+          {/* Form Control gender */}
+
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            //onClick={validateInputs}
+          >
+            Save
+          </Button>
+
+          <Button
+            type="reset"
+            fullWidth
+            variant="contained"
+            //onClick={() => window.open("http://localhost:5173/", "_blank")} redirect 
+          >
+            Cancel
+          </Button>
+          </Box>
+          
+        </Card>
+      </EditProfileContainer>
+    </>
+           
+      );
+    
+}
+
+ /*async function getAll() {
             try {
                 const response = await axiosInstance.get(
                     `http://localhost:5121/api/Account`
@@ -138,158 +301,3 @@ export default function EditProfile(props){
                 console.log("Can not get mentor list", error);
             }
         }*/
-    
-
-    
-        return (
-        <>
-          
-      <CssBaseline enableColorScheme />
-      <SignInContainer direction="column" justifyContent="space-between">
-        <Card variant="outlined">
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-          >
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            //onSubmit//{handleSubmit}
-            //noValidate
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              gap: 2,
-            }}
-          >
-
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                //error//={emailError}
-                //helperText//={emailErrorMessage}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="   your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                //color//={emailError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="username">UserName</FormLabel>
-              <TextField
-                //error//={emailError}
-                //helperText//={emailErrorMessage}
-                id="username"
-                type="username"
-                name="username"
-                placeholder="your name"
-                autoComplete="username"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                //color//={emailError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-               // error//={passwordError}
-                //helperText//={passwordErrorMessage}
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                //color//={passwordError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <FormControl sx={{ m: 1 , minWidth: 120 }} >
-                <InputLabel id="demo-customized-select-label">Age</InputLabel>
-                <Select
-                labelId="demo-customized-select-label"
-                id="demo-customized-select"
-                value={age}
-                onChange={handleChange}
-                input={<BootstrapInput />}
-                >
-                <MenuItem value="">
-                    <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth:120}} >
-                <InputLabel htmlFor="demo-customized-select-native">Age</InputLabel>
-                <Select
-                id="demo-customized-select-native"
-                value={age}
-                onChange={handleChange}
-                input={<BootstrapInput />}
-                >
-                <option aria-label="None" value="" />
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
-                </Select>
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-               // error//={passwordError}
-                //helperText//={passwordErrorMessage}
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                //color//={passwordError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              //onClick={validateInputs}
-            >
-              Save
-            </Button>
-
-            <Button
-              type="reset"
-              fullWidth
-              variant="contained"
-              //onClick={() => window.open("http://localhost:5173/", "_blank")} redirect 
-            >
-              Cancel
-            </Button>
-           
-          
-          </Box>
-          
-        </Card>
-      </SignInContainer>
-    </>
-           
-            );
-    
-}
