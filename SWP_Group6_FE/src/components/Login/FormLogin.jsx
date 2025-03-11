@@ -7,6 +7,15 @@ import { Button, Checkbox, Form, Input,  } from "antd";
 export const FormLogin = () => {
   const navigate = useNavigate();
 
+  const callLoginAPI = async (values) => {
+    const login = await axios.post(
+  "http://localhost:5121/api/Account/Login?email=" + values.username + "&password=" + values.password,
+    );
+    const accounts = data;
+    setAccounts(accounts.data);
+    console.log(accounts);
+  }
+
   const formik = useFormik({
     initialValues: {
       username: "",
