@@ -1,99 +1,126 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import {
-  Container,
-  Box,
-  TextField,
+  Flex,
+  Heading,
+  Input,
   Button,
-  Typography,
+  InputGroup,
+  Stack,
+  Box,
+  InputRightElement,
   FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+  FormLabel,
+  Circle,
+  Center,
+  FormErrorMessage,
+  Spacer,
+  VStack,
+  StackDivider,
+} from "@chakra-ui/react";
+import { Field, Form, Formik } from 'formik';
 
-export default function SignIn() {
-  const [values, setValues] = useState({
-    email: '',
-    password: '',
-    showPassword: false,
-  });
+//import { PasswordInput } from "@/components/ui/password-input"
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+/*
+const ringCss = defineStyle({
+  outlineWidth: "2px",
+  outlineColor: "colorPalette.500",
+  outlineOffset: "2px",
+  outlineStyle: "solid",
+})*/
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser,faEye } from "@fortawesome/free-solid-svg-icons";
+ {/*accounts DTO*/}
+ var Accounts = {
+  accID : Number,
+  accName : String,
+  accPass : String,
+  accEmail : String,
+  dob : Date,
+  gender :  Boolean,
+  role : String,
+}
+{/*Accounts DTO*/}
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
+export default function LoginWithAPI() {
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Add your login logic here
-    
-
-    console.log('Email:', values.email);
-    console.log('Password:', values.password);
-  };
-
+  const handleShowClick = () => setShowPassword(!showPassword);
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+    <>
+    <Flex width={"100vw"} height={"100vh"} alignItems={"center"} justifyContent={"center"} bg={"gray.100"} >
+      <Stack
+        flexDir="column"
+        mb="2"
+        justifyContent="center"
+        alignItems="center"
+      >           
+      <Heading as='h5' size='md'>  Sign In to your account </Heading>
+      <Circle size="100px" bg="blue.700" py='6' >
+        < FontAwesomeIcon icon={faUser} size='4x'/>
+      </Circle>
+        {/*<Avatar.Root colorPalette="red">
+          <Avatar.Fallback />
+          <Avatar.Image src="https://bit.ly/broken-link" />
+        </Avatar.Root>*/}
+        <Formik
+        onSubmit={(values, actions) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2))
+            actions.setSubmitting(false)
+          }, 1000)
         }}
       >
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={values.email}
-            onChange={handleChange('email')}
-          />
-          <FormControl fullWidth margin="normal" variant="outlined">
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <OutlinedInput
-              id="password"
-              type={values.showPassword ? 'text' : 'password'}
-              value={values.password}
-              onChange={handleChange('password')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
+      <Box minW={{ base: "90%", md: "468px" }} borderWidth='1px' p='8' borderRadius='lg' bg='gray.300'>
+        <Form>
+        {/*Username goes here*/}
+       
+          <FormControl id='email' py='3' isRequired>
+            <FormLabel>Email address</FormLabel>
+            <Input variant='outline' placeholder='your email' type='email' size ='lg' />
+            
           </FormControl>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
+       
+        
+        {/*Password goes here*/}
+        <FormControl id='password'py='3' isRequired>
+          <FormLabel>Password</FormLabel>
+          <InputGroup>
+            <Input type={showPassword ? "text" : "password"} variant={'outline'}/>
+            <InputRightElement>
+              <Button variant="outline" h='1.75rem' size='sm' colorPalette="teal" onClick={handleShowClick}>
+                {showPassword ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+        
+
+
+        <VStack
+          spacing={4}
+          align='center'
+        >
+          <Button type='submit' colorScheme='blue' py='3'  variant='outline' w='50%' bg='blue.700' color='white'>
+              Sign in
           </Button>
-        </Box>
+          <Box color='white'>
+            <Center>
+              Or
+            </Center>
+          </Box>
+          <Button type='submit' colorScheme='blue' py='3'  variant='outline' w='50%' bg='blue.700' color='white'>
+            Register an account
+          </Button>
+        </VStack>
+        
+      </Form>
       </Box>
-    </Container>
-  );
+      </Formik>
+        </Stack>
+    </Flex>
+    </>
+  )
 }
+
+

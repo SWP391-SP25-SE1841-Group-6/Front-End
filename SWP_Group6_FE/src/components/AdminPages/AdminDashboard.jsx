@@ -6,101 +6,107 @@ import {
   Button,
   InputGroup,
   Stack,
-  InputLeftElement,
-  chakra,
   Box,
-  Link,
-  Avatar,
-  FormHelperText,
-  InputRightElement
+  InputRightElement,
+  FormControl,
+  FormLabel,
+  Circle,
+  Center,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { FormControl } from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
+import { Field, Form, Formik } from 'formik';
 
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
+//import { PasswordInput } from "@/components/ui/password-input"
+
+/*
+const ringCss = defineStyle({
+  outlineWidth: "2px",
+  outlineColor: "colorPalette.500",
+  outlineOffset: "2px",
+  outlineStyle: "solid",
+})*/
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser,faEye } from "@fortawesome/free-solid-svg-icons";
+import AdminMenuBar from "./AdminMenuBar";
+ {/*accounts DTO*/}
+ var Accounts = {
+  accID : Number,
+  accName : String,
+  accPass : String,
+  accEmail : String,
+  dob : Date,
+  gender :  Boolean,
+  role : String,
+}
+{/*Accounts DTO*/}
 
 const AdminDashboard = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
-
   return (
-    <Flex
-      flexDirection="column"
-      width="100wh"
-      height="100vh"
-      backgroundColor="gray.200"
-      justifyContent="center"
-      alignItems="center"
-    >
+    <>
+    <AdminMenuBar> </AdminMenuBar>
+    <Flex width={"100vw"} height={"100vh"} alignItems={"center"} justifyContent={"center"} bg={"gray.100"} >
       <Stack
         flexDir="column"
         mb="2"
         justifyContent="center"
         alignItems="center"
+      >           
+      <Heading as='h5' size='md'>  Edit Account </Heading>
+      <Circle size="100px" bg="blue.700" py='6' >
+        < FontAwesomeIcon icon={faUser} size='4x'/>
+      </Circle>
+        {/*<Avatar.Root colorPalette="red">
+          <Avatar.Fallback />
+          <Avatar.Image src="https://bit.ly/broken-link" />
+        </Avatar.Root>*/}
+        <Formik
+        onSubmit={(values, actions) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2))
+            actions.setSubmitting(false)
+          }, 1000)
+        }}
       >
-        <Avatar bg="teal.500" />
-        <Heading color="teal.400">Welcome</Heading>
-        <Box minW={{ base: "90%", md: "468px" }}>
-          <form>
-            <Stack
-              spacing={4}
-              p="1rem"
-              backgroundColor="whiteAlpha.900"
-              boxShadow="md"
-            >
-              <FormControl>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<CFaUserAlt color="gray.300" />}
-                  />
-                  <Input type="email" placeholder="email address" />
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    color="gray.300"
-                    children={<CFaLock color="gray.300" />}
-                  />
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                  />
-                  <InputRightElement width="4.5rem">
-                    <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                      {showPassword ? "Hide" : "Show"}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                <FormHelperText textAlign="right">
-                  <Link>forgot password?</Link>
-                </FormHelperText>
-              </FormControl>
-              <Button
-                borderRadius={0}
-                type="submit"
-                variant="solid"
-                colorScheme="teal"
-                width="full"
-              >
-                Login
+      <Box minW={{ base: "90%", md: "468px" }} variant='filled' borderWidth='1px' p='8' borderRadius='lg' bg='white'>
+        <Form>
+        {/*Username goes here*/}
+       
+          <FormControl id='email' py='3' isRequired>
+            <FormLabel>Email address</FormLabel>
+            <Input variant='outline' type='email' size ='lg' />
+            
+          </FormControl>
+       
+        
+        {/*Password goes here*/}
+        <FormControl id='password'py='3' isRequired>
+          <FormLabel>Password</FormLabel>
+          <InputGroup>
+            <Input type={showPassword ? "text" : "password"} />
+            <InputRightElement>
+              <Button variant="outline" h='1.75rem' size='sm' colorPalette="teal" onClick={handleShowClick}>
+                {showPassword ? "Hide" : "Show"}
               </Button>
-            </Stack>
-          </form>
-        </Box>
-      </Stack>
-      <Box>
-        New to us?{" "}
-        <Link color="teal.500" href="#">
-          Sign Up
-        </Link>
-      </Box>
-    </Flex>
-  );
-};
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+        
 
-export default AdminDashboard;
+        <Center>
+          <Button type='submit' colorScheme='blue' py='3'  variant='outline' w='50%' bg='blue.700' color='white'>
+            Sign in
+          </Button>
+        </Center>
+      </Form>
+      </Box>
+      </Formik>
+        </Stack>
+    </Flex>
+    </>
+  )
+}
+
+export default AdminDashboard
