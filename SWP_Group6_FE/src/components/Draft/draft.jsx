@@ -1,4 +1,5 @@
 import { Field, Form, Formik } from 'formik';
+import axios from 'axios';
 import {
   Box,
   Flex,
@@ -24,16 +25,20 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { faUser, faFontAwesome } from '@fortawesome/free-regular-svg-icons';
+import { useEffect, useState } from 'react';
 
 const Links = ['Dashboard', 'Accounts', 'Tests','Questions'];
 
 
 export default function draft() {
-  
+  const [user, setUser] = useState('');
 
+  useEffect(() => {
+      setUser(localStorage.getItem('userName'));
+    }, []);
+  
   return (
-    <Flex width={"100vw"} height={"100vh"} alignItems={"center"} justifyContent={"center"} bg={"gray.100"} >
-        <Input variant='outline' placeholder="Basic usag" />
-    </Flex>
+     
+      <h1>{user}</h1> 
   );
 }

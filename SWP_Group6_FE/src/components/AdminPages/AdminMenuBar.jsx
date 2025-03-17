@@ -27,12 +27,12 @@ const Links = ['Dashboard', 'Accounts', 'Tests','Questions'];
 
 const NavLink = ({ children }) => (
   <Box
-    px={2}
-    py={1}
+    
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
+      bg: useColorModeValue('gray.500', 'gray.700'),
+      textColor: 'blue.700',
     }}
   >
     {children}
@@ -51,7 +51,7 @@ export default function AdminMenuBar() {
       </Flex>
       
       <Box bg={useColorModeValue('gray.100', 'gray.900')}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex h={20} alignItems={'center'} justifyContent='space-evenly'>
           <IconButton
             size={'sm'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -62,51 +62,50 @@ export default function AdminMenuBar() {
           />
           {/*<HStack spacing={8} alignItems={'center'}>*/}
             
-            <Flex as={'nav'} display={{ base: 'none', md: 'flex' }} bg='blue.700' >
+            <Flex as={'nav'} bg='blue.700' maxH='100%' textAlign='center' px='30px' fontSize='xl' fontWeight='bold' textColor='white' >
               {Links.map((link) => (
                 <Spacer>
                   
-                  <NavLink key={link}>{link}</NavLink>
+                  <NavLink key={link} >{link}</NavLink>
                   
-                   
                 </Spacer>
                
               ))}
               
             
           {/*</HStack>*/}
-            <Flex alignItems={'center'} >
-              <Menu >
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}
-                >
-                <Circle size="50px" bg="gray.700"  >
-                          < FontAwesomeIcon icon={faUser} size='2x'/>
-                </Circle>
-                </MenuButton>
-                <MenuList 
-                bg='gray.700'
-                outline={'full'}
-                >
-                  <MenuItem>
-                    Profile
-                  </MenuItem>
-                  <MenuItem>Settings</MenuItem>
-                  <MenuDivider/>
-                  <MenuItem>Sign out</MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
+          
+         
+          <Menu placement='bottom-end'>
+            <MenuButton
+              as={Button}
+              rounded={'full'}
+              variant={'link'}
+              cursor={'pointer'}
+              minW={0}
+            >
+            <Circle size="60px" bg="gray.700"  >
+              < FontAwesomeIcon icon={faUser} size='2x'/>
+            </Circle>
+            </MenuButton>
+            <MenuList 
+            bg='gray.700'
+            outline={'full'}
+            >
+              <MenuItem>
+                Profile
+              </MenuItem>
+              <MenuItem>Settings</MenuItem>
+              <MenuDivider/>
+              <MenuItem>Sign out</MenuItem>
+            </MenuList>
+          </Menu>
           </Flex>
         </Flex>
 
         {/* Mobile menu */}
         {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
+          <Box pb={8} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
