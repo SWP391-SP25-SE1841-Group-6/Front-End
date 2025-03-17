@@ -94,7 +94,11 @@ import CssBaseline from '@mui/material/CssBaseline';s
     dob : Date,
     gender :  Boolean,
     role : String,
+    
   }
+
+ 
+    
   {/*Accounts DTO*/}
 
 export default function EditProfile(){
@@ -122,7 +126,7 @@ export default function EditProfile(){
     const fetchAccounts= async (id) => {
         const { data } = await axios.get(
       "http://localhost:5121/api/Account/id?id="+1,
-    );
+        )
     const accounts = data;
     setAccounts(accounts.data);
     console.log(accounts);

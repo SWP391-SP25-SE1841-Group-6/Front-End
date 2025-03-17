@@ -6,9 +6,10 @@ import EditAccount from "./components/EditAccount/EditAccount"
 // import AuthPage from "./components/Login/loginv2";
 import Login from "./components/Login/Login";
 import AdminDashboard from "./components/AdminPages/AdminDashboard";
-import loginwithapi from "./components/Login/LoginWithAPI";
+import LoginWithAPI from "./components/Login/LoginWithAPI";
 import { ChakraBaseProvider } from "@chakra-ui/react";
-
+import Draft from "./components/Draft/draft";
+import AccountsCRUD from "./components/AdminPages/AccountsCRUD" ; 
 
 function App() {
   
@@ -23,7 +24,7 @@ function App() {
     },
     {
       path: "/",
-      element: <loginwithapi />,
+      element: <LoginWithAPI />,
     },
     {
       path: "/dashboard",
@@ -37,12 +38,20 @@ function App() {
       path: "/adminDashboard",
       element: <AdminDashboard />,
     },
+    {
+      path: '/test',
+      element: <Draft />,
+    },
+    {
+      path: '/Accounts',
+      element: <AccountsCRUD />,
+    }
 
   ]);
 
   return (
     <ChakraBaseProvider>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </ChakraBaseProvider>
   )
 }

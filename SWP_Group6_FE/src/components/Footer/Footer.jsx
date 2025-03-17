@@ -1,5 +1,5 @@
 import logo from "../../assets/Images/logo.jpg";
-export const Footer = () => {
+export default function Footer() {
 
     return (
       <div >
