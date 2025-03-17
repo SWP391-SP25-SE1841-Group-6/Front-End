@@ -23,9 +23,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { faUser, faFontAwesome } from '@fortawesome/free-regular-svg-icons';
-const Links = ['Dashboard', 'Accounts', 'Tests','Questions'];
+import Accounts from './AccountsCRUD';
+import {Link} from "react-router-dom";
+const Links = ['Dashboard', 'Accounts' , 'test','Questions'];
 
 const NavLink = ({ children }) => (
+  
   <Box
     
     rounded={'md'}
@@ -35,7 +38,8 @@ const NavLink = ({ children }) => (
       textColor: 'blue.700',
     }}
   >
-    {children}
+    
+    <Link to={children}>{children}</Link>
   </Box>
 );
 
@@ -92,8 +96,8 @@ export default function AdminMenuBar() {
             bg='gray.700'
             outline={'full'}
             >
-              <MenuItem>
-                Profile
+              <MenuItem >
+                <Link to='/test'>zProfile </Link>
               </MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuDivider/>
@@ -102,17 +106,6 @@ export default function AdminMenuBar() {
           </Menu>
           </Flex>
         </Flex>
-
-        {/* Mobile menu */}
-        {isOpen ? (
-          <Box pb={8} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );

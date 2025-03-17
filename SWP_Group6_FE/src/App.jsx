@@ -9,6 +9,7 @@ import AdminDashboard from "./components/AdminPages/AdminDashboard";
 import LoginWithAPI from "./components/Login/LoginWithAPI";
 import { ChakraBaseProvider } from "@chakra-ui/react";
 import Draft from "./components/Draft/draft";
+import AccountsCRUD from "./components/AdminPages/AccountsCRUD" ; 
 
 function App() {
   
@@ -41,6 +42,10 @@ function App() {
       path: '/test',
       element: <Draft />,
     },
+    {
+      path: '/Accounts',
+      element: <AccountsCRUD />,
+    }
 
   ]);
 

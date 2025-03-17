@@ -84,6 +84,7 @@ export default function LoginWithAPI() {
         });
       }
 
+      if(response.data.role )
       // Redirect to dashboard or home page
       navigate('/test');
 

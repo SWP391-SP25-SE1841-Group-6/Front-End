@@ -21,15 +21,13 @@ import {
   Square,
   Center,
   Input,
+  Portal,
 } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { faUser, faFontAwesome } from '@fortawesome/free-regular-svg-icons';
 import { useEffect, useState } from 'react';
-
-const Links = ['Dashboard', 'Accounts', 'Tests','Questions'];
-
-
+import EditProfile from '../EditAccount/EditAccount';
 export default function draft() {
   const [user, setUser] = useState('');
 
@@ -39,6 +37,6 @@ export default function draft() {
   
   return (
      
-      <h1>{user}</h1> 
+      <h1>Success</h1>
   );
 }
