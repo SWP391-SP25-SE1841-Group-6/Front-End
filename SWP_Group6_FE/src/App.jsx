@@ -10,7 +10,7 @@ import LoginWithAPI from "./components/Login/LoginWithAPI";
 import { ChakraBaseProvider } from "@chakra-ui/react";
 import Draft from "./components/Draft/draft";
 import AccountsCRUD from "./components/AdminPages/AccountsCRUD" ; 
-
+import QuestionsCRUD from "./components/AdminPages/QuestionsCRUD";
 function App() {
   
   const router = createBrowserRouter([
@@ -35,7 +35,7 @@ function App() {
       element: <EditAccount />,
     },
     {
-      path: "/adminDashboard",
+      path: "/AdminDashboard",
       element: <AdminDashboard />,
     },
     {
@@ -45,7 +45,12 @@ function App() {
     {
       path: '/Accounts',
       element: <AccountsCRUD />,
-    }
+    },
+    {
+      path: '/Questions',
+      element: <QuestionsCRUD />,
+    },
+
 
   ]);
 

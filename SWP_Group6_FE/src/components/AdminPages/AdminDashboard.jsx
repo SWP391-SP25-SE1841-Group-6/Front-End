@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 import {
   Flex,
   Heading,
@@ -13,6 +14,8 @@ import {
   Circle,
   Center,
   FormErrorMessage,
+  Card, CardHeader, CardBody, CardFooter, SimpleGrid, Text,
+  VStack,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
 
@@ -38,21 +41,76 @@ import AdminMenuBar from "./AdminMenuBar";
   dob : Date,
   gender :  Boolean,
   role : String,
+  isApproved : Boolean,
+  isActive : Boolean,
 }
 {/*Accounts DTO*/}
 
 const AdminDashboard = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [notApprovedAccounts, setNotApprovedAccounts] = useState([]);
+  const [accounts , setAccounts] = useState([]);
+  const getPendingAccounts = () => {
+    return accounts.data.filter(account => account.isApproved === false);
+  };
+  const fetchAccounts= async () => {
+    const { data } = await axios.get(
+  "http://localhost:5121/api/Account",
+    )
+  const accounts = data;
+  setAccounts(accounts);
+  console.log('accounts' + accounts);
+  
+  await setNotApprovedAccounts(getPendingAccounts());
+  console.log('notApprovedAccounts' + getPendingAccounts());
+  console.log('notApprovedAccounts' + notApprovedAccounts.length);
+  };
   const handleShowClick = () => setShowPassword(!showPassword);
+
+  useEffect(() => {
+    fetchAccounts();
+  }, []);
   return (
     <>
-    <AdminMenuBar> </AdminMenuBar>
-    <Flex>
+    <AdminMenuBar/> 
     
+    <VStack px={5} py={10} spacing={10} maxW='100vw' maxH='100vh' columns={2} bg='gray.100'>
+    <Card variant='filled' bg='blue.700' textColor='white' size='md' rounded='md'px={5} py={5}>
+      <CardHeader>
+        <Heading size='md'> Customer dashboard</Heading>
+      </CardHeader>
+      <CardBody>
+        <Text>View a summary of all your customers over the last month.</Text>
+      </CardBody>
+      <CardFooter>
+        <Button>View here</Button>
+      </CardFooter>
+    </Card>
+    <Card>
+      <CardHeader>
+        <Heading size='md'> Customer dashboard</Heading>
+      </CardHeader>
+      <CardBody>
+        <Text>View a summary of all your customers over the last month.</Text>
+      </CardBody>
+      <CardFooter>
+        <Button>View here</Button>
+      </CardFooter>
+    </Card>
+    <Card>
+      <CardHeader>
+        <Heading size='md'> Customer dashboard</Heading>
+      </CardHeader>
+      <CardBody>
+        <Text>View a summary of all your customers over the last month.</Text>
+      </CardBody>
+      <CardFooter>
+        <Button>View here</Button>
+      </CardFooter>
+    </Card>
+    </VStack>
 
-    </Flex>
-    
+  
     </>
   )
 }
