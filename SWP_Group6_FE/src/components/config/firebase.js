@@ -1,8 +1,8 @@
-import { storage } from './firebase'; // Đảm bảo đường dẫn chính xác
+import { storage } from './firebase'; 
 import { ref, uploadBytes } from "firebase/storage";
 
 const uploadFile = (file) => {
-  const fileRef = ref(storage, 'files/' + file.name); // Lưu tệp vào thư mục "files/"
+  const fileRef = ref(storage, 'files/' + file.name); 
   
   uploadBytes(fileRef, file).then((snapshot) => {
     console.log("Uploaded a file!", snapshot);
