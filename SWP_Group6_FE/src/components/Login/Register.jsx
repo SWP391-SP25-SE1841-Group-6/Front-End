@@ -19,6 +19,7 @@ import {
   useToast,
   Radio,
   RadioGroup,
+  Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
 import { useNavigate } from "react-router-dom";
@@ -36,22 +37,38 @@ export default function Register() {
     dob : Date,
     gender :  true,
     role : String,
+    isApproved : false,
+    isActive : true,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordError, setPasswordError] = useState('');
+  const [confirmPassword , setConfirmPassword] = useState('');
 
   const validatePasswords = () => {
-    if (formData.password !== formData.confirmPassword) {
+    if (!confirmPassword.match(formData.accPass)) {
       setPasswordError('Passwords do not match');
       return false;
     }
-    if (formData.password.length < 6) {
+    if (formData.accPass.length < 6) {
       setPasswordError('Password must be at least 6 characters');
       return false;
     }
     setPasswordError('');
     return true;
+  };
+
+  const handlePasswordChange = (e) => {
+    setFormData({
+      ...formData,
+      accPass: e.target.value
+    });
+    validatePasswords();
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    validatePasswords();
   };
 
   const handleSubmit = async (e) => {
@@ -80,17 +97,18 @@ export default function Register() {
   };
 
   return(
-    <Flex width={"100vw"} height={"100vh"} alignItems={"center"} justifyContent={"center"} bg={"gray.100"} >
+    <Flex  alignItems={"center"} justifyContent={"center"} bg={"gray.100"} >
       <Stack
         flexDir="column"
         mb="2"
         justifyContent="center"
         alignItems="center"
       >           
-      <Heading as='h5' size='md'>  Sign In to your account </Heading>
+      <Heading as='h5' size='md'>  Register your account </Heading>
       <Circle size="100px" bg="blue.700" py='6' >
         < FontAwesomeIcon icon={faUser} size='4x'/>
       </Circle>
+      
         {/*<Avatar.Root colorPalette="red">
           <Avatar.Fallback />
           <Avatar.Image src="https://bit.ly/broken-link" />
@@ -103,7 +121,7 @@ export default function Register() {
           }, 1000)
         }}
       >
-      <Box minW={{ base: "90%", md: "468px" }} borderWidth='1px' p='8' borderRadius='lg' bg='blue.300'>
+      <Box maxW={{ base: "90%", md: "468px" }}  borderWidth='1px' p='8' borderRadius='lg' bg='gray.300'>
         <Form onSubmit={handleSubmit}>
         {/*Username goes here*/}
 
@@ -112,10 +130,10 @@ export default function Register() {
             Value: {formData.accEmail}
             <Input 
               variant='filled'
-              placeholder='Your email'
+              //placeholder='Your email'
               type='email'
               size='lg'
-              value={formData.accEmail}
+              //value={formData.accEmail}
               onChange={(e) => setFormData({
                 ...formData,
                 accEmail: e.target.value
@@ -129,10 +147,10 @@ export default function Register() {
             Value: {formData.accName}
             <Input 
               variant='filled'
-              placeholder='Your username'
+              //placeholder='Your username'
               type='text'
               size='lg'
-              value={formData.accName}
+              //value={formData.accName}
               onChange={(e) => setFormData({
                 ...formData,
                 accName: e.target.value
@@ -145,17 +163,15 @@ export default function Register() {
         {/*Password goes here*/}
         <FormControl id='password' py='3' isRequired isInvalid={!!passwordError}>
           <FormLabel>Password</FormLabel>
+          Value: {formData.accPass}
           <InputGroup>
             
             <Input 
               type={showPassword ? "text" : "password"} 
               variant={'outline'} 
-              placeholder="Your password"
-              value={formData.accPass}
-              onChange={(e) => setFormData({
-                ...formData,
-                accPass: e.target.value
-              })}
+              //placeholder="Your password"
+              //value={formData.accPass}
+              onChange={handlePasswordChange}
             />
             <InputRightElement>
               <Button 
@@ -173,16 +189,15 @@ export default function Register() {
         
         <FormControl id='confirmPassword' py='3' isRequired isInvalid={!!passwordError}>
           <FormLabel>Confirm Password</FormLabel>
+          Value: {confirmPassword}
           <InputGroup>
+            
             <Input
               type={showConfirmPassword ? "text" : "password"}
               variant={'outline'}
-              placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({
-                ...formData,
-                confirmPassword: e.target.value
-              })}
+              //placeholder="Confirm your password"
+              //value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
             />
             <InputRightElement>
               <Button
@@ -206,10 +221,10 @@ export default function Register() {
             Value: {formData.dob}
             <Input 
               variant='filled'
-              placeholder={formData.dob}
+              //placeholder={formData.dob}
               type='date'
               size='lg'
-              value={formData.dob}
+              //value={formData.dob}
               onChange={(e) => setFormData({
                 ...formData,
                 dob: e.target.value
@@ -223,24 +238,24 @@ export default function Register() {
           <FormLabel>Gender</FormLabel>
           Value: {String(formData.gender)}
           <RadioGroup
-            value={String(formData.gender)}
+            //value={String(formData.gender)}
             onChange={handleGenderChange}
             defaultValue='true'
           >
-            <Stack direction='row' spacing={5}>
+            <Stack direction='row' spacing='20px' >
               <Radio 
                 value='true'
                 colorScheme='blue'
                 size='lg'
               >
-                Male
+                <Text fontSize='16px'  textColor='black'>Male</Text>
               </Radio>
               <Radio 
                 value='false'
                 colorScheme='pink'
                 size='lg'
               >
-                Female
+                <Text fontSize='16px'  textColor='black'>Female</Text>
               </Radio>
             </Stack>
           </RadioGroup>
@@ -253,25 +268,33 @@ export default function Register() {
           Value: {formData.role}
           <Stack direction='row' spacing={4} justify='center' py={2}>
             <Button
+              rounded='full'
+              bg='white'
               colorScheme={formData.role === 'Student' ? 'blue' : 'gray'}
               variant={formData.role === 'Student' ? 'solid' : 'outline'}
               onClick={() => setFormData({
                 ...formData,
                 role: 'Student'
               })}
+              _hover={{ bg: 'blue.300' }}
               w='150px'
+              h='50px'
               size='lg'
             >
               Student
             </Button>
             <Button
+              rounded='full'
+              bg='white'
               colorScheme={formData.role === 'Parent' ? 'green' : 'gray'}
               variant={formData.role === 'Parent' ? 'solid' : 'outline'}
               onClick={() => setFormData({
                 ...formData,
                 role: 'Parent'
               })}
+              _hover={{ bg: 'blue.300' }}
               w='150px'
+              h='50px'
               size='lg'
             >
               Parent

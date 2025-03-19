@@ -40,7 +40,7 @@ export default function AdminMenuBar() {
   const textColor = useColorModeValue('gray.700', 'gray.200');
   return (
     <>
-      <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"red.100"}>
+      <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"gray.100"}>
         <Box>
           <FontAwesomeIcon icon={faFontAwesome} size='4x' />
         </Box>
@@ -59,7 +59,7 @@ export default function AdminMenuBar() {
           />
           <HStack spacing={8} alignItems={'center'}>*/}
             
-            <Flex as={'nav'} bg='red.100' maxH='100%' textAlign='center' px='30px' fontSize='xl' fontWeight='bold' textColor='white' gap="4">
+            <Flex as={'nav'} bg='blue.700' maxH='100%' textAlign='center' px='30px' fontSize='xl' fontWeight='bold' textColor='white' gap="4">
               <Spacer>
               <Box
                 rounded={'md'}

@@ -107,7 +107,8 @@ import Callkc from "./components/Student/ProgramSick/Callkc";
 import TestProgramcp from "./components/Student/ProgramSick/TestProgramcopy";
 import Register from "./components/Login/Register";
 import AdminDashboard from "./components/AdminPages/AdminDashboard";
-
+import { ChakraBaseProvider } from "@chakra-ui/react";
+import LoginWithAPI from "./components/Login/LoginWithAPI";
 function App() {
   const router = createBrowserRouter([
     
@@ -186,7 +187,7 @@ function App() {
     // Route riêng cho trang Login (không sử dụng layout nào)
     {
       path: "/login",
-      element: <Login />,
+      element: <LoginWithAPI />,
     },
     {
       path: "/register",
@@ -199,9 +200,11 @@ function App() {
   ]);
 
   return (
+    <ChakraBaseProvider>
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
+    </ChakraBaseProvider>
   );
 }
 

@@ -33,38 +33,58 @@ import { faUser,faEye } from "@fortawesome/free-solid-svg-icons";
 import AdminMenuBar from "./AdminMenuBar";
 
  {/*accounts DTO*/}
- var Accounts = {
+ var Accounts = [{
   accID : Number,
   accName : String,
   accPass : String,
   accEmail : String,
   dob : Date,
   gender :  Boolean,
-  role : String,
   isApproved : Boolean,
   isActive : Boolean,
-}
+  role : String,
+}];
 {/*Accounts DTO*/}
 
 const AdminDashboard = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [notApprovedAccounts, setNotApprovedAccounts] = useState([]);
-  const [accounts , setAccounts] = useState([]);
-  const getPendingAccounts = () => {
-    return accounts.data.filter(account => account.isApproved === false);
+  const [notApprovedAccounts, setNotApprovedAccounts] = useState([{Accounts}]);
+  const [accounts, setAccounts] = useState([
+    {
+      accID: Number,
+      accName: String,
+      accEmail: String,
+      accPass: String,
+      dob: Date,
+      gender: Boolean,
+      role: String,
+      isApproved: Boolean,
+      isActive: Boolean
+    }
+  ]);
+  {/*Fetch accounts from API
+  const fetchAccounts = async () => {
+    try {
+      const response = await axios.get("http://localhost:5121/api/Account/");
+      setAccounts(response.data);
+    } catch (error) {
+      console.error('Error fetching accounts:', error);
+    }
+  };*/}
+
+  const getPendingAccounts = () => {  
+    const filteredAccounts = accounts.filter(account => !account.isApproved);
+    console.log('filteredAccounts' + filteredAccounts);
+    return accounts.filter(account => !account.isApproved);
   };
-  const fetchAccounts= async () => {
-    const { data } = await axios.get(
-  "http://localhost:5121/api/Account",
-    )
-  const accounts = data;
-  setAccounts(accounts);
-  console.log('accounts' + accounts);
   
-  await setNotApprovedAccounts(getPendingAccounts());
-  console.log('notApprovedAccounts' + getPendingAccounts());
-  console.log('notApprovedAccounts' + notApprovedAccounts.length);
-  };
+  const fetchAccounts= async () => {
+    const response = await axios.get(
+    "http://localhost:5121/api/Account",)
+  
+    setAccounts(response.data);
+  }
+
   const handleShowClick = () => setShowPassword(!showPassword);
 
   useEffect(() => {
