@@ -1,0 +1,22 @@
+{
+    "users": [
+      {
+        "id": 99,
+        "username": "duy",
+        "password": "1",
+        "token": "MOCK_TOKEN_FROM_FAKE_API"
+      },
+      {
+        "id": 100,
+        "username": "kien",
+        "password": "1",
+        "token": "MOCK_TOKEN_FROM_FAKE_API"
+      },
+      {
+        "id": 111,
+        "username": "hoang",
+        "password": "1",
+        "token": "MOCK_TOKEN_FROM_FAKE_API"
+      }
+    ]
+  }

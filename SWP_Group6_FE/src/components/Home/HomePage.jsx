@@ -53,23 +53,23 @@ export default function Hg() {
 
           <Box>
             <div className="flex justify-between pr-90 gap-8">         
-              <Button
+              {/* <Button
                 component={Link}
                 to="/home"
                 sx={{ color: "#fff" }}
                 style={{ fontSize: 25 }}
               >
                 Trang chủ
-              </Button>
+              </Button> */}
 
-              <Button
+              {/* <Button
                 component={Link}
                 to="/studenthome/tailieu"
                 sx={{ color: "#fff" }}
                 style={{ fontSize: 25 }}
               >
                 Tài liệu & Sức khỏe tâm lí
-              </Button>
+              </Button> */}
            
 
              
