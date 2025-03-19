@@ -4,7 +4,7 @@ const Footer = () => {
       <footer
         className="page-footer"
         style={{
-          backgroundImage: "linear-gradient(to right,#006699	,#b24052)",
+          backgroundImage: "linear-gradient(to right, #006699	,#68a5e5	)",
         }}
       >
         <div className="container">
@@ -30,21 +30,19 @@ const Footer = () => {
                     Chương trình
                   </a>
                 </li>
-               
                 <li>
                   <a className="grey-text text-lighten-3" href="#!">
-                    Blog chia sẻ
+                    Giảng viên
                   </a>
                 </li>
                 <li>
                   <a className="grey-text text-lighten-3" href="#!">
-                    Lỉnh vực hoạt động
+                    Tin tức
                   </a>
                 </li>
                 <li>
                   <a className="grey-text text-lighten-3" href="#!">
-                  DỊCH VỤ HỖ TRỢ TÂM LÍ
-
+                    Liên hệ
                   </a>
                 </li>
               </ul>

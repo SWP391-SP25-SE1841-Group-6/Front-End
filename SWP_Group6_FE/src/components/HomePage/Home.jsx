@@ -482,7 +482,7 @@ const Banner = () => {
           <div className="absolute inset-0 bg-black/40 rounded-lg"></div>
 
           <img
-            src="https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/https://cms-prod.s3-sgn09.fptcloud.com/nhung_thang_do_tram_cam_co_do_chinh_xac_cao_dang_tin_cay_2_cf85f80068.png"
+            src="https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2024/5/11/tram-cam-17153947032531902417056.jpg"
             className="relative rounded-full w-40 h-40 mx-auto z-10"
             alt="Happiness"
           />
@@ -501,22 +501,24 @@ const Banner = () => {
           className="relative bg-cover bg-center bg-no-repeat text-white rounded-lg p-4 flex flex-col items-center"
           style={{
             backgroundImage:
-              "url(https://thedeweyschools.edu.vn/wp-content/uploads/2025/01/toancau.jpg)",
+              "url(https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/https://cms-prod.s3-sgn09.fptcloud.com/bai_test_roi_loan_cam_xuc_luong_cuc_muc_dich_va_luu_y_khi_thuc_hien_3_811c137863.jpg)",
           }}
         >
           <div className="absolute inset-0 bg-black/40 rounded-lg"></div>
 
           <img
-            src="https://akishop.com.vn/data/media/1453/images/ket%20noi%20con%20nguoi.jpg"
+            src="https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2024/5/11/tram-cam-17153947032531902417056.jpg"
             className="relative rounded-full w-40 h-40 mx-auto z-10"
             alt="Happiness"
           />
           <p className="relative text-3xl text-blue-300 font-bold text-center mt-4">
-          Sự kết nối và phụ thuộc lẫn nhau trong hành trình trở thành công dân toàn cầu của học sinh 
+            Những Biểu Hiện Của Bệnh Tâm Lí Có Thể Bạn Chưa Biết
           </p>
           <div className="relative border-t-2 border-gray-400 w-10 my-2 z-10"></div>
           <p className="relative text-2xl text-center font-bold">
-          Mỗi học sinh cần có sự giao lưu với nhiều nền văn hóa khác nhau trên thế giới để hiểu hơn về con người, tư tưởng, ngôn ngữ, ..
+            Rối loạn tâm lý có nhiều dấu hiệu như căng thẳng kéo dài, mất ngủ,
+            lo âu và thay đổi tâm trạng thất thường. Hiểu biết về các biểu hiện
+            này giúp bạn chăm sóc sức khỏe tinh thần tốt hơn...
           </p>
         </div>
       </div>
