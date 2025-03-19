@@ -105,7 +105,7 @@ import Meet from "./components/Student/ProgramSick/Meet";
 import Khaosat from "./components/Student/ProgramSick/Khaosat";
 import Callkc from "./components/Student/ProgramSick/Callkc";
 import TestProgramcp from "./components/Student/ProgramSick/TestProgramcopy";
-
+import Register from "./components/Login/Register";
 
 
 function App() {
@@ -187,6 +187,10 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
     },
   ]);
 

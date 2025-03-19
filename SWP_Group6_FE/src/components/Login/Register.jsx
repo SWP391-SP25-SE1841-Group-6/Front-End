@@ -1,9 +1,211 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import instance from "../config/axios";
+import {
+  Flex,
+  Heading,
+  Input,
+  Button,
+  InputGroup,
+  Stack,
+  Box,
+  InputRightElement,
+  FormControl,
+  FormLabel,
+  Circle,
+  Center,
+  FormErrorMessage,
+  Spacer,
+  VStack,
+  StackDivider,
+  useToast
+} from "@chakra-ui/react";
 
-export const Register = () => {
+
+export default function Register() {
   const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    name: '',
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+
+  const validatePasswords = () => {
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError('Passwords do not match');
+      return false;
+    }
+    if (formData.password.length < 6) {
+      setPasswordError('Password must be at least 6 characters');
+      return false;
+    }
+    setPasswordError('');
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validatePasswords()) {
+      return;
+    }
+
+    try {
+      const response = await instance.post('/Account/register', {
+        ...formData,
+        confirmPassword: undefined
+      });
+      console.log('Register response:', response);
+    } catch (error) {
+      console.error('Register error:', error);
+    }
+  };
+
+  return(
+    <Flex width={"100vw"} height={"100vh"} alignItems={"center"} justifyContent={"center"} bg={"gray.100"} >
+      <Stack
+        flexDir="column"
+        mb="2"
+        justifyContent="center"
+        alignItems="center"
+      >           
+      <Heading as='h5' size='md'>  Sign In to your account </Heading>
+      <Circle size="100px" bg="blue.700" py='6' >
+        < FontAwesomeIcon icon={faUser} size='4x'/>
+      </Circle>
+        {/*<Avatar.Root colorPalette="red">
+          <Avatar.Fallback />
+          <Avatar.Image src="https://bit.ly/broken-link" />
+        </Avatar.Root>*/}
+        <Formik
+        onSubmit={(values, actions) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2))
+            actions.setSubmitting(false)
+          }, 1000)
+        }}
+      >
+      <Box minW={{ base: "90%", md: "468px" }} borderWidth='1px' p='8' borderRadius='lg' bg='gray.300'>
+        <Form onSubmit={handleSubmit}>
+        {/*Username goes here*/}
+
+          <FormControl id='email' py='3' isRequired>
+            <FormLabel>Email address</FormLabel>
+            Value: {formData.email}
+            <Input 
+              variant='filled'
+              placeholder='Your email'
+              type='email'
+              size='lg'
+              value={formData.email}
+              onChange={(e) => setFormData({
+                ...formData,
+                email: e.target.value
+              })}
+            />
+          </FormControl>
+       
+        
+        {/*Password goes here*/}
+        <FormControl id='password' py='3' isRequired isInvalid={!!passwordError}>
+          <FormLabel>Password</FormLabel>
+          <InputGroup>
+            
+            <Input 
+              type={showPassword ? "text" : "password"} 
+              variant={'outline'} 
+              placeholder="Your password"
+              value={formData.password}
+              onChange={(e) => setFormData({
+                ...formData,
+                password: e.target.value
+              })}
+            />
+            <InputRightElement>
+              <Button 
+                variant="outline" 
+                h='1.75rem' 
+                size='sm' 
+                colorScheme="teal" 
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+        
+        <FormControl id='confirmPassword' py='3' isRequired isInvalid={!!passwordError}>
+          <FormLabel>Confirm Password</FormLabel>
+          <InputGroup>
+            <Input
+              type={showConfirmPassword ? "text" : "password"}
+              variant={'outline'}
+              placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({
+                ...formData,
+                confirmPassword: e.target.value
+              })}
+            />
+            <InputRightElement>
+              <Button
+                variant="outline"
+                h='1.75rem'
+                size='sm'
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+          {passwordError && (
+            <FormErrorMessage>{passwordError}</FormErrorMessage>
+          )}
+        </FormControl>
+        
+
+
+        <VStack
+          spacing={4}
+          align='center'
+          
+        >
+          <Button 
+            type='submit' 
+            colorScheme='blue' 
+            py='3'  
+            variant='outline' 
+            w='50%' 
+            bg='blue.700' 
+            color='white'
+            isDisabled={!!passwordError}
+          >
+            Register
+          </Button>
+          <Box color='white'>
+            <Center>
+              Or
+            </Center>
+          </Box > 
+          <Button type='register' colorScheme='blue' py='3'  variant='outline' w='50%' bg='blue.700' color='white'>
+            Register an account
+          </Button>
+        </VStack>
+        
+      </Form>
+      </Box>
+      </Formik>
+        </Stack>
+    </Flex>
+    
+      )
+}
+
+{/*const [formData, setFormData] = useState({
     email: '',
     password: '',
     name: '',
@@ -195,6 +397,4 @@ export const Login = () => {
           </Link>
         </div>
       </div>
-    </div>
-  );
-};
+    </div>*/}
