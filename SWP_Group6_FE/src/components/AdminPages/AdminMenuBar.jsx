@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from 'formik';
+
 import {
   Box,
   Flex,
@@ -22,36 +22,17 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import {
-  FiUser,
-  FiSettings,
-  FiHelpCircle,
-  FiLogOut,
-} from 'react-icons/fi';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+
 import { faUser, faFontAwesome } from '@fortawesome/free-regular-svg-icons';
 
 import {Link} from "react-router-dom";
 const LinkNames = ['Dashboard', 'Accounts' ,'Questions','Tests'];
 const links = ['/adminDashboard','/Accounts','/Questions','/tests'];
 
-const NavLink = ({ linknames,links }) => (
-  
-  <Box
-    
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.500', 'gray.700'),
-      textColor: 'blue.700',
-    }}
-  >
-    
-    <a href={links}>{linknames}</a>
-  </Box>
-);
+
 
 export default function AdminMenuBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -59,13 +40,13 @@ export default function AdminMenuBar() {
   const textColor = useColorModeValue('gray.700', 'gray.200');
   return (
     <>
-      <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"gray.100"}>
+      <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"red.100"}>
         <Box>
           <FontAwesomeIcon icon={faFontAwesome} size='4x' />
         </Box>
       </Flex>
       
-      <Box bg={useColorModeValue('gray.100', 'gray.900')}>
+      <Box >
         {/*<Flex h={20} alignItems={'center'} justifyContent='space-evenly'>
          
          <IconButton
@@ -78,7 +59,7 @@ export default function AdminMenuBar() {
           />
           <HStack spacing={8} alignItems={'center'}>*/}
             
-            <Flex as={'nav'} bg='blue.700' maxH='100%' textAlign='center' px='30px' fontSize='xl' fontWeight='bold' textColor='white' gap="4">
+            <Flex as={'nav'} bg='red.100' maxH='100%' textAlign='center' px='30px' fontSize='xl' fontWeight='bold' textColor='white' gap="4">
               <Spacer>
               <Box
                 rounded={'md'}

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import instance from "../config/axios";
 import {
   Flex,
   Heading,
@@ -18,16 +16,26 @@ import {
   Spacer,
   VStack,
   StackDivider,
-  useToast
+  useToast,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
-
+import { Field, Form, Formik } from 'formik';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser,faEye } from "@fortawesome/free-solid-svg-icons";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    name: '',
+    accName : String,
+    accPass : String,
+    accEmail : String,
+    dob : Date,
+    gender :  true,
+    role : String,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -48,7 +56,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    console.log(formData);
     if (!validatePasswords()) {
       return;
     }
@@ -62,6 +70,13 @@ export default function Register() {
     } catch (error) {
       console.error('Register error:', error);
     }
+  };
+
+  const handleGenderChange = (value) => {
+    setFormData({
+      ...formData,
+      gender: value === 'true' // Convert string to boolean
+    });
   };
 
   return(
@@ -88,26 +103,44 @@ export default function Register() {
           }, 1000)
         }}
       >
-      <Box minW={{ base: "90%", md: "468px" }} borderWidth='1px' p='8' borderRadius='lg' bg='gray.300'>
+      <Box minW={{ base: "90%", md: "468px" }} borderWidth='1px' p='8' borderRadius='lg' bg='blue.300'>
         <Form onSubmit={handleSubmit}>
         {/*Username goes here*/}
 
           <FormControl id='email' py='3' isRequired>
             <FormLabel>Email address</FormLabel>
-            Value: {formData.email}
+            Value: {formData.accEmail}
             <Input 
               variant='filled'
               placeholder='Your email'
               type='email'
               size='lg'
-              value={formData.email}
+              value={formData.accEmail}
               onChange={(e) => setFormData({
                 ...formData,
-                email: e.target.value
+                accEmail: e.target.value
               })}
             />
           </FormControl>
-       
+
+          {/* Form Control username */}
+          <FormControl id='username' py='3' isRequired>
+            <FormLabel>User Name</FormLabel>
+            Value: {formData.accName}
+            <Input 
+              variant='filled'
+              placeholder='Your username'
+              type='text'
+              size='lg'
+              value={formData.accName}
+              onChange={(e) => setFormData({
+                ...formData,
+                accName: e.target.value
+              })}
+            />
+          </FormControl>
+          {/* Form Control username */}
+
         
         {/*Password goes here*/}
         <FormControl id='password' py='3' isRequired isInvalid={!!passwordError}>
@@ -118,10 +151,10 @@ export default function Register() {
               type={showPassword ? "text" : "password"} 
               variant={'outline'} 
               placeholder="Your password"
-              value={formData.password}
+              value={formData.accPass}
               onChange={(e) => setFormData({
                 ...formData,
-                password: e.target.value
+                accPass: e.target.value
               })}
             />
             <InputRightElement>
@@ -163,11 +196,92 @@ export default function Register() {
             </InputRightElement>
           </InputGroup>
           {passwordError && (
-            <FormErrorMessage>{passwordError}</FormErrorMessage>
+            <FormErrorMessage textColor={"red"}>{passwordError}</FormErrorMessage>
           )}
         </FormControl>
         
+        {/* Form Control dob */}
+        <FormControl id='dob' py='3' isRequired>
+            <FormLabel>Date of Birth</FormLabel>
+            Value: {formData.dob}
+            <Input 
+              variant='filled'
+              placeholder={formData.dob}
+              type='date'
+              size='lg'
+              value={formData.dob}
+              onChange={(e) => setFormData({
+                ...formData,
+                dob: e.target.value
+              })}
+            />
+          </FormControl>
+        {/* Form Control dob */}  
+          
+        {/* Form Control gender */}
+        <FormControl id='gender' py='3' isRequired>
+          <FormLabel>Gender</FormLabel>
+          Value: {String(formData.gender)}
+          <RadioGroup
+            value={String(formData.gender)}
+            onChange={handleGenderChange}
+            defaultValue='true'
+          >
+            <Stack direction='row' spacing={5}>
+              <Radio 
+                value='true'
+                colorScheme='blue'
+                size='lg'
+              >
+                Male
+              </Radio>
+              <Radio 
+                value='false'
+                colorScheme='pink'
+                size='lg'
+              >
+                Female
+              </Radio>
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+        {/* Form Control gender */} 
 
+        {/* Form Control role */}
+        <FormControl id='role' py='3' isRequired>
+          <FormLabel>Select Role</FormLabel>
+          Value: {formData.role}
+          <Stack direction='row' spacing={4} justify='center' py={2}>
+            <Button
+              colorScheme={formData.role === 'Student' ? 'blue' : 'gray'}
+              variant={formData.role === 'Student' ? 'solid' : 'outline'}
+              onClick={() => setFormData({
+                ...formData,
+                role: 'Student'
+              })}
+              w='150px'
+              size='lg'
+            >
+              Student
+            </Button>
+            <Button
+              colorScheme={formData.role === 'Parent' ? 'green' : 'gray'}
+              variant={formData.role === 'Parent' ? 'solid' : 'outline'}
+              onClick={() => setFormData({
+                ...formData,
+                role: 'Parent'
+              })}
+              w='150px'
+              size='lg'
+            >
+              Parent
+            </Button>
+          </Stack>
+          {!formData.role && (
+            <FormErrorMessage>Please select a role</FormErrorMessage>
+          )}
+        </FormControl>
+        {/* Form Control role */}
 
         <VStack
           spacing={4}
@@ -186,14 +300,7 @@ export default function Register() {
           >
             Register
           </Button>
-          <Box color='white'>
-            <Center>
-              Or
-            </Center>
-          </Box > 
-          <Button type='register' colorScheme='blue' py='3'  variant='outline' w='50%' bg='blue.700' color='white'>
-            Register an account
-          </Button>
+          
         </VStack>
         
       </Form>
