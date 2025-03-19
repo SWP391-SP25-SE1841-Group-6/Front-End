@@ -30,4 +30,7 @@ background-color: #eee;
   display: flex;
   justify-content: space-between;
 }
+input, textarea {
+  border-bottom: none !important;
+}
 

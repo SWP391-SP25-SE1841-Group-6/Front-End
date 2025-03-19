@@ -1,296 +1,210 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import {
-  Button,
-  Card,
-  CardContent,
-  Typography,
-  Tabs,
-  Tab,
-  Box,
-  CircularProgress
-} from "@mui/material";
+import { useState, useEffect } from "react";
 import instance from "../../config/axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark, faClock, faPhone } from "@fortawesome/free-solid-svg-icons";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-const TabPanel = ({ children, value, index, ...other }) => {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      className="transition-opacity duration-300"
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }} className="bg-white rounded-lg">
-          <Typography component="div">{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-};
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  value: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired
-};
-
-const QUESTIONS = [
-  "Bạn có thường xuyên lo lắng quá mức không?",
-  "Bạn có cảm thấy buồn bã hoặc mất hứng thú với các hoạt động hàng ngày không?",
-  "Bạn có cảm thấy khó tập trung hoặc dễ bị phân tâm không?",
-  "Bạn có thường xuyên cảm thấy mệt mỏi hoặc không có năng lượng không?",
-  "Bạn có gặp khó khăn trong giấc ngủ (khó ngủ hoặc ngủ quá nhiều) không?",
-  "Bạn có cảm thấy áp lực từ công việc hoặc học tập quá lớn không?",
-  "Bạn có cảm thấy bị cô lập hoặc xa cách với mọi người không?",
-  "Bạn có suy nghĩ tiêu cực về bản thân hoặc cảm thấy vô dụng không?",
-];
-
-const EMOJIS = [
-  { value: 1, label: "Quá tệ", icon: "😞" },
-  { value: 2, label: "Không ổn lắm", icon: "🙁" },
-  { value: 3, label: "Bình thường", icon: "😐" },
-  { value: 4, label: "Ổn", icon: "🙂" },
-  { value: 5, label: "Tuyệt vời", icon: "😍" },
-];
-
-const TestProgram = () => {
-  const [ratings, setRatings] = useState(Array(QUESTIONS.length).fill(0));
-  const [result, setResult] = useState("");
-  const [tabValue, setTabValue] = useState(0);
+const TestProgramcp = () => {
+  const [questions, setQuestions] = useState([]);
+  const [testName, setTestName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [chartData, setChartData] = useState(null); // Thêm state cho dữ liệu biểu đồ
+  const [results, setResults] = useState(null); // State lưu trữ kết quả
 
-  const handleRating = (index, value) => {
-    setRatings(prev => {
-      const newRatings = [...prev];
-      newRatings[index] = value;
-      return newRatings;
-    });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const questionData = await fetchQuestions();
+        const questionTypeData = await fetchQuestionTypes();
 
-    if (tabValue < QUESTIONS.length - 1) {
-      setTimeout(() => setTabValue(tabValue + 1), 300);
-    }
+        // Kết nối câu hỏi với loại câu hỏi
+        const combinedData = questionData.map((question) => {
+          const qtype = questionTypeData.find(
+            (type) => type.qtypeId === question.qtypeId
+          );
+          return {
+            questionId: question.questionId,
+            qtypeId: question.qtypeId,
+            questionText: question.question1,
+            qtype: qtype ? qtype.qtype : "", // Lấy tên loại câu hỏi
+            rating: 0, // Mức độ đánh giá ban đầu
+          };
+        });
+
+        setQuestions(combinedData);
+        setTestName(`Bài kiểm tra tâm lý học đường - ${new Date().toLocaleString()}`);
+
+      } catch (err) {
+        console.error("Lỗi khi tải dữ liệu:", err.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const fetchQuestions = async () => {
+    const response = await instance.get("/api/Question");
+    return response.data.data; // Giả sử dữ liệu trả về nằm trong response.data.data
   };
 
-  const submitAnswers = async () => {
+  const fetchQuestionTypes = async () => {
+    const response = await instance.get("/api/QuestionType");
+    return response.data.data; // Giả sử dữ liệu trả về nằm trong response.data.data
+  };
+
+  const calculateScores = () => {
+    // Tính toán điểm số cho từng khía cạnh
+    const cwiQuestions = questions.filter(q => q.qtype === "Sức khỏe nhận thức");
+    const swiQuestions = questions.filter(q => q.qtype === "Sức khỏe xã hội");
+    const ewiQuestions = questions.filter(q => q.qtype === "Sức khỏe cảm xúc");
+    const pwiQuestions = questions.filter(q => q.qtype === "Sức khỏe thể chất");
+
+    const cwiScore = cwiQuestions.length > 0 ? cwiQuestions.reduce((sum, q) => sum + q.rating, 0) / cwiQuestions.length : 0;
+    const swiScore = swiQuestions.length > 0 ? swiQuestions.reduce((sum, q) => sum + q.rating, 0) / swiQuestions.length : 0;
+    const ewiScore = ewiQuestions.length > 0 ? ewiQuestions.reduce((sum, q) => sum + q.rating, 0) / ewiQuestions.length : 0;
+    const pwiScore = pwiQuestions.length > 0 ? pwiQuestions.reduce((sum, q) => sum + q.rating, 0) / pwiQuestions.length : 0;
+
+    const csepScore = (cwiScore + swiScore + ewiScore + pwiScore) / 4;
+
+    // Tạo dữ liệu cho biểu đồ
+    const chartData = {
+      labels: ['CWI', 'SWI', 'EWI', 'PWI'],
+      datasets: [
+        {
+          label: 'Điểm số',
+          data: [cwiScore, swiScore, ewiScore, pwiScore],
+          backgroundColor: ['#FFC107', '#29B6F6', '#3F51B5', '#03A9F4'],
+        },
+      ],
+    };
+
+    setChartData(chartData);
+
+    // Tạo kết quả và lưu vào state
+    setResults({
+      CWI: cwiScore,
+      SWI: swiScore,
+      EWI: ewiScore,
+      PWI: pwiScore,
+      CSEP: csepScore
+    });
+  };
+
+  const handleSubmit = async () => {
+    // Kiểm tra xem tất cả các câu hỏi đã được đánh giá chưa
+    if (questions.some((q) => q.rating === 0)) {
+      setError("Vui lòng đánh giá tất cả các câu hỏi!");
+      return;
+    }
+
     setLoading(true);
     setError("");
+
     try {
-      // Tạo một mảng chứa tất cả câu trả lời
-      const answers = QUESTIONS.map((question, i) => {
-        const emoji = EMOJIS.find(e => e.value === ratings[i]);
-        if (!emoji) {
-          throw new Error("Vui lòng đánh giá tất cả các câu hỏi");
-        }
-        return {
-          qtypeId: 0,
-          question: `${question} - Đánh giá: ${emoji.label} (${emoji.icon})`
-        };
-      });
-  
-      // Kiểm tra xem có câu trả lời nào bị null không
-      if (answers.some(answer => !answer.question)) {
-        throw new Error("Vui lòng điền đầy đủ tất cả các câu hỏi");
-      }
-  
-      // Gửi từng câu hỏi một và đợi hoàn thành trước khi gửi câu tiếp theo
-      for (const answer of answers) {
-        await instance.post('/Question', answer);
-        console.log('Sent answer:', answer);
-      }
-  
-      setResult("Khảo sát đã được gửi thành công!");
+      // Tính toán điểm số và tạo biểu đồ sau khi nhấn gửi
+      calculateScores();
     } catch (err) {
-      console.error('Error:', err);
-      if (err.response?.data?.message) {
-        // Xử lý lỗi từ server
-        setError(err.response.data.message);
-      } else if (err.message.includes("duplicate")) {
-        // Xử lý lỗi trùng lặp
-        setError("Câu trả lời đã tồn tại trong hệ thống");
-      } else {
-        // Xử lý các lỗi khác
-        setError(err.message || "Có lỗi xảy ra khi gửi khảo sát. Vui lòng thử lại!");
-      }
+      setError("Có lỗi xảy ra khi gửi khảo sát: " + err.message);
     } finally {
       setLoading(false);
     }
   };
-  
-  // Sửa lại hàm handleSubmit
-  const handleSubmit = async () => {
-    // Kiểm tra xem đã đánh giá hết các câu hỏi chưa
-    if (ratings.includes(0)) {
-      setError("Vui lòng đánh giá tất cả các câu hỏi!");
-      return;
-    }
-  
-    try {
-      // Tính điểm và hiển thị kết quả
-      const totalScore = ratings.reduce((acc, score) => acc + score, 0);
-      let resultMessage = "";
-  
-      if (totalScore < 16) {
-        resultMessage = "Bạn có tâm lý ổn định.";
-      } else if (totalScore <= 24) {
-        resultMessage = "Bạn có dấu hiệu lo âu nhẹ.";
-      } else {
-        resultMessage = "Bạn có dấu hiệu tâm lý cần quan tâm.";
-      }
-  
-      setResult(resultMessage);
-      
-      // Gửi câu trả lời
-      await submitAnswers();
-    } catch (error) {
-      console.error('Submit error:', error);
-      setError(error.message);
-    }
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false, // Ẩn chú thích
+      },
+      title: {
+        display: false, // Ẩn tiêu đề
+      },
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 5, // Đặt giới hạn trục y từ 0 đến 5
+      },
+    },
   };
-  
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <Typography variant="h4" align="center" className="font-bold text-gray-800 mb-6">
-        TUẦN NÀY VỚI EM THẾ NÀO?
-      </Typography>
-
-      <div className=" grid grid-cols-5 gap-4 mb-6  p-6 rounded-xl shadow-md">
-        {EMOJIS.map((emoji) => (
-          <div
-            key={emoji.value}
-            className=" flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-white/30 transition-all duration-300"
-          >
-            <span className="text-6xl cursor-pointer transform hover:scale-110 transition-transform">
-              {emoji.icon}
-            </span>
-            <span className="text-3xl font-medium text-gray-700">{emoji.label}</span>
-          </div>
-        ))}
-      </div>
-
-      <Card className="max-w-6xl mx-auto h-150 bg-white shadow-xl rounded-xl overflow-hidden">
-        <CardContent className="p-6">
-          <Tabs
-            value={tabValue}
-            onChange={(_, newValue) => setTabValue(newValue)}
-            variant="scrollable"
-            scrollButtons="auto"
-            aria-label="câu hỏi tâm lý"
-            className="mb-6"
-            sx={{
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#3B82F6',
-              },
-            }}
-          >
-            {QUESTIONS.map((_, index) => (
-              <Tab
-                key={index}
-                label={`Câu ${index + 1}`}
-                className={`text-6xl font-medium ${
-                  ratings[index] > 0 ? 'text-blue-600 text-6xl' : ''
-                }`}
-              />
+    <div className="w-full h-200 text-4xl gap-10 text-center ">
+      <h1>{testName}</h1>
+      {questions.map((question) => (
+        <div key={question.questionId}>
+          <h3>{question.questionText} ({question.qtype})</h3>
+          <div>
+            {Array.from({ length: 5 }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => {
+                  const updatedQuestions = questions.map((q) =>
+                    q.questionId === question.questionId
+                      ? { ...q, rating: i + 1 }
+                      : q
+                  );
+                  setQuestions(updatedQuestions);
+                }}
+                style={{
+                  padding: "20px",
+                  backgroundColor: question.rating === i + 1 ? "blue" : "lightgray",
+                  color: question.rating === i + 1 ? "white" : "black",
+                }}
+              >
+                {i + 1}
+              </button>
             ))}
-          </Tabs>
+          </div>
+        </div>
+      ))}
 
-          {QUESTIONS.map((question, index) => (
-            <TabPanel key={index} value={tabValue} index={index}>
-              <Typography className="text-xl h-20 font-medium text-gray-700 mb-6">
-                {index + 1}. {question}
-              </Typography>
-              <div className="flex justify-center gap-6 mt-4 text-2xl">
-                {EMOJIS.map((emoji) => (
-                  <button
-                    key={emoji.value}
-                    onClick={() => handleRating(index, emoji.value)}
-                    className={`p-4 rounded-xl transition-all transform hover:scale-110 ${
-                      ratings[index] === emoji.value
-                        ? 'bg-blue-500 text-white shadow-lg scale-105'
-                        : 'bg-gray-100 hover:bg-gray-200'
-                    }`}
-                  >
-                    <span className="text-8xl block mb-2">{emoji.icon}</span>
-                    <p className="text-2xl font-medium ">{emoji.label}</p>
-                  </button>
-                ))}
-              </div>
-            </TabPanel>
-          ))}
-        </CardContent>
-      </Card>
+      <button onClick={handleSubmit} disabled={loading} className="text-2xl border mt-10">
+        {loading ? "Đang gửi..." : "Gửi đánh giá"}
+      </button>
 
-      {result && (
-        <div className="mt-6 p-4 bg-blue-100 border border-blue-200 text-blue-900 font-semibold rounded-xl text-center animate-fade-in">
-          {result}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {/* Hiển thị biểu đồ */}
+      {/* {chartData && (
+        <div>
+          <Bar options={chartOptions} data={chartData} />
+        </div>
+      )} */}
+
+      {/* Hiển thị kết quả */}
+      {results && (
+        <div >
+          <h3>Kết quả đánh giá:</h3>
+          <div className="flex justify-center gap-20">
+          <p >CWI: {results.CWI.toFixed(2)}</p>
+          <p>SWI: {results.SWI.toFixed(2)}</p>
+          <p>EWI: {results.EWI.toFixed(2)}</p>
+          <p>PWI: {results.PWI.toFixed(2)}</p>
+          <p>CSEP: {results.CSEP.toFixed(2)}</p>
+          </div>
+     
         </div>
       )}
-      
-      {error && (
-        <div className="mt-4 p-4 bg-red-50 border border-red-200 text-red-700 font-semibold rounded-xl text-center animate-fade-in">
-          {error}
-        </div>
-      )}
-
-      <div className="  flex justify-between mt-6 max-w-3xl mx-auto gap-4">
-        <Button
-          variant="contained"
-          component={Link}
-          to="/studenthome"
-          className="w-1/3 bg-gray-500 hover:bg-gray-600 !text-3xl "
-        >
-          Quay lại
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          disabled={loading}
-          className="w-1/3 bg-blue-600 hover:bg-blue-700 !text-3xl"
-        >
-          {loading ? (
-            <div className="flex items-center " >
-              <CircularProgress size={20} color="inherit" className="mr-2 text-3xl" />
-              Đang gửi...
-            </div>
-          ) : (
-            "Xác nhận "
-          )}
-        </Button>
-        <Button
-         component={Link}
-          to="/studenthome/khaosat"
-          variant="contained"
-          className="w-1/3 bg-gray-400 hover:bg-gray-500 !text-2xl !text-center"
-        >
-          Không muốn trả lời
-        </Button>
-      </div>
-
-      <div className="mt-6 text-center">
-    <div className="flex mt-5 justify-center gap-10 text-xl text-blue-950 font-bold cursor-pointer underline">
-             <Link to="/studenthome/khaosat" className="!text-blue-900" >
-                 <FontAwesomeIcon icon={faClock} className="!text-blue-900"/>  Bỏ qua khảo sát
-               </Link>
-               <Link to="/studenthome/hengap" className="!text-blue-900" >
-               <FontAwesomeIcon icon={faCircleXmark}  className="!text-blue-900"/> Hẹn gặp
-               </Link>
-               
-               <Link to="/studenthome/khancap" className="!text-blue-900" >
-               <FontAwesomeIcon icon={faPhone}  className="!text-blue-900"/> Khần cấp
-               </Link>
-          
-   
-             </div>
-      </div>
     </div>
   );
 };
 
-export default TestProgram;
+export default TestProgramcp;
