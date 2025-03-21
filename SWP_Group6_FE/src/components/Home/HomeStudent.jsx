@@ -30,7 +30,7 @@ export default function Hg() {
     navigate(path);
     setAnchorEl(null);
   };
-
+  console.log("role: " + localStorage.getItem("role"));
   return (
     <div>
       <div className="header-homepagesyudent">

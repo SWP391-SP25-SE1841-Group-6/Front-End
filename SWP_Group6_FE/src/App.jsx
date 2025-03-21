@@ -85,11 +85,11 @@
 // }
 
 // export default App;
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, BrowserRouter as Router, Routes, Route, Outlet} from "react-router-dom";
 import "./index.css";
 import Hg from "./components/Home/HomePage";
 import Home from "./components/HomePage/Home";
-import { Login } from "./components/Login/Login";
+
 import HomeStudent from "./components/Home/HomeStudent";
 import { AuthProvider } from "./components/Auth/AuthContext";
 import Profile from "./components/Student/Profile";
@@ -110,8 +110,11 @@ import AdminDashboard from "./components/AdminPages/AdminDashboard";
 import { ChakraBaseProvider } from "@chakra-ui/react";
 import LoginWithAPI from "./components/Login/LoginWithAPI";
 import PsyDashboard from "./components/PsychologistPages/PsyDashboard";
+import ProtectedRoute from "./components/protected-route/ProtectedRoute";
 //import { ThemeProvider } from "@mui/material";
 function App() {
+
+  
   const router = createBrowserRouter([
     
     {
@@ -205,6 +208,7 @@ function App() {
       element: <PsyDashboard />,
     }
   ]);
+  
 
 
 
@@ -212,6 +216,35 @@ function App() {
   
     
     <AuthProvider>
+      {/*}
+      <Router>
+        <Routes>
+          <Route path="/" element={<Hg />} >
+              <Route path="/" index:true element={<Home />} />
+          </Route>
+          <Route path="/login" element={<LoginWithAPI />} />
+          <Route path="/register" element={<Register />} />
+         <Route element={<ProtectedRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} roles={["Manager"]}/>
+            <Route path="/psychologist" element={<PsyDashboard />} roles={["Psychologist"]}/>
+            <Route path="/studenthome" element={<HomePageStudent />} roles={["Student"]}>
+              <Route path="/studenthome" index:true element={<IntroPageStudent />} />
+              <Route path="/studenthome/profile" element={<Profile />} />
+              <Route path="/studenthome/timetable" element={<TimeTable />} />
+              <Route path="/studenthome/tailieu" element={<Tlieu />} />
+              <Route path="/studenthome/Sknt" element={<Sknt />} />
+              <Route path="/studenthome/Skxh" element={<Skxh />} />
+              <Route path="/studenthome/Skcx" element={<Skcx />} />
+              <Route path="/studenthome/Sktc" element={<Sktc />} />
+              <Route path="/studenthome/test" element={<TestProgramcp />} />  
+              <Route path="/studenthome/hengap" element={<Meet />} />
+              <Route path="/studenthome/khaosat" element={<Khaosat />} />
+              <Route path="/studenthome/khancap" element={<Callkc />} />
+              <Route path="/studenthome/homepagestudent" element={<HomePageStudent />} />
+            </Route>
+         </Route>
+        </Routes>
+      </Router> */}
       <RouterProvider router={router} />
     </AuthProvider>
  

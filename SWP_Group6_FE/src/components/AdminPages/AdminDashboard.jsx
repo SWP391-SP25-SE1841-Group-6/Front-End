@@ -16,9 +16,10 @@ import {
   FormErrorMessage,
   Card, CardHeader, CardBody, CardFooter, SimpleGrid, Text,
   VStack,
+  ChakraBaseProvider,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
-
+import { useAuth } from "../Auth/AuthContext";
 //import { PasswordInput } from "@/components/ui/password-input"
 
 /*
@@ -71,13 +72,18 @@ const AdminDashboard = () => {
       console.error('Error fetching accounts:', error);
     }
   };*/}
-
+  console.log(localStorage.getItem('token'));
+  const {logout} = useAuth();
   const getPendingAccounts = () => {  
     const filteredAccounts = accounts.filter(account => !account.isApproved);
     console.log('filteredAccounts' + filteredAccounts);
     return accounts.filter(account => !account.isApproved);
   };
   
+  const hanldeLogout = () => {
+    logout();
+  }
+
   const fetchAccounts= async () => {
     const response = await axios.get(
     "http://localhost:5121/api/Account",)
@@ -92,6 +98,8 @@ const AdminDashboard = () => {
   }, []);
   return (
     <>
+
+    <ChakraBaseProvider>
     <AdminMenuBar/> 
     
     <VStack px={5} py={10} spacing={10} maxW='100vw' maxH='100vh' columns={2} bg='gray.100'>
@@ -130,7 +138,7 @@ const AdminDashboard = () => {
     </Card>
     </VStack>
 
-  
+    </ChakraBaseProvider>
     </>
   )
 }

@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useAuth } from "../Auth/AuthContext";
 //import { PasswordInput } from "@/components/ui/password-input"
 
 /*
@@ -48,13 +48,15 @@ export default function LoginWithAPI() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState(String);
   const [password, setPassword] = useState(String);
-  const [isLoading, setIsLoading] = useState(false);
+  const [user,setUser] = useState(null);
   const [userInfo, setUserInfo] = useState([]);
   const [data, setData] = useState(loginDTO);
   const navigate = useNavigate();
   const handleEmailChange = (event) => setEmail(event.target.value)
+  const {login} = useAuth();
+  {/*post login
   const postLogin = async () => {
-    setIsLoading(true);
+    
     try {
       const dataCheck = email + password;
       const UrlEmail = email.replace("@","%40");
@@ -63,13 +65,14 @@ export default function LoginWithAPI() {
         'http://localhost:5121/api/Account/Login?email='+UrlEmail+'&password='+password
       );
       
+
       console.log('message '+ response.data.message);
       console.log('token ' + response.data.token);
       console.log('id ' + response.data.user.id);
       console.log('email ' + response.data.user.email);
       console.log('user name ' + response.data.user.name);
       console.log('role ' + response.data.user.role);
-      
+      console.log('response data user : ' + response.data.user)
       // Store the token in localStorage
       localStorage.setItem('token', response.data.token);
       console.log(localStorage.get)
@@ -78,9 +81,16 @@ export default function LoginWithAPI() {
       localStorage.setItem('userEmail', response.data.user.email);
       localStorage.setItem('userRole', response.data.user.role);
 
+      if(response.data){
+        setUser(response.data.user);
+        navigate
+      }
+      
+      
       
         toast.success("Login Success ! Welcome back " + localStorage.getItem('userName'), {
           position: "top-right"
+          
         });
       
       
@@ -91,14 +101,22 @@ export default function LoginWithAPI() {
       });
       console.error('Login error:', error);
     } finally {
-      setIsLoading(false);
+      
     }
   };
+  */}
 
+  const handleLogin = () => {
+    var emailURL = email.replace("@","%40");
+    console.log('handle login : ' + emailURL, password);
+    login(emailURL, password);
+  }
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(email,password);
-    postLogin(email, password);
+    handleLogin();
     
   };
 
@@ -203,7 +221,7 @@ export default function LoginWithAPI() {
             w='50%' 
             bg='blue.700' 
             color='white'
-            isLoading={isLoading}
+           
             loadingText="Signing in..."
           >
             Sign in

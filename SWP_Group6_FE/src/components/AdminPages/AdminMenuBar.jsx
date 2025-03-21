@@ -33,11 +33,12 @@ const LinkNames = ['Dashboard', 'Accounts' ,'Questions','Tests'];
 const links = ['/adminDashboard','/Accounts','/Questions','/tests'];
 
 
-
 export default function AdminMenuBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuBg = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.700', 'gray.200');
+
+  
   return (
     <>
       <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"gray.100"}>
@@ -139,7 +140,7 @@ export default function AdminMenuBar() {
                 <Link to='/test'>Profile </Link>
               </MenuItem>
               <MenuDivider/>
-              <MenuItem to=''>Sign out</MenuItem>
+              <MenuItem to='' >Sign out</MenuItem>
             </MenuList>
           </Menu>
           </Box>

@@ -136,7 +136,7 @@ const settings = {
 
 const HomePageStudent = () => {
   const navigate = useNavigate();
-
+  console.log("role: " + localStorage.getItem("role"));
 const handleClick = () => {
   navigate("/contact"); // Chuyển đến trang /contact
 };
