@@ -109,6 +109,8 @@ import Register from "./components/Login/Register";
 import AdminDashboard from "./components/AdminPages/AdminDashboard";
 import { ChakraBaseProvider } from "@chakra-ui/react";
 import LoginWithAPI from "./components/Login/LoginWithAPI";
+import PsyDashboard from "./components/PsychologistPages/PsyDashboard";
+//import { ThemeProvider } from "@mui/material";
 function App() {
   const router = createBrowserRouter([
     
@@ -196,15 +198,23 @@ function App() {
     {
       path: "/admin",
       element: <AdminDashboard />,
+    },
+
+    {
+      path: "/psychologist",
+      element: <PsyDashboard />,
     }
   ]);
 
+
+
   return (
-    <ChakraBaseProvider>
+  
+    
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-    </ChakraBaseProvider>
+ 
   );
 }
 

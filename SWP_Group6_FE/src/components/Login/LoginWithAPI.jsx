@@ -16,12 +16,12 @@ import {
   Spacer,
   VStack,
   StackDivider,
-  useToast
+  ChakraBaseProvider
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //import { PasswordInput } from "@/components/ui/password-input"
@@ -78,15 +78,12 @@ export default function LoginWithAPI() {
       localStorage.setItem('userEmail', response.data.user.email);
       localStorage.setItem('userRole', response.data.user.role);
 
-      if(response.data.message == "Login successful"){
+      
         toast.success("Login Success ! Welcome back " + localStorage.getItem('userName'), {
           position: "top-right"
         });
-      }
-
-      if(response.data.role )
-      // Redirect to dashboard or home page
-      navigate('/test');
+      
+      
 
     } catch (error) {
       toast.error("Login Failed ! Please re-check your login credentials !" , {
@@ -109,9 +106,20 @@ export default function LoginWithAPI() {
 
   return (
     <>
-    
-
-    
+     
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    <ChakraBaseProvider>
     <Flex width={"100vw"} height={"100vh"} alignItems={"center"} justifyContent={"center"} bg={"gray.100"} >
       <Stack
         flexDir="column"
@@ -205,17 +213,26 @@ export default function LoginWithAPI() {
               Or
             </Center>
           </Box > 
-          <Button type='register' colorScheme='blue' py='3'  variant='outline' w='50%' bg='blue.700' color='white'>
+
+        </VStack>
+          
+      </Form>
+        <VStack
+            spacing={4}
+            align='center'
+            
+          >
+          <Button  colorScheme='blue' py='3'  variant='outline' w='50%' bg='blue.700' color='white' onClick={()=>{navigate("/register")}}>
             Register an account
           </Button>
-        </VStack>
-        
-      </Form>
+          </VStack>
       </Box>
+      
       </Formik>
+          
         </Stack>
     </Flex>
-    
+    </ChakraBaseProvider>
     </>
   )
 }
