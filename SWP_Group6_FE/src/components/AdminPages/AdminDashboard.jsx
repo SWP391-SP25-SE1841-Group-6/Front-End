@@ -19,16 +19,23 @@ import {
   VStack,
   ChakraBaseProvider,
   useDisclosure,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  TableContainer,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Badge,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
 import { useAuth } from "../Auth/AuthContext";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 //import { PasswordInput } from "@/components/ui/password-input"
 
 /*
@@ -59,10 +66,8 @@ import AdminMenuBar from "./AdminMenuBar";
 
 const AdminDashboard = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [notApprovedAccounts, setNotApprovedAccounts] = useState([{Accounts}]);
+  const [notApprovedAccounts, setNotApprovedAccounts] = useState();
   const [accounts, setAccounts] = useState([]);
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = React.useRef()
   {/*Fetch accounts from API
   const fetchAccounts = async () => {
     try {
@@ -94,6 +99,23 @@ const AdminDashboard = () => {
     
   }
 
+  const setApproved = async (accountId) => {
+    try {
+      if (!accountId) {
+        console.error('Account ID is undefined or null');
+        return;
+      }
+      console.log('Approving account with ID:', accountId);
+      const response = await axios.put(`http://localhost:5121/api/Account/Approve/?id=`+accountId);
+      if (response.data) {
+        console.log('Account approved successfully:', response.data);
+        await fetchAccounts(); // Refresh the accounts list
+      }
+    } catch (error) {
+      console.error('Error approving account:', error);
+    }
+  }
+
   const handleShowClick = () => setShowPassword(!showPassword);
 
   useEffect(() => {
@@ -113,32 +135,77 @@ const AdminDashboard = () => {
         <Text>Number of pending accounts: {accounts.length}</Text>
       </CardBody>
       <CardFooter>
-        <Button onClick={onOpen}>View here</Button>
+      
+      <Accordion allowToggle>
+      <AccordionItem>
+        <h5>
+          <AccordionButton>
+            <Box as='span' flex='1' textAlign='left'>
+              Section 1 title
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h5>
+        <AccordionPanel pb={4}>
+        <TableContainer>
+            <Table variant='simple' colorScheme='blue' size='sm'>
+              <Thead>
+                <Tr>
+                  <Th>Name</Th>
+                  <Th>Email</Th>
+                  <Th>Role</Th>
+                  <Th>Date of Birth</Th>
+                  <Th>Gender</Th>
+                  <Th>Actions</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {accounts.map((account) => (
+                  <Tr key={account.accID}>
+                    <Td>{account.accName}</Td>
+                    <Td>{account.accEmail}</Td>
+                    <Td>
+                      <Badge 
+                        colorScheme={
+                          account.role === 'Student' ? 'green' : 
+                          account.role === 'Parent' ? 'purple' : 
+                          account.role === 'Psychologist' ? 'blue' : 'gray'
+                        }
+                      >
+                        {account.role}
+                      </Badge>
+                    </Td>
+                    <Td>{new Date(account.dob).toLocaleDateString()}</Td>
+                    <Td>{account.gender ? 'Male' : 'Female'}</Td>
+                    
+                    <Td>
+                      <Button
+                        colorScheme='green'
+                        size='xs'
+                        mr={2}
+                        onClick={() => {
+                          
+                          console.log('Account being approved:', account);
+                          console.log('Account ID:', account.accId);
+                          
+                          setApproved(account.accId);
+                        }}
+                        leftIcon={<FontAwesomeIcon icon={faCheck} />}
+                      >
+                        Approve
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </AccordionPanel>
+      </AccordionItem>
+      </Accordion>
       </CardFooter>
     </Card>
-    <Drawer
-        isOpen={isOpen}
-        placement='right'
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
-
-          <DrawerBody>
-            <Input placeholder='Type here...' />
-          </DrawerBody>
-
-          <DrawerFooter>
-            <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme='blue'>Save</Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+    
     </VStack>
 
     </ChakraBaseProvider>
