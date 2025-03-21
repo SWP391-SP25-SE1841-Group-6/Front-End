@@ -201,6 +201,7 @@ function App() {
     {
       path: "/admin",
       element: <AdminDashboard />,
+      roles: ["Manager"],
     },
 
     {
