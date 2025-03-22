@@ -114,6 +114,8 @@ import ProtectedRoute from "./components/protected-route/ProtectedRoute";
 import AccountsCRUD from "./components/AdminPages/AccountsCRUD";
 import TestsCRUD from "./components/AdminPages/TestsCRUD";
 import TestDetails from "./components/TestDetails";
+import TestCreate from "./components/AdminPages/TestCreate";
+import AddQuestions from "./components/AdminPages/AddQuestions";
 //import { ThemeProvider } from "@mui/material";
 function App() {
 
@@ -219,6 +221,16 @@ function App() {
     {
       path: "/admin/tests/:id",
       element: <TestDetails />,
+      roles: ["Manager"],
+    },
+    {
+      path: "/admin/tests/create",
+      element: <TestCreate />,
+      roles: ["Manager"],
+    },
+    {
+      path: "/admin/tests/add-questions/:id",
+      element: <AddQuestions />,
       roles: ["Manager"],
     },
     {

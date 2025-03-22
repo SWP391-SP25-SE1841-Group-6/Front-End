@@ -63,21 +63,20 @@ export default function TestsCRUD() {
                     </CardHeader>
                     <CardBody>
                         <Box mb={4}>
-                            <Accordion allowToggle>
-                                <AccordionItem>
-                                    <h5>
-                                        <AccordionButton bg='blue.700' textColor='white'>
-                                            <Box as='span' flex='1' textAlign='left'>
-                                                Add a test
-                                            </Box>
-                                            <AccordionIcon />
-                                        </AccordionButton>
-                                    </h5>
-                                    <AccordionPanel pb={4} bg='blue.700' textColor='white' pt={4} px={4}>
-                                        {/* Add Test Form will go here */}
-                                    </AccordionPanel>
-                                </AccordionItem>
-                            </Accordion>
+                            <Button
+                                bg='blue.700'
+                                color='white'
+                                _hover={{ bg: 'blue.800' }}
+                                onClick={() => navigate('/admin/tests/create')}
+                                width="full"
+                                size="lg"
+                                height="16"
+                                fontSize="xl"
+                                fontWeight="bold"
+                                py={8}
+                            >
+                                Add a Test
+                            </Button>
                         </Box>
                         <Box overflowX="auto" bg='blue.700' textColor='white' rounded='md'>
                             <TableContainer>
