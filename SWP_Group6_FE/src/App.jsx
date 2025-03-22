@@ -111,6 +111,9 @@ import { ChakraBaseProvider } from "@chakra-ui/react";
 import LoginWithAPI from "./components/Login/LoginWithAPI";
 import PsyDashboard from "./components/PsychologistPages/PsyDashboard";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute";
+import AccountsCRUD from "./components/AdminPages/AccountsCRUD";
+import TestsCRUD from "./components/AdminPages/TestsCRUD";
+import TestDetails from "./components/TestDetails";
 //import { ThemeProvider } from "@mui/material";
 function App() {
 
@@ -203,7 +206,21 @@ function App() {
       element: <AdminDashboard />,
       roles: ["Manager"],
     },
-
+    {
+      path: "/admin/accounts",
+      element: <AccountsCRUD />,
+      roles: ["Manager"],
+    },
+    {
+      path: "/admin/tests",
+      element: <TestsCRUD />,
+      roles: ["Manager"],
+    },
+    {
+      path: "/admin/tests/:id",
+      element: <TestDetails />,
+      roles: ["Manager"],
+    },
     {
       path: "/psychologist",
       element: <PsyDashboard />,

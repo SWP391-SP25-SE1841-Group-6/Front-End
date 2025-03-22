@@ -54,6 +54,7 @@ export default function LoginWithAPI() {
   const navigate = useNavigate();
   const handleEmailChange = (event) => setEmail(event.target.value)
   const {login} = useAuth();
+  
   {/*post login
   const postLogin = async () => {
     
@@ -106,10 +107,23 @@ export default function LoginWithAPI() {
   };
   */}
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     var emailURL = email.replace("@","%40");
     console.log('handle login : ' + emailURL, password);
-    login(emailURL, password);
+    const response = await login(emailURL, password);
+      
+    if(response === true){
+      if(localStorage.getItem('role') === 'Manager'){
+        navigate('/admin');
+      }else if(localStorage.getItem('role') === 'Student'){
+        navigate('/studenthome');
+    }else if(localStorage.getItem('role') === 'Psychologist'){
+      navigate('/psychologist');
+    }else if(localStorage.getItem('role') === 'Parent'){
+      navigate('/parent');
+    }
+    
+    }
   }
 
   
@@ -167,7 +181,7 @@ export default function LoginWithAPI() {
 
           <FormControl id='email' py='3' isRequired>
             <FormLabel>Email address</FormLabel>
-            Value: {email}
+            
             <Input 
               variant='filled'
               placeholder='Your email'
@@ -182,7 +196,7 @@ export default function LoginWithAPI() {
         {/*Password goes here*/}
         <FormControl id='password'py='3' isRequired>
           <FormLabel>Password</FormLabel>
-          Value: {password}
+          
           <InputGroup>
             
             <Input 

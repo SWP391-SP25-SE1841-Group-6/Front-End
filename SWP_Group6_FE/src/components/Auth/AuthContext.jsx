@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   
 
   const login = async (email , password) => {
+    
     console.log('auth context: ' + email, password);
     try {     
       const response = await axios.post(
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }) => {
       console.log('id ' + response.data.user.id);
       console.log('email ' + response.data.user.email);
       console.log('user name ' + response.data.user.name);
-      console.log('role ' + response.data.user.role);
+      console.log('role :' + response.data.user.role);
       
       if(response.data){
       // Store the token in localStorage
@@ -53,8 +54,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('name', response.data.user.name);
       localStorage.setItem('email', response.data.user.email);
       localStorage.setItem('role', response.data.user.role);
+      return true;
       }
-
       
 
         toast.success("Login Success ! Welcome back " + localStorage.getItem('name'), {
@@ -68,8 +69,7 @@ export const AuthProvider = ({ children }) => {
         position: "top-right"
       });
       console.error('Login error:', error);
-    } finally {
-      
+      return false;
     }
   };
 

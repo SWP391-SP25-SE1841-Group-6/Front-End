@@ -43,7 +43,8 @@ export default function AdminMenuBar() {
     <>
       <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"gray.100"}>
         <Box>
-          <FontAwesomeIcon icon={faFontAwesome} size='4x' />
+          <img src="https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-modern-vector-logo-of-psychology-letter-psi-in-creative-style-png-image_4850550.png" alt="logo" 
+          className="w-20 h-20"/>
         </Box>
       </Flex>
       
@@ -70,7 +71,7 @@ export default function AdminMenuBar() {
                   textColor: 'blue.700',
                 }}
               >
-              <Link to="/admin/dashboard">
+              <Link to="/admin">
                 <Button variant="ghost">Dashboard</Button>
               </Link>
               </Box>
