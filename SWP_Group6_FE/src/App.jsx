@@ -116,6 +116,7 @@ import TestsCRUD from "./components/AdminPages/TestsCRUD";
 import TestDetails from "./components/TestDetails";
 import TestCreate from "./components/AdminPages/TestCreate";
 import AddQuestions from "./components/AdminPages/AddQuestions";
+import ResultScreen from "./components/Student/ProgramSick/ResultScreen";
 //import { ThemeProvider } from "@mui/material";
 function App() {
 
@@ -190,6 +191,10 @@ function App() {
         {
           path: "/studenthome/homepagestudent",
           element: <HomePageStudent />,
+        },
+        {
+          path: "/studenthome/test-history",
+          element: <ResultScreen />,
         },
       ],
     },

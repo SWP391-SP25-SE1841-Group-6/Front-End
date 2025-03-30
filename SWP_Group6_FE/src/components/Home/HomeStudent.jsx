@@ -32,31 +32,53 @@ export default function Hg() {
   };
   console.log("role: " + localStorage.getItem("role"));
   return (
-    <div>
-      <div className="header-homepagesyudent">
-        <div className="row flex  ">
-          <div className="col-6 m-15 flex  w-200 ml-80 justify-between h-10  text-2xl ">
-            <Link to="/studenthome" className="text-2xl !text-black !font-bold">Trang chủ</Link>
-
-            <Link to="/studenthome/tailieu"  className="text-2xl !text-black !font-bold">
-             Lịch sử
+    <div className="min-h-screen flex flex-col">
+      <header className="bg-white shadow-md py-4 px-6 fixed top-0 w-full z-50">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Navigation Links */}
+          <nav className="flex items-center space-x-8">
+            <Link 
+              to="/studenthome" 
+              className="text-lg font-bold text-black hover:text-blue-600 transition-colors"
+            >
+              Trang chủ
             </Link>
 
-            <Link to="/studenthome/tailieu"  className="text-2xl !text-black !font-bold">
-              Tài liệu 
+            <Link 
+              to="/studenthome/tailieu" 
+              className="text-lg font-bold text-black hover:text-blue-600 transition-colors"
+            >
+              Lịch sử
             </Link>
 
-            <Link to="/studenthome/tailieu" className=" border-blue-900 border-4 !text-black w-70 !pl-6 h-12">
-             Hướng dẫn sử dụng
+            <Link 
+              to="/studenthome/tailieu" 
+              className="text-lg font-bold text-black hover:text-blue-600 transition-colors"
+            >
+              Tài liệu
             </Link>
-          </div>
 
-          <div className="col-6 m-15 flex ml-auto w-100 justify-between h-10  text-2xl ">
+            <Link 
+              to="/studenthome/tailieu" 
+              className="px-6 py-2 border-2 border-blue-900 text-black font-bold hover:bg-blue-900 hover:text-white transition-all rounded-md"
+            >
+              Hướng dẫn sử dụng
+            </Link>
+          </nav>
+
+          {/* User Menu */}
+          <div className="relative">
             <Avatar
               alt="User Avatar"
               src="https://via.placeholder.com/40"
               onClick={handleAvatarClick}
-              sx={{ cursor: "pointer", bgcolor: "grey" }}
+              sx={{ 
+                cursor: "pointer", 
+                bgcolor: "grey",
+                '&:hover': {
+                  opacity: 0.8
+                }
+              }}
             />
             <Menu
               anchorEl={anchorEl}
@@ -69,6 +91,16 @@ export default function Hg() {
               transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
+              }}
+              PaperProps={{
+                elevation: 3,
+                sx: {
+                  mt: 1,
+                  '& .MuiMenuItem-root': {
+                    fontSize: '1rem',
+                    padding: '8px 20px',
+                  }
+                }
               }}
             >
               <MenuItem onClick={() => handleNavigate("/profile")}>
@@ -84,9 +116,12 @@ export default function Hg() {
             </Menu>
           </div>
         </div>
-      </div>
+      </header>
 
-      <Outlet />
+      {/* Main Content */}
+      <main className="flex-1 mt-20 p-6">
+        <Outlet />
+      </main>
     </div>
   );
 }
