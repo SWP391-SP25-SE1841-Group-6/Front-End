@@ -146,6 +146,7 @@ export default function EditProfile(){
   }, []);
     return (
     <>
+      
       <CssBaseline enableColorScheme />
       <EditProfileContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">

@@ -1,18 +1,31 @@
+import axios from 'axios';
 
-import axios from "axios";
-const baseUrl = "http://localhost:5121/api/";
+const instance = axios.create({
+    baseURL: 'http://localhost:5121',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
 
-const config = {
-  baseURL: baseUrl,
-};
-const api = axios.create(config);
+// Thêm interceptor để xử lý lỗi
+instance.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response) {
+            // Xử lý response error
+            console.error('Response Error:', error.response.data);
+            if (error.response.status === 400) {
+                if (error.response.data.includes('duplicate')) {
+                    throw new Error('Câu trả lời đã tồn tại trong hệ thống');
+                }
+            }
+        } else if (error.request) {
+            // Xử lý request error
+            console.error('Request Error:', error.request);
+            throw new Error('Không thể kết nối đến server');
+        }
+        return Promise.reject(error);
+    }
+);
 
-const handleBefore = (config) => {
-  const token = localStorage.getItem("token")?.replaceAll('"', "");
-  config.headers["Authorization"] = `Bearer ${token}`;
-  return config;
-};
-
-api.interceptors.request.use(handleBefore);
-
-export default api;
+export default instance;

@@ -1,4 +1,3 @@
-import { Field, Form, Formik } from 'formik';
 import {
   Box,
   Flex,
@@ -19,44 +18,52 @@ import {
   Spacer,
   Square,
   Center,
+  VStack,
 } from '@chakra-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { faUser, faFontAwesome } from '@fortawesome/free-regular-svg-icons';
-import Accounts from './AccountsCRUD';
-import {Link} from "react-router-dom";
-const Links = ['Dashboard', 'Accounts' , 'test','Questions'];
 
-const NavLink = ({ children }) => (
-  
-  <Box
-    
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.500', 'gray.700'),
-      textColor: 'blue.700',
-    }}
-  >
-    
-    <Link to={children}>{children}</Link>
-  </Box>
-);
+import logo from '../../assets/images/logofinal.png';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faUser, faFontAwesome } from '@fortawesome/free-regular-svg-icons';
+
+import {Link} from "react-router-dom";
+const LinkNames = ['Dashboard', 'Accounts' ,'Questions','Tests'];
+const links = ['/adminDashboard','/Accounts','/Questions','/tests'];
+
 
 export default function AdminMenuBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const menuBg = useColorModeValue('white', 'gray.800');
+  const textColor = useColorModeValue('gray.700', 'gray.200');
 
+  
   return (
     <>
       <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"gray.100"}>
-        <Box>
-          <FontAwesomeIcon icon={faFontAwesome} size='4x' />
+        <Box
+          p={2}
+          borderWidth="3px"
+          borderColor="blue.700"
+          borderRadius="full"
+          overflow="hidden"
+          transition="transform 0.2s"
+          _hover={{
+            transform: "scale(1.05)",
+          }}
+        >
+          <img 
+            src={logo} 
+            alt="School Psychology Logo" 
+            className="w-36 h-36 object-contain rounded-full"
+          />
         </Box>
       </Flex>
       
-      <Box bg={useColorModeValue('gray.100', 'gray.900')}>
-        <Flex h={20} alignItems={'center'} justifyContent='space-evenly'>
-          <IconButton
+      <Box >
+        {/*<Flex h={20} alignItems={'center'} justifyContent='space-evenly'>
+         
+         <IconButton
             size={'sm'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={'Open Menu'}
@@ -64,48 +71,94 @@ export default function AdminMenuBar() {
             onClick={isOpen ? onClose : onOpen}
             
           />
-          {/*<HStack spacing={8} alignItems={'center'}>*/}
+          <HStack spacing={8} alignItems={'center'}>*/}
             
-            <Flex as={'nav'} bg='blue.700' maxH='100%' textAlign='center' px='30px' fontSize='xl' fontWeight='bold' textColor='white' >
-              {Links.map((link) => (
-                <Spacer>
+            <Flex as={'nav'} bg='blue.700' maxH='100%' textAlign='center' px='30px' fontSize='xl' fontWeight='bold' textColor='white' gap="4">
+              <Spacer>
+              <Box
+                rounded={'md'}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('gray.500', 'gray.700'),
+                  textColor: 'blue.700',
+                }}
+              >
+              <Link to="/admin">
+                <Button variant="ghost">Dashboard</Button>
+              </Link>
+              </Box>
+              </Spacer>
+              <Spacer>
+              <Box
+                rounded={'md'}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('gray.500', 'gray.700'),
+                  textColor: 'blue.700',
+                }}
+              >
+                <Link to="/admin/accounts">
+                  <Button variant="ghost">Accounts</Button>
+                </Link>
+              </Box>
+              </Spacer>
+              <Spacer>
+              <Box
+                rounded={'md'}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('gray.500', 'gray.700'),
+                  textColor: 'blue.700',
                   
-                  <NavLink key={link} >{link}</NavLink>
-                  
-                </Spacer>
+                }}
+              >
+                <Link to="/admin/questions">
+                  <Button size='md'>Questions</Button>
+                </Link>
+              </Box>
+              </Spacer>
+              <Spacer>
+              <Box
+                rounded={'md'}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('gray.500', 'gray.700'),
+                  textColor: 'blue.700',
+                }}
+              >
+                <Link to="/admin/tests">
+                  <Button variant="solid">Tests</Button>
+                </Link>
+              </Box>
+              </Spacer>
                
-              ))}
-              
-            
           {/*</HStack>*/}
-          
-         
-          <Menu placement='bottom-end'>
+          <Box>
+          <Menu >
+            <Center>
             <MenuButton
-              as={Button}
-              rounded={'full'}
-              variant={'link'}
-              cursor={'pointer'}
-              minW={0}
+              as={Button}        
             >
-            <Circle size="60px" bg="gray.700"  >
-              < FontAwesomeIcon icon={faUser} size='2x'/>
-            </Circle>
+              <Circle size="60px" bg="gray.700"  >
+                < FontAwesomeIcon icon={faUser} size='2x'/>
+              </Circle>
             </MenuButton>
+            </Center>
             <MenuList 
-            bg='gray.700'
-            outline={'full'}
-            >
+              bg='gray.700' borderColor='black' px={4} py={2}
+            > 
+              {localStorage.getItem('userEmail')}
+            
               <MenuItem >
-                <Link to='/test'>zProfile </Link>
+                <Link to='/test'>Profile </Link>
               </MenuItem>
-              <MenuItem>Settings</MenuItem>
               <MenuDivider/>
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem to='' >Sign out</MenuItem>
             </MenuList>
           </Menu>
+          </Box>
           </Flex>
-        </Flex>
+        
       </Box>
     </>
   );
