@@ -1,85 +1,98 @@
-// import { createContext, useState, useContext } from "react";
-
-// const AuthContext = createContext();
-
-// export function AuthProvider({ children }) {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//   const login = () => setIsAuthenticated(true);
-//   const logout = () => setIsAuthenticated(false);
-
-//   return (
-//     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// }
-
-// export const useAuth = () => useContext(AuthContext);
-
-import { createContext, useContext, useState, useEffect } from 'react';
-import {ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { createContext, useContext, useState } from 'react';
+import { toast } from "react-toastify";
 import axios from 'axios';
-
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  
-  
-  var email = String;
-  var password = String;
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = async (email , password) => {
-    
-    console.log('auth context: ' + email, password);
+  const getRoleBasedPath = (role) => {
+    switch(role) {
+      case 'Manager':
+        return '/admin';
+      case 'Student':
+        return '/studenthome';
+      case 'Psychologist':
+        return '/psychologist';
+      case 'Parent':
+        return '/parent';
+      default:
+        return '/';
+    }
+  };
+
+  const login = async (email, password) => {
     try {     
       const response = await axios.post(
-        'http://localhost:5121/api/Account/Login?email='+email+'&password='+password
+        `http://localhost:5121/api/Account/Login?email=${email}&password=${password}`
       );
       
-      console.log('message '+ response.data.message);
-      console.log('token ' + response.data.token);
-      console.log('id ' + response.data.user.id);
-      console.log('email ' + response.data.user.email);
-      console.log('user name ' + response.data.user.name);
-      console.log('role :' + response.data.user.role);
-      
-      if(response.data){
-      // Store the token in localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('id', response.data.user.id);
-      localStorage.setItem('name', response.data.user.name);
-      localStorage.setItem('email', response.data.user.email);
-      localStorage.setItem('role', response.data.user.role);
-      return true;
-      }
-      
+      if (response.data) {
+        // Store user data in localStorage
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.user.id);
+        localStorage.setItem('userName', response.data.user.name);
+        localStorage.setItem('userEmail', response.data.user.email);
+        localStorage.setItem('role', response.data.user.role);
 
-        toast.success("Login Success ! Welcome back " + localStorage.getItem('name'), {
-          position: "top-right"
-        });
-      
-      
+        setIsAuthenticated(true);
+
+        return { 
+          success: true, 
+          role: response.data.user.role,
+          redirectPath: getRoleBasedPath(response.data.user.role)
+        };
+      }
+      return { success: false };
 
     } catch (error) {
-      toast.error("Login Failed ! Please re-check your login credentials !" , {
-        position: "top-right"
-      });
-      console.error('Login error:', error);
-      return false;
+      if (error.response?.status === 401) {
+        toast.error("Invalid email or password", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.error("An error occurred during login. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      console.error('Login error:', error.response || error);
+      return { success: false };
     }
   };
 
   const logout = () => {
-    localStorage.clear(); // erase everything when
-    navigate("/")
+    const userRole = localStorage.getItem('role');
+    const redirectPath = getRoleBasedPath(userRole);
+    
+    localStorage.clear();
+    setIsAuthenticated(false);
+    
+    toast.info("Logged out successfully", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+    
+    window.location.href = redirectPath;
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout }}>
+    <AuthContext.Provider value={{ 
+      login, 
+      logout, 
+      isAuthenticated,
+      getRoleBasedPath
+    }}>
       {children}
     </AuthContext.Provider>
   );

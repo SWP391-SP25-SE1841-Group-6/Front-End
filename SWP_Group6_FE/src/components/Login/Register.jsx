@@ -115,68 +115,97 @@ export default function Register() {
   return (
     <ChakraBaseProvider>
       <Flex
-        flexDirection="column"
-        width="100wh"
+        width="100vw"
         height="100vh"
-        backgroundColor="gray.200"
-        justifyContent="center"
         alignItems="center"
+        justifyContent="center"
+        bgGradient="linear(to-r, blue.400, blue.600)"
       >
         <Stack
           flexDir="column"
           mb="2"
           justifyContent="center"
           alignItems="center"
+          spacing={8}
         >
-          <Circle size="100px" bg="blue.700" color="white" mb={4}>
-            <FontAwesomeIcon icon={faUser} size="3x" />
+          <Box textAlign="center" color="white">
+            <Heading size="xl" mb={2}>Create Account</Heading>
+            <Text fontSize="lg" fontWeight="normal">Join our community today</Text>
+          </Box>
+
+          <Circle 
+            size="120px" 
+            bg="white" 
+            shadow="lg"
+            transition="all 0.3s"
+            _hover={{ transform: 'scale(1.05)' }}
+          >
+            <FontAwesomeIcon icon={faUser} size="3x" color="#2B6CB0" />
           </Circle>
-          
-          <Heading color="blue.700" mb={6}>Register Account</Heading>
-          
+
           <Box
-            minW={{ base: "90%", md: "468px" }}
-            borderWidth={1}
-            borderRadius={8}
-            boxShadow="lg"
-            p={8}
+            w={{ base: "90%", md: "500px" }}
             bg="white"
+            borderRadius="xl"
+            p={8}
+            shadow="2xl"
+            transition="all 0.3s"
+            _hover={{ transform: 'translateY(-2px)', shadow: 'dark-lg' }}
           >
             <form onSubmit={handleSubmit}>
-              <Stack spacing={4}>
+              <Stack spacing={6}>
                 <FormControl isInvalid={errors.accEmail}>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel fontWeight="medium">Email</FormLabel>
                   <Input
                     type="email"
                     value={formData.accEmail}
                     onChange={(e) => setFormData({...formData, accEmail: e.target.value})}
                     placeholder="Enter your email"
+                    size="lg"
+                    borderRadius="md"
+                    bg="gray.50"
+                    _hover={{ bg: 'gray.100' }}
+                    _focus={{ bg: 'white', borderColor: 'blue.400', shadow: 'outline' }}
                   />
                   <FormErrorMessage>{errors.accEmail}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={errors.accName}>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel fontWeight="medium">Username</FormLabel>
                   <Input
                     type="text"
                     value={formData.accName}
                     onChange={(e) => setFormData({...formData, accName: e.target.value})}
                     placeholder="Enter your username"
+                    size="lg"
+                    borderRadius="md"
+                    bg="gray.50"
+                    _hover={{ bg: 'gray.100' }}
+                    _focus={{ bg: 'white', borderColor: 'blue.400', shadow: 'outline' }}
                   />
                   <FormErrorMessage>{errors.accName}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={errors.accPass}>
-                  <FormLabel>Password</FormLabel>
-                  <InputGroup>
+                  <FormLabel fontWeight="medium">Password</FormLabel>
+                  <InputGroup size="lg">
                     <Input
                       type={showPassword ? "text" : "password"}
                       value={formData.accPass}
                       onChange={(e) => setFormData({...formData, accPass: e.target.value})}
                       placeholder="Enter your password"
+                      borderRadius="md"
+                      bg="gray.50"
+                      _hover={{ bg: 'gray.100' }}
+                      _focus={{ bg: 'white', borderColor: 'blue.400', shadow: 'outline' }}
                     />
                     <InputRightElement width="4.5rem">
-                      <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
+                      <Button
+                        size="sm"
+                        onClick={() => setShowPassword(!showPassword)}
+                        variant="ghost"
+                        _hover={{ bg: 'transparent' }}
+                      >
                         {showPassword ? "Hide" : "Show"}
                       </Button>
                     </InputRightElement>
@@ -185,52 +214,53 @@ export default function Register() {
                 </FormControl>
 
                 <FormControl isInvalid={errors.dob}>
-                  <FormLabel>Date of Birth</FormLabel>
+                  <FormLabel fontWeight="medium">Date of Birth</FormLabel>
                   <Input
                     type="date"
                     value={formData.dob}
                     onChange={(e) => setFormData({...formData, dob: e.target.value})}
+                    size="lg"
+                    borderRadius="md"
+                    bg="gray.50"
+                    _hover={{ bg: 'gray.100' }}
+                    _focus={{ bg: 'white', borderColor: 'blue.400', shadow: 'outline' }}
                   />
                   <FormErrorMessage>{errors.dob}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel fontWeight="medium">Gender</FormLabel>
                   <RadioGroup
                     value={formData.gender.toString()}
                     onChange={(value) => setFormData({...formData, gender: value === 'true'})}
                   >
-                    <Stack direction="row" spacing={5}>
-                      <Radio value="true" colorScheme="blue">
-                        <Text color="gray.700">Male</Text>
-                      </Radio>
-                      <Radio value="false" colorScheme="pink">
-                        <Text color="gray.700">Female</Text>
-                      </Radio>
+                    <Stack direction="row" spacing={8}>
+                      <Radio value="true" colorScheme="blue" size="lg">Male</Radio>
+                      <Radio value="false" colorScheme="pink" size="lg">Female</Radio>
                     </Stack>
                   </RadioGroup>
                 </FormControl>
 
                 <FormControl isInvalid={errors.role}>
-                  <FormLabel>Select Role</FormLabel>
-                  <Stack direction="row" spacing={4} justify="center">
+                  <FormLabel fontWeight="medium">Select Role</FormLabel>
+                  <Stack direction="row" spacing={4}>
                     <Button
                       flex={1}
-                      h="50px"
+                      size="lg"
                       colorScheme={formData.role === 'Student' ? 'blue' : 'gray'}
-                      variant={formData.role === 'Student' ? 'solid' : 'outline'}
                       onClick={() => setFormData({...formData, role: 'Student'})}
-                      _hover={{ bg: formData.role === 'Student' ? 'blue.500' : 'blue.50' }}
+                      _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
+                      transition="all 0.2s"
                     >
                       Student
                     </Button>
                     <Button
                       flex={1}
-                      h="50px"
+                      size="lg"
                       colorScheme={formData.role === 'Parent' ? 'blue' : 'gray'}
-                      variant={formData.role === 'Parent' ? 'solid' : 'outline'}
                       onClick={() => setFormData({...formData, role: 'Parent'})}
-                      _hover={{ bg: formData.role === 'Parent' ? 'blue.500' : 'blue.50' }}
+                      _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
+                      transition="all 0.2s"
                     >
                       Parent
                     </Button>
@@ -240,23 +270,29 @@ export default function Register() {
 
                 <Button
                   type="submit"
-                  bg="blue.700"
-                  color="white"
-                  width="full"
-                  _hover={{
-                    bg: "blue.500",
-                  }}
+                  colorScheme="blue"
+                  size="lg"
+                  fontSize="md"
+                  w="100%"
+                  mt={4}
+                  shadow="md"
+                  _hover={{ transform: 'translateY(-2px)', shadow: 'lg' }}
                 >
-                  Register
+                  Create Account
                 </Button>
 
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate("/login")}
-                  width="full"
-                >
-                  Already have an account? Login
-                </Button>
+                <Flex direction="column" align="center" mt={4}>
+                  <Text color="gray.600" mb={2}>Already have an account?</Text>
+                  <Button
+                    variant="outline"
+                    colorScheme="blue"
+                    w="100%"
+                    onClick={() => navigate("/login")}
+                    _hover={{ bg: 'blue.50' }}
+                  >
+                    Sign In
+                  </Button>
+                </Flex>
               </Stack>
             </form>
           </Box>

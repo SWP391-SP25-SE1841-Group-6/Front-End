@@ -252,7 +252,7 @@ const AdminDashboard = () => {
             </Card>
 
             {/* Assigning Parents Card */}
-            <Card 
+            {/*<Card 
               variant='elevated' 
               bg='white' 
               shadow="xl" 
@@ -268,7 +268,7 @@ const AdminDashboard = () => {
               <CardBody p={6}>
                 <VStack align="stretch" spacing={4}>
                   <Text fontSize="lg" fontWeight="medium">
-                    Pending assignments: {/* Add count here */}
+                    Pending assignments: {/* Add count here 
                   </Text>
                   <Accordion allowToggle>
                     <AccordionItem border="none">
@@ -341,7 +341,7 @@ const AdminDashboard = () => {
                   </Accordion>
                 </VStack>
               </CardBody>
-            </Card>
+            </Card>*/}
           </SimpleGrid>
         </Box>
       </Container>

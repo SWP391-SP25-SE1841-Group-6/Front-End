@@ -1,48 +1,18 @@
 import React from 'react';
-import { Navigate, Outlet} from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../Auth/AuthContext';
 
+const ProtectedRoute = ({ allowedRoles }) => {
+  const { isAuthenticated } = useAuth();
+  const userRole = localStorage.getItem('role');
 
-{/*
-const ProtectedRoute = ({ children, ...rest }) => {
- let auth = localStorage.getItem('token');
- const Roles = ['Manager', 'Psychologist', 'Student'];
- let role = localStorage.getItem('role');
+  // Not authenticated or wrong role, redirect to homepage
+  if (!isAuthenticated || !allowedRoles.includes(userRole)) {
+    return <Navigate to="/" replace />;
+  }
 
- {/*
- if (!auth){
-  return <Navigate to="/login" />;
- }else if(role === 'Manager'){
-  return <Navigate to="/admin" />;
- }else if(role === 'Psychologist'){
-  return <Navigate to="/psychologist" />;
- }else if(role === 'Student'){
-  return <Navigate to="/studenthome" />;
- }
- 
-  return (   
-       auth ? <Outlet /> : <Navigate to="/login" />
-  );
-};*/}
-
-
-const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
-    const auth = localStorage.getItem('token');
-  
-    return (
-      <Route {...rest} render={(props) => {
-        if (!user) {
-          return <Redirect to='/login' />;
-        }
-  
-        if (roles && !roles.includes(user.role)) {
-          return <Redirect to='/' />;
-        }
-  
-        return <Component {...props} />;
-      }} />
-    );
-  };
-  
+  // Authenticated and correct role, show route content
+  return <Outlet />;
+};
 
 export default ProtectedRoute;

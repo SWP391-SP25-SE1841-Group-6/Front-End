@@ -1,9 +1,8 @@
 import { Avatar, Menu, MenuItem } from "@mui/material";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-// Đường dẫn tương đối phù hợp với Vite
+// Relative path appropriate for Vite
 import { useState } from "react";
 import { useAuth } from "../Auth/AuthContext";
-
 
 export default function Hg() {
   const { logout } = useAuth();
@@ -33,41 +32,41 @@ export default function Hg() {
   console.log("role: " + localStorage.getItem("role"));
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-blue-100 shadow-md py-4 px-6 fixed top-0 w-full z-50">
+      <header className="bg-blue-100 shadow-md py-4 px-6 fixed top-0 w-full ">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Navigation Links */}
-          <nav className="flex items-center space-x-8">
+          <nav className="flex items-center space-x-12 w-full px-8">
             <Link 
-              to="/studenthome" 
+              to="/" 
               className="text-lg font-bold text-black hover:text-blue-600 transition-colors"
             >
-              Trang chủ
+              Home
             </Link>
 
             <Link 
               to="/studenthome/tailieu" 
               className="text-lg font-bold text-black hover:text-blue-600 transition-colors"
             >
-              Lịch sử
+              History
             </Link>
 
             <Link 
               to="/studenthome/tailieu" 
               className="text-lg font-bold text-black hover:text-blue-600 transition-colors"
             >
-              Tài liệu
+              Resources
             </Link>
 
             <Link 
               to="/studenthome/tailieu" 
               className="px-6 py-2 border-2 border-blue-900 text-black font-bold hover:bg-blue-900 hover:text-white transition-all rounded-md"
             >
-              Hướng dẫn sử dụng
+              User Guide
             </Link>
           </nav>
 
           {/* User Menu */}
-          <div className="relative">
+          <div className="relative px-8">
             <Avatar
               alt="User Avatar"
               src="https://via.placeholder.com/40"
@@ -104,15 +103,15 @@ export default function Hg() {
               }}
             >
               <MenuItem onClick={() => handleNavigate("/profile")}>
-                Hồ Sơ
+                Profile
               </MenuItem>
               <MenuItem onClick={() => handleNavigate("/timetable")}>
-                Thời Khóa Biểu
+                Schedule
               </MenuItem>
               <MenuItem onClick={() => handleNavigate("/program")}>
-                Chương Trình
+                Program
               </MenuItem>
-              <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
         </div>

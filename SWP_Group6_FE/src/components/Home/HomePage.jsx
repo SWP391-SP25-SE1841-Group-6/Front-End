@@ -32,15 +32,16 @@ export default function Hg() {
   };
 
   return (
-    <div>
+     <div className="flex flex-col min-h-screen">
       <AppBar
         component="nav"
-        position="static"
+        position="fixed" // Change from static to fixed
         style={{
           height: 80, // Reduced from 90
           padding: 16, // Reduced from 20
           margin: 1,
           backgroundColor: "#006699",
+          zIndex: 1000, // Add z-index to ensure header stays on top
         }}
       >
         <Toolbar>
@@ -56,7 +57,7 @@ export default function Hg() {
             <div className="flex justify-between pr-90 gap-6"> {/* Reduced gap from 8 */}         
               <Button
                 component={Link}
-                to="/home"
+                to="/"
                 sx={{ color: "#fff" }}
                 style={{ fontSize: 18 }} // Reduced from 25
               >
@@ -103,6 +104,7 @@ export default function Hg() {
                       }
                     }}
                   >
+                    <MenuItem onClick={() => handleNavigate("/studenthome")} style={{ fontSize: '14px' }}>Dashboard</MenuItem>
                     <MenuItem onClick={() => handleNavigate("/profile")} style={{ fontSize: '14px' }}>Profile</MenuItem>
                     <MenuItem onClick={() => handleNavigate("/timetable")} style={{ fontSize: '14px' }}>Schedule</MenuItem>
                     <MenuItem onClick={() => handleNavigate("/program")} style={{ fontSize: '14px' }}>Program</MenuItem>
@@ -123,7 +125,13 @@ export default function Hg() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Outlet /> 
+
+      {/* Add a toolbar placeholder to prevent content from hiding under AppBar */}
+      <div style={{ height: '80px' }} /> {/* Same height as AppBar */}
+      
+      <main className="flex-1">
+        <Outlet />
+      </main>
     </div>
   );
 }

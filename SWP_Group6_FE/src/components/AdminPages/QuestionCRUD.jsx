@@ -30,7 +30,11 @@ import {
   TableContainer,
   Badge,
   useToast,
+  HStack,
+  Icon,
 } from '@chakra-ui/react';
+
+import { AddIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import AdminMenuBar from './AdminMenuBar';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
@@ -40,12 +44,8 @@ export default function QuestionCRUD(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const toast = useToast();
-    const [accEmail, setAccEmail] = useState('');
-    const [accPass, setAccPass] = useState('');
-    const [accName, setAccName] = useState('');
-    const [role, setRole] = useState('');
-    const [dob, setDob] = useState('');
-    const [gender, setGender] = useState('');
+   
+    const [questionTypes, setQuestionTypes] = useState([]);
 
     const [formData, setFormData] = useState({
         questionId: 0,
@@ -75,54 +75,83 @@ export default function QuestionCRUD(){
         }
     };
 
+    const fetchQuestionTypes = async () => {
+        try {
+            const response = await axios.get("http://localhost:5121/api/QuestionType");
+            const typesData = response.data.data;
+            console.log("Question Types:", typesData);
+            setQuestionTypes(typesData);
+        } catch (error) {
+            console.error("Error fetching question types:", error);
+            toast({
+                title: 'Error',
+                description: 'Failed to load question types',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
+
     const handleInputChange = (e) => {
-        
+        const { name, value, qtypeId } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+            ...(qtypeId && name === 'qtype' ? { qtypeId } : {})
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
         
-
-        let data = {
-            accName: formData.accName,
-            accPass: formData.accPass,
-            accEmail: formData.accEmail,
-            dob: formData.dob,
-            gender: formData.gender,
-            role: formData.role,
+        // Validate required fields
+        if (!formData.question1 || !formData.qtypeId) {
+            toast({
+                title: 'Error',
+                description: 'Please fill in all required fields',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
         }
 
-        console.log('data' + data);
-        try {
-            const response = await axios.post('http://localhost:5121/api/Account', 
-               data,
-            );
+        // Prepare data for API call
+        const data = {
+            question1: formData.question1,
+            qtypeId: formData.qtypeId
+        };
 
-            console.log(response.data);
+        try {
+            const response = await axios.post('http://localhost:5121/api/Question', data);
+
             if (response.data) {
                 toast({
                     title: 'Success',
-                    description: 'Account created successfully',
+                    description: 'Question created successfully',
                     status: 'success',
                     duration: 3000,
                     isClosable: true,
                 });
+                
+                // Reset form
                 setFormData({
-                    accName: '',
-                    accEmail: '',
-                    accPass: '',
-                   
-                    role: 'Student',
-                    dob: '',
-                    gender: 'true'
+                    questionId: 0,
+                    qtypeId: 0,
+                    question1: '',
+                    isDeleted: false,
+                    qtype: ''
                 });
+                
+                // Refresh questions list
                 fetchQuestions();
             }
         } catch (error) {
+            console.error('Error creating question:', error);
             toast({
                 title: 'Error',
-                description: error.response?.data?.message || 'Failed to create account',
+                description: error.response?.data?.message || 'Failed to create question',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -132,7 +161,7 @@ export default function QuestionCRUD(){
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete('http://localhost:5121/api/Account?id='+id);
+            const response = await axios.delete('http://localhost:5121/api/Question?id='+id);
             fetchQuestions();
             console.log(id);
         } catch (error) {
@@ -143,6 +172,7 @@ export default function QuestionCRUD(){
     
     useEffect(() => {
         fetchQuestions();
+        fetchQuestionTypes();
     }, []);
 
     if (loading) return <div>Loading...</div>;
@@ -161,119 +191,114 @@ export default function QuestionCRUD(){
                             <Accordion allowToggle>
                             <AccordionItem>
                                 <h5>
-                                <AccordionButton bg='blue.700' textColor='white'>
-                                    <Box as='span' flex='1' textAlign='left'>
-                                     Add to Question Bank
-                                    </Box>
-                                    <AccordionIcon />
-                                </AccordionButton>
-                                </h5>
-                                <AccordionPanel pb={4} bg='blue.700' textColor='white' pt={4} px={4} >
-                                    <Box as="form" onSubmit={handleSubmit} 
-                                     sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        flexWrap: 'wrap',
-                                        width: '100%',
-                                        gap: 2,
-                                      }}
+                                    <AccordionButton
+                                        bg='blue.700'
+                                        textColor='white'
+                                        _hover={{
+                                            bg: 'blue.600',
+                                            transform: 'translateY(-2px)',
+                                            shadow: 'lg'
+                                        }}
+                                        _expanded={{
+                                            bg: 'blue.800',
+                                            transform: 'translateY(0)',
+                                        }}
+                                        transition="all 0.2s"
+                                        borderRadius="lg"
+                                        py={4}
+                                        px={6}
                                     >
-                                      
-                                                <FormControl isRequired isInvalid={!!formErrors.questionId}>
-                                                    <FormLabel>Question ID</FormLabel>
-                                                    <Input
-                                                        name="questionId"
-                                                        type="number"
-                                                        value={formData.questionId}
-                                                        onChange={handleInputChange}
-                                                        placeholder="Enter question ID"
-                                                        width="100px"
-                                                    />
-                                                    <FormErrorMessage>{formErrors.questionId}</FormErrorMessage>
-                                                </FormControl>
-    
-                                                <FormControl isRequired isInvalid={!!formErrors.qtypeId}>
-                                                    <FormLabel>Question Type ID</FormLabel>
-                                                    <Input
-                                                        name="qtypeId"
-                                                        type="number"
-                                                        value={formData.qtypeId}
-                                                        onChange={handleInputChange}
-                                                        placeholder="Enter question type ID"
-                                                        width="100px"
-                                                    />
-                                                    <FormErrorMessage>{formErrors.qtypeId}</FormErrorMessage>
-                                                </FormControl>
-                                            
-                                                <FormControl isRequired isInvalid={!!formErrors.question1}>
-                                                    <FormLabel>Question</FormLabel>
-                                                    <Input
-                                                        name="question1"
-                                                        value={formData.question1}
-                                                        onChange={handleInputChange}
-                                                        placeholder="Enter question"
-                                                        width="100px"
-                                                    />
-                                                    <FormErrorMessage>{formErrors.question1}</FormErrorMessage>
-                                                </FormControl>
-    
-                                                <FormControl isRequired>
-                                                    <FormLabel>Question Type</FormLabel>
-                                                    <ButtonGroup size='sm' isAttached variant='outline'>
-                                                        <Button
-                                                            onClick={() => handleInputChange({
-                                                                target: { name: 'qtype', value: 'Cognitive' }
-                                                            })}
-                                                            colorScheme={formData.qtype === 'Cognitive' ? 'green' : 'gray'}
-                                                            width="100px"
-                                                        >
-                                                            Cognitive
-                                                        </Button>
-                                                        <Button
-                                                            onClick={() => handleInputChange({
-                                                                target: { name: 'qtype', value: 'Social' }
-                                                            })}
-                                                            colorScheme={formData.qtype === 'Social' ? 'purple' : 'gray'}
-                                                            width="100px"
-                                                        >
-                                                            Social
-                                                        </Button>
-                                                        <Button
-                                                            onClick={() => handleInputChange({
-                                                                target: { name: 'qtype', value: 'Emotional' }
-                                                            })}
-                                                            colorScheme={formData.qtype === 'Emotional' ? 'blue' : 'gray'}
-                                                            width="100px"
-                                                        >
-                                                            Emotional
-                                                        </Button>
-                                                    </ButtonGroup>
-                                                </FormControl>
-    
-                                                <FormControl>
-                                                    <FormLabel>Is Deleted</FormLabel>
-                                                    <RadioGroup
-                                                        value={formData.isDeleted.toString()}
-                                                        onChange={(value) => handleInputChange({
-                                                            target: { name: 'isDeleted', value: value === 'true' }
-                                                        })}
-                                                    >
-                                                        <Stack direction="row">
-                                                            <Radio value="true">Yes</Radio>
-                                                            <Radio value="false">No</Radio>
-                                                        </Stack>
-                                                    </RadioGroup>
-                                                </FormControl>
-    
-                                            <Button
-                                                mt={4}
-                                                colorScheme="blue"
-                                                type="submit"
-                                                width="full"
-                                            >
-                                                Create Question
-                                            </Button>
+                                        <HStack flex='1' spacing={3}>
+                                            <Icon as={AddIcon} w={5} h={5} />
+                                            <Box as='span' textAlign='left' fontSize="lg" fontWeight="bold">
+                                                Add to Question Bank
+                                            </Box>
+                                        </HStack>
+                                        <AccordionIcon w={6} h={6} />
+                                    </AccordionButton>
+                                </h5>
+                                <AccordionPanel 
+                                    pb={6} 
+                                    bg='white' 
+                                    borderRadius="lg"
+                                    mt={2}
+                                    shadow="lg"
+                                >
+                                    <Box 
+                                        as="form" 
+                                        onSubmit={handleSubmit} 
+                                        sx={{
+                                            display: 'grid',
+                                            gridTemplateColumns: 'repeat(2, 1fr)',
+                                            gap: 6,
+                                            p: 4
+                                        }}
+                                    >
                                         
+
+                                        
+
+                                        <FormControl isRequired isInvalid={!!formErrors.question1} gridColumn="span 2">
+                                            <FormLabel fontWeight="medium">Question</FormLabel>
+                                            <Input
+                                                name="question1"
+                                                value={formData.question1}
+                                                onChange={handleInputChange}
+                                                placeholder="Enter your question here"
+                                                bg="white"
+                                                borderColor="gray.300"
+                                                _hover={{ borderColor: 'blue.400' }}
+                                                _focus={{ borderColor: 'blue.500', shadow: 'outline' }}
+                                            />
+                                            <FormErrorMessage>{formErrors.question1}</FormErrorMessage>
+                                        </FormControl>
+
+                                        <FormControl isRequired gridColumn="span 2">
+                                            <FormLabel fontWeight="medium">Question Type</FormLabel>
+                                            <RadioGroup
+                                                value={formData.qtype}
+                                                onChange={(value) => handleInputChange({
+                                                    target: {
+                                                        name: 'qtype',
+                                                        value: value,
+                                                        qtypeId: questionTypes.find(t => t.qtype === value)?.qtypeId
+                                                    }
+                                                })}
+                                            >
+                                                <Stack direction="row" spacing={8} justify="center">
+                                                    {questionTypes.map((type) => (
+                                                        <Radio
+                                                            key={type.qtypeId}
+                                                            value={type.qtype}
+                                                            colorScheme={
+                                                                type.qtype === 'Cognitive' ? 'green' :
+                                                                type.qtype === 'Social' ? 'purple' :
+                                                                type.qtype === 'Emotional' ? 'blue' : 'gray'
+                                                            }
+                                                            size="lg"
+                                                        >
+                                                            {type.qtype}
+                                                        </Radio>
+                                                    ))}
+                                                </Stack>
+                                            </RadioGroup>
+                                            <FormErrorMessage>{formErrors.qtype}</FormErrorMessage>
+                                        </FormControl>
+
+                                        
+                                    
+
+                                        <Button
+                                            gridColumn="span 2"
+                                            mt={6}
+                                            colorScheme="blue"
+                                            type="submit"
+                                            size="lg"
+                                            _hover={{ transform: 'translateY(-2px)' }}
+                                            transition="all 0.2s"
+                                        >
+                                            Create Question
+                                        </Button>
                                     </Box>
                                 </AccordionPanel>
                             </AccordionItem>

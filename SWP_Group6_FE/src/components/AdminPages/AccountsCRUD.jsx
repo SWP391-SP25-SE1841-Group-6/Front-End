@@ -47,12 +47,7 @@ export default function Accounts() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const toast = useToast();
-    const [accEmail, setAccEmail] = useState('');
-    const [accPass, setAccPass] = useState('');
-    const [accName, setAccName] = useState('');
-    const [role, setRole] = useState('');
-    const [dob, setDob] = useState('');
-
+    
     const [formData, setFormData] = useState({
         accName: '',
         accEmail: '',
@@ -99,53 +94,70 @@ export default function Accounts() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
-        
+    if (!validateForm()) return;
 
-        let data = {
+    try {
+        // Convert gender string to boolean
+        const genderBoolean = formData.gender === 'true';
+        
+        // Prepare data object
+        const data = {
             accName: formData.accName,
             accPass: formData.accPass,
             accEmail: formData.accEmail,
             dob: formData.dob,
-            gender: formData.gender,
+            gender: genderBoolean,
             role: formData.role,
-        }
+            isApproved: false // Default to false for new accounts
+        };
 
-        console.log('data' + data);
-        try {
-            const response = await axios.post('http://localhost:5121/api/Account', 
-               data,
-            );
+        console.log('Submitting data:', data);
 
-            console.log(response.data);
-            if (response.data) {
-                toast({
-                    title: 'Success',
-                    description: 'Account created successfully',
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                });
-                setFormData({
-                    accName: '',
-                    accEmail: '',
-                    accPass: '',
-                   
-                    role: 'Student',
-                    dob: '',
-                    gender: 'true'
-                });
-                fetchAccounts();
+        const response = await axios.post(
+            'http://localhost:5121/api/Account', 
+            data,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
-        } catch (error) {
+        );
+
+        if (response.data) {
             toast({
-                title: 'Error',
-                description: error.response?.data?.message || 'Failed to create account',
-                status: 'error',
+                title: 'Account Created',
+                description: 'New account has been created successfully',
+                status: 'success',
                 duration: 3000,
                 isClosable: true,
+                position: 'top-right'
             });
+
+            // Reset form
+            setFormData({
+                accName: '',
+                accEmail: '',
+                accPass: '',
+                role: 'Student',
+                dob: '',
+                gender: 'true'
+            });
+            
+            // Refresh accounts list
+            fetchAccounts();
         }
+    } catch (error) {
+        console.error('Error creating account:', error);
+        
+        toast({
+            title: 'Error',
+            description: error.response?.data?.message || 'Failed to create account',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right'
+        });
+    }
     };
 
     const handleDelete = async (id) => {
@@ -226,7 +238,7 @@ export default function Accounts() {
                                         <FormLabel fontWeight="medium">Name</FormLabel>
                                         <Input
                                             name="accName"
-                                            value={accName}
+                                            value={formData.accName}
                                             onChange={handleInputChange}
                                             placeholder="Enter full name"
                                             bg="white"
@@ -242,7 +254,7 @@ export default function Accounts() {
                                         <Input
                                             name="accEmail"
                                             type="email"
-                                            value={accEmail}
+                                            value={formData.accEmail}
                                             onChange={handleInputChange}
                                             placeholder="Enter email"
                                             bg="white"
@@ -258,7 +270,7 @@ export default function Accounts() {
                                         <Input
                                             name="accPass"
                                             type="password"
-                                            value={accPass}
+                                            value={formData.accPass}
                                             onChange={handleInputChange}
                                             placeholder="Enter password"
                                             bg="white"
@@ -274,7 +286,7 @@ export default function Accounts() {
                                         <Input
                                             name="dob"
                                             type="date"
-                                            value={dob}
+                                            value={formData.dob}
                                             onChange={handleInputChange}
                                             bg="white"
                                             borderColor="gray.300"

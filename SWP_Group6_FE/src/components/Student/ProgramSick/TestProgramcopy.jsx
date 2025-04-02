@@ -94,10 +94,10 @@ const TestProgramcp = () => {
         
         if (testQuestions.length > 0) {
           setQuestions(testQuestions);
-          setTestName(latestTest.testName || `Bài test tâm lý học đường - ${new Date().toLocaleDateString()}`);
+          setTestName(latestTest.testName || `School Psychology Test - ${new Date().toLocaleDateString()}`);
         } else {
           setQuestions([]);
-          setError("Không tìm thấy câu hỏi nào cho bài test này.");
+          setError("No questions found for this test.");
         }
         
         setLoading(false);
@@ -106,7 +106,7 @@ const TestProgramcp = () => {
       }
     } catch (error) {
       console.error("Error fetching test:", error);
-      setError("Không thể tải thông tin bài test. Vui lòng thử lại.");
+      setError("Unable to load test information. Please try again.");
       setLoading(false);
     }
   };
@@ -121,7 +121,7 @@ const TestProgramcp = () => {
 
   const handleSubmit = async () => {
     if (questions.some(q => q.rating === 0)) {
-      setError("Vui lòng đánh giá tất cả các câu hỏi!");
+      setError("Please rate all questions!");
       return;
     }
 
@@ -232,11 +232,11 @@ const TestProgramcp = () => {
         data: response.data
       });
 
-      alert("Bài test đã được lưu thành công!");
+      alert("Test has been saved successfully!");
       
       // Reset form and navigate
       setQuestions(questions.map(q => ({ ...q, rating: 0 })));
-      setTestName(`Bài test tâm lý học đường - ${new Date().toLocaleDateString()}`);
+      setTestName(`School Psychology Test - ${new Date().toLocaleDateString()}`);
       
       // Navigate to the test history page
       navigate('/studenthome/test-history');
@@ -252,14 +252,14 @@ const TestProgramcp = () => {
       });
 
       if (err.response?.status === 401) {
-        setError("Lỗi xác thực. Vui lòng đăng nhập lại.");
+        setError("Authentication error. Please login again.");
       } else if (err.message.includes("Invalid")) {
         setError(err.message);
       } else {
         setError(
           err.response?.data?.message || 
           err.message || 
-          "Có lỗi xảy ra khi lưu bài test. Vui lòng thử lại."
+          "An error occurred while saving the test. Please try again."
         );
       }
     } finally {
@@ -291,7 +291,7 @@ const TestProgramcp = () => {
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
-            Thử lại
+            Try Again
           </button>
         </div>
       </div>
@@ -304,7 +304,7 @@ const TestProgramcp = () => {
       
       {questions.length === 0 ? (
         <div className="text-center text-gray-600">
-          <p>Không có câu hỏi nào cho bài test này.</p>
+          <p>No questions available for this test.</p>
         </div>
       ) : (
         <div className="space-y-8">
@@ -367,10 +367,10 @@ const TestProgramcp = () => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Đang gửi...
+              Sending...
             </span>
           ) : (
-            'Gửi đánh giá'
+            'Submit Rating'
           )}
         </button>
       </div>

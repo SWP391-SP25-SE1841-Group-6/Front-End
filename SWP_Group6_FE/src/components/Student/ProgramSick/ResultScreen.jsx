@@ -43,7 +43,7 @@ export default function ResultScreen() {
       const testResultsArray = response.data.data || [];
       
       if (testResultsArray.length === 0) {
-        setError('Không tìm thấy kết quả bài test nào.');
+        setError('No test results found.');
         setLoading(false);
         return;
       }
@@ -78,7 +78,7 @@ export default function ResultScreen() {
       setLoading(false);
     } catch (err) {
       console.error('Error fetching test results:', err);
-      setError('Không thể tải kết quả bài test. Vui lòng thử lại sau.');
+      setError('Unable to load test results. Please try again later.');
       setLoading(false);
     }
   };
@@ -136,7 +136,7 @@ export default function ResultScreen() {
     const chartData = {
       labels,
       datasets: [{
-        label: 'Điểm số theo loại',
+        label: 'Scores by Type',
         data: scores,
         backgroundColor: colors,
         borderColor: borderColors,
@@ -149,6 +149,29 @@ export default function ResultScreen() {
     return chartData;
   };
 
+  const getQtypeComment = (qtype, score) => {
+    const comments = {
+      Depression: {
+        low: "You show signs of depression, please talk to your parents/friends ",
+        good: "You really enjoy life !"
+      },
+      Antisocial: {
+        low: "Your social interaction skills need development. Try to engage more in group activities.",
+        good: "You demonstrate healthy social awareness and interpersonal skills."
+      },
+      Mental: {
+        low: "Your emotional management needs attention. Consider practicing mindfulness and emotional awareness.",
+        good: "You show good emotional balance and self-awareness."
+      },
+      Anxiety: {
+        low: "You show signs of anxiety",
+        good: "You're carefree "
+      }
+    };
+  
+    return comments[qtype]?.[score < 3 ? 'low' : 'good'] || "No specific assessment available.";
+  };
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -158,7 +181,7 @@ export default function ResultScreen() {
       },
       title: {
         display: true,
-        text: 'Kết quả đánh giá theo loại câu hỏi',
+        text: 'Assessment Results by Question Type',
         font: {
           size: 16,
           weight: 'bold'
@@ -167,7 +190,7 @@ export default function ResultScreen() {
       },
       tooltip: {
         callbacks: {
-          label: (context) => `Điểm số: ${context.raw.toFixed(1)}`
+          label: (context) => `Score: ${context.raw.toFixed(1)}`
         }
       }
     },
@@ -183,7 +206,7 @@ export default function ResultScreen() {
         },
         title: {
           display: true,
-          text: 'Điểm số',
+          text: 'Score',
           font: {
             size: 14,
             weight: 'bold'
@@ -198,7 +221,7 @@ export default function ResultScreen() {
         },
         title: {
           display: true,
-          text: 'Loại câu hỏi',
+          text: 'Question Type',
           font: {
             size: 14,
             weight: 'bold'
@@ -225,7 +248,7 @@ export default function ResultScreen() {
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
-            Thử lại
+            Try Again
           </button>
         </div>
       </div>
@@ -240,7 +263,7 @@ export default function ResultScreen() {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-800">
-            Kết quả đánh giá tâm lý học đường
+            School Psychology Assessment Results
           </h1>
         </div>
 
@@ -248,12 +271,12 @@ export default function ResultScreen() {
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="p-8 text-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Điểm số tổng quát
+              Overall Score
             </h2>
             <div className="text-5xl font-bold text-red-500 mb-2">
               {testResults?.score?.toFixed(1) || "0.0"}
             </div>
-            <p className="text-gray-600">trên thang điểm 5.0</p>
+            <p className="text-gray-600">out of 5.0</p>
           </div>
         </div>
 
@@ -270,18 +293,39 @@ export default function ResultScreen() {
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="p-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-              Nhận xét và đề xuất
+              Detailed Analysis and Recommendations
             </h2>
             <div className="space-y-6">
-              <p className="text-gray-700 text-lg">
-                Dựa trên kết quả đánh giá, bạn có xu hướng tích cực trong các khía cạnh tâm lý và giao tiếp.
-                Tuy nhiên, có một số điểm cần lưu ý:
-              </p>
-              <ul className="space-y-4 text-gray-700 list-disc list-inside">
-                <li className="text-lg">Cần tăng cường khả năng học tập và tập trung</li>
-                <li className="text-lg">Phát triển thêm kỹ năng xã hội và làm việc nhóm</li>
-                <li className="text-lg">Duy trì sự ổn định trong cảm xúc và tình cảm</li>
-              </ul>
+              {testResults?.resTestResultDetailDTO?.map((result, index) => (
+                <div key={index} className="border-b pb-4">
+                  <h3 className="text-xl font-semibold mb-2 flex items-center gap-2">
+                    {result.qtype}
+                    <span className={result.scoreType < 3 ? 'text-red-500' : 'text-green-600'}>
+                      ({result.scoreType.toFixed(1)}/5.0)
+                    </span>
+                  </h3>
+                  <p className={`text-lg ${result.scoreType < 3 ? 'text-red-500' : 'text-gray-700'}`}>
+                    {getQtypeComment(result.qtype, result.scoreType)}
+                  </p>
+                </div>
+              ))}
+              
+              <div className="mt-6 pt-4 border-t">
+                <h3 className="text-xl font-semibold mb-4">Overall Recommendations:</h3>
+                <ul className="space-y-4 text-gray-700 list-disc list-inside">
+                  {testResults?.resTestResultDetailDTO?.some(r => r.scoreType < 3) ? (
+                    <li className="text-lg text-red-500">
+                      Some areas require immediate attention. Consider consulting with a school counselor.
+                    </li>
+                  ) : (
+                    <li className="text-lg text-green-600">
+                      Overall performance is satisfactory. Continue maintaining good practices.
+                    </li>
+                  )}
+                  <li className="text-lg">Regular check-ins with mentors are recommended</li>
+                  <li className="text-lg">Participate in school support programs when available</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

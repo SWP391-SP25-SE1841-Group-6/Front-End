@@ -1,90 +1,3 @@
-// import { RouterProvider, createBrowserRouter } from "react-router-dom";
-// import Dashboard from "./components/HomePage/DashBoard";
-// import "./index.css";
-// import Hg from "./components/Home/HomePage";
-// import IntroPage from "./components/HomePage/IntroPage";
-// import ConTact from "./components/HomePage/Contact";
-// import Home from "./components/HomePage/Home";
-// import { Login } from "./components/Login/Login";
-// // import HomeStudent from "./components/Home/HomeStudent";
-
-// // import HomePageStudent from "./components/HomePage/HomePageStudent";
-// import { AuthProvider } from "./components/Auth/AuthContext";
-// import Profile from "./components/Student/Profile";
-// import HomeStudent from "./components/Home/HomeStudent";
-
-// function App() {
-//   const router = createBrowserRouter([
-//     // Route chính cho các trang sử dụng layout Hg
-//     {
-//       path: "/",
-//       element: <Hg />,
-//       children: [
-//         {
-//           index: true, // Route mặc định cho "/"
-//           element: <IntroPage />,
-//         },
-//         {
-//           path: "/home",
-//           element: <Home />,
-//         },
-//         {
-//           path: "/contact",
-//           element: <ConTact />,
-//         },
-//         {
-//           path: "/dashboard",
-//           element: <Dashboard />,
-//         },
-//         // {
-//         //   path: "/homestudent",
-//         //   element: <HomeStudent />,
-//         // },
-//         // {
-//         //   path: "/studenthome",
-//         //   element: <HomePageStudent />,
-//         // },
-//         // {
-//         //   path: "/profile",
-//         //   element: <Profile />,
-//         // },
-
-//       ],
-//     },
-
-//     {
-//       path: "/home",
-//       element: <Home />,
-//       children: [
-//         // {
-//         //   index: true, // Route mặc định cho "/homestudent"
-//         //   element: <Hg />,
-//         // },
-//         {
-//           path: "student",
-//           element: <HomeStudent />,
-//         },
-//         {
-//           path: "profile",
-//           element: <Profile />,
-//         },
-//       ],
-//     },
-//     {
-//       path: "/login",
-//       element: <Login />, // Login không dùng layout Hg
-//     },
-//   ]);
-//     // Route riêng cho trang Login (không sử dụng layout Hg)
-
-//   return (
-//     <AuthProvider>
-//       <RouterProvider router={router} />
-//     </AuthProvider>
-//   );
-// }
-
-// export default App;
 import { RouterProvider, createBrowserRouter, BrowserRouter as Router, Routes, Route, Outlet} from "react-router-dom";
 import "./index.css";
 import Hg from "./components/Home/HomePage";
@@ -120,178 +33,55 @@ import ResultScreen from "./components/Student/ProgramSick/ResultScreen";
 import QuestionCRUD from "./components/AdminPages/QuestionCRUD";
 //import { ThemeProvider } from "@mui/material";
 function App() {
-
-  
-  const router = createBrowserRouter([
-    
-    {
-      path: "/",
-      element: <Hg />,
-      children: [
-        {
-          index: true,
-          element: <Home />,
-        },
-      ],
-    },
-
-    {
-      path: "/studenthome",
-      element: <HomeStudent />,
-      children: [
-        {
-          index: true,
-          element: <IntroPageStudent />,
-        },
-        {
-          path: "/studenthome/profile",
-          element: <Profile />,
-        },
-        {
-          path: "/studenthome/timetable",
-          element: <TimeTable />,
-        },
-        {
-          path: "/studenthome/tailieu",
-          element: <Tlieu />,
-        },
-
-        {
-          path: "/studenthome/Sknt",
-          element: <Sknt />,
-        },
-        {
-          path: "/studenthome/Skxh",
-          element: <Skxh />,
-        },
-        {
-          path: "/studenthome/Skcx",
-          element: <Skcx />,
-        },
-        {
-          path: "/studenthome/Sktc",
-          element: <Sktc />,
-        },
-        {
-          path: "/studenthome/test",
-          element: <TestProgramcp />,
-        },
-        {
-          path: "/studenthome/hengap",
-          element: <Meet />,
-        },
-        {
-          path: "/studenthome/khaosat",
-          element: <Khaosat />,
-        },
-
-        {
-          path: "/studenthome/khancap",
-          element: <Callkc />,
-        },
-        {
-          path: "/studenthome/homepagestudent",
-          element: <HomePageStudent />,
-        },
-        {
-          path: "/studenthome/test-history",
-          element: <ResultScreen />,
-        },
-      ],
-    },
-
-    // Route riêng cho trang Login (không sử dụng layout nào)
-    {
-      path: "/login",
-      element: <LoginWithAPI />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/admin",
-      element: <AdminDashboard />,
-      roles: ["Manager"],
-    },
-    {
-      path: "/admin/accounts",
-      element: <AccountsCRUD />,
-      roles: ["Manager"],
-    },
-    {
-      path: "/admin/tests",
-      element: <TestsCRUD />,
-      roles: ["Manager"],
-    },
-    {
-      path: "/admin/tests/:id",
-      element: <TestDetails />,
-      roles: ["Manager"],
-    },
-    {
-      path: "/admin/tests/create",
-      element: <TestCreate />,
-      roles: ["Manager"],
-    },
-    {
-      path: "/admin/tests/add-questions/:id",
-      element: <AddQuestions />,
-      roles: ["Manager"],
-    },
-
-    {
-      path: "/admin/questions",
-      element: <QuestionCRUD/>,
-      roles: ["Manager"],
-    },
-
-    {
-      path: "/psychologist",
-      element: <PsyDashboard />,
-    }
-    
-  ]);
-  
-
-
-
   return (
-  
-    
     <AuthProvider>
-      {/*}
       <Router>
         <Routes>
-          <Route path="/" element={<Hg />} >
-              <Route path="/" index:true element={<Home />} />
+          {/* Public routes */}
+          <Route path="/" element={<Hg />}>
+            <Route index element={<Home />} />
           </Route>
           <Route path="/login" element={<LoginWithAPI />} />
           <Route path="/register" element={<Register />} />
-         <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<AdminDashboard />} roles={["Manager"]}/>
-            <Route path="/psychologist" element={<PsyDashboard />} roles={["Psychologist"]}/>
-            <Route path="/studenthome" element={<HomePageStudent />} roles={["Student"]}>
-              <Route path="/studenthome" index:true element={<IntroPageStudent />} />
-              <Route path="/studenthome/profile" element={<Profile />} />
-              <Route path="/studenthome/timetable" element={<TimeTable />} />
-              <Route path="/studenthome/tailieu" element={<Tlieu />} />
-              <Route path="/studenthome/Sknt" element={<Sknt />} />
-              <Route path="/studenthome/Skxh" element={<Skxh />} />
-              <Route path="/studenthome/Skcx" element={<Skcx />} />
-              <Route path="/studenthome/Sktc" element={<Sktc />} />
-              <Route path="/studenthome/test" element={<TestProgramcp />} />  
-              <Route path="/studenthome/hengap" element={<Meet />} />
-              <Route path="/studenthome/khaosat" element={<Khaosat />} />
-              <Route path="/studenthome/khancap" element={<Callkc />} />
-              <Route path="/studenthome/homepagestudent" element={<HomePageStudent />} />
+
+          {/* Protected Admin routes */}
+          <Route element={<ProtectedRoute allowedRoles={['Manager']} />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/accounts" element={<AccountsCRUD />} />
+            <Route path="/admin/tests" element={<TestsCRUD />} />
+            <Route path="/admin/tests/:id" element={<TestDetails />} />
+            <Route path="/admin/tests/create" element={<TestCreate />} />
+            <Route path="/admin/tests/add-questions/:id" element={<AddQuestions />} />
+            <Route path="/admin/questions" element={<QuestionCRUD />} />
+          </Route>
+
+          {/* Protected Psychologist routes */}
+          <Route element={<ProtectedRoute allowedRoles={['Psychologist']} />}>
+            <Route path="/psychologist" element={<PsyDashboard />} />
+          </Route>
+
+          {/* Protected Student routes */}
+          <Route element={<ProtectedRoute allowedRoles={['Student']} />}>
+            <Route path="/studenthome" element={<Hg />}>
+              <Route index element={<IntroPageStudent />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="timetable" element={<TimeTable />} />
+              <Route path="tailieu" element={<Tlieu />} />
+              <Route path="Sknt" element={<Sknt />} />
+              <Route path="Skxh" element={<Skxh />} />
+              <Route path="Skcx" element={<Skcx />} />
+              <Route path="Sktc" element={<Sktc />} />
+              <Route path="test" element={<TestProgramcp />} />
+              <Route path="hengap" element={<Meet />} />
+              <Route path="khaosat" element={<Khaosat />} />
+              <Route path="khancap" element={<Callkc />} />
+              <Route path="test-history" element={<ResultScreen />} />
+              <Route path="homepagestudent" element={<HomePageStudent />} />
             </Route>
-         </Route>
+          </Route>
         </Routes>
-      </Router> */}
-      <RouterProvider router={router} />
+      </Router>
     </AuthProvider>
- 
   );
 }
 

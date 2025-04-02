@@ -1,3 +1,5 @@
+import logo from '../../assets/images/logofinal.png';
+
 const Footer = () => {
   return (
     <div>
@@ -10,10 +12,10 @@ const Footer = () => {
         <div className="container">
           <div className="row">
             <div className="col l6 s12">
-              <img
-                src="https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-modern-vector-logo-of-psychology-letter-psi-in-creative-style-png-image_4850550.png"
-                alt="logo"
-                className="w-30 border rounded-3xl"
+             <img 
+                src={logo} 
+                alt="School Psychology Logo" 
+                className="w-22 h-22 object-contain rounded-full " // Reduced from w-26 h-26
               />
               <h5 className="white-text">School Psychology Treatment</h5>
               <p className="grey-text text-lighten-4">

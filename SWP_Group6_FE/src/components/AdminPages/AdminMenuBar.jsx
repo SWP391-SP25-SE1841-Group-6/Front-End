@@ -30,13 +30,19 @@ import { faUser, faFontAwesome } from '@fortawesome/free-regular-svg-icons';
 import {Link} from "react-router-dom";
 const LinkNames = ['Dashboard', 'Accounts' ,'Questions','Tests'];
 const links = ['/adminDashboard','/Accounts','/Questions','/tests'];
-
+import { useNavigate } from 'react-router-dom';
+import { handleLogout } from '../../utils/logoutHandler';
 
 export default function AdminMenuBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuBg = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.700', 'gray.200');
 
+  const navigate = useNavigate();
+
+  const onLogoutClick = () => {
+    handleLogout(navigate);
+  };
   
   return (
     <>
@@ -153,7 +159,7 @@ export default function AdminMenuBar() {
                 <Link to='/test'>Profile </Link>
               </MenuItem>
               <MenuDivider/>
-              <MenuItem to='' >Sign out</MenuItem>
+              <MenuItem onClick={onLogoutClick} >Sign out</MenuItem>
             </MenuList>
           </Menu>
           </Box>
