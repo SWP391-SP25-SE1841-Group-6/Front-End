@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Footer from "../Footer/Footer";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NextArrow = ({ onClick }) => (
   <button
@@ -108,19 +108,19 @@ const Profiles = [
 const images = [
   {
     src: "https://tamlyvietphap.vn/wp-content/uploads/2025/01/dichvutamlydoanhnghiep-300x168.png",
-    title: "Dịch vụ đào tạo và chuyên môn tâm lí",
+    title: "Professional Training and Psychology Services",
   },
   {
     src: "https://tamlyvietphap.vn/wp-content/uploads/2025/01/dichvuthamvantamly-300x168.png",
-    title: "Dịch vụ tham vấn và trị liệu, tâm lí",
+    title: "Counseling and Therapy Services",
   },
   {
     src: "https://tamlyvietphap.vn/wp-content/uploads/2025/01/dichvutamlydoanhnghiep-300x168.png",
-    title: "Dịch vụ tâm lí doanh nghiệp",
+    title: "Corporate Psychology Services",
   },
   {
     src: "https://tamlyvietphap.vn/wp-content/uploads/2025/01/dichvutamlyhocduong-300x168.png",
-    title: "Dịch vụ tâm lí học đường",
+    title: "School Psychology Services",
   },
 ];
 
@@ -137,104 +137,98 @@ const settings = {
       breakpoint: 1024,
       settings: {
         slidesToShow: 3,
-      }
+      },
     },
     {
       breakpoint: 768,
       settings: {
         slidesToShow: 2,
-      }
+      },
     },
     {
       breakpoint: 480,
       settings: {
         slidesToShow: 1,
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
 
 const HomePageStudent = () => {
   const navigate = useNavigate();
   console.log("role: " + localStorage.getItem("role"));
-const handleClick = () => {
-  navigate("/contact"); // Chuyển đến trang /contact
-};
+  const handleClick = () => {
+    navigate("/contact"); // Chuyển đến trang /contact
+  };
   return (
     <div className="bg-gray-200">
-      <div className="text  ml-100 mt-2 w-full h-full">
-        <div className="row flex flex-cols-2 flex-row-2 ">
-          <div className="flex-col-4  ">
+      <div className="text ml-100 mt-2 w-full h-full">
+        <div className="row flex flex-cols-2 flex-row-2">
+          <div className="flex-col-4">
             <div className="title col-1">
-              <h3 className="flex  font-bold text-red-500">Giới Thiệu</h3>
-              <p className="text-2xl text-sky-900 font-bold">VỀ CHÚNG TÔI</p>
+              <h3 className="flex font-bold text-red-500">Introduction</h3>
+              <p className="text-2xl text-sky-900 font-bold">ABOUT US</p>
               <span className="text-2xl">
-                -Viện Tâm lý GROUP6 được thành lập theo Giấy chứng nhận <br />
-                Doanh nghiệp Khoa học công nghệ số B-16/2019ĐK-KHCN <br /> ngày
-                05/06/2019 của Sở KH&CN thành phố Hồ Chí Minh.
+                -GROUP6 Psychology Institute was established according to
+                Science and Technology Enterprise Certificate No. B-16/2019ĐK-KHCN
+                dated June 5, 2019, issued by Ho Chi Minh City Department of
+                Science and Technology.
               </span>
             </div>
 
             <div className="title2 ml-1">
-            <div className="grid-cols-2 grid-row-2 flex">
-            <div className="text-9xl text-red-600 m-5 ">  <FontAwesomeIcon icon={faFire} /> </div>
-            <div className=""> 
-               <h4 className=" text-red-500 ">
-              
-              Lĩnh vực hoạt động
-            </h4>
-            <p className="text-2xl">
-                Viện Tâm lý GROUP6 hoạt động trong các lĩnh vực: <br />
-                -Nghiên cứu tâm lý,
-                <br />
-                -Đào tạo chuyên gia,
-                <br />
-                -Cung cấp dịch vụ trị liệu tâm lý
-                <br />
-                -Hướng đến nâng cao sức khỏe tinh thần tại Việt Nam
-              </p>
-             </div>
-        
-            </div>
-             
-            <div className="grid-cols-2 grid-row-2 flex">
-            <div className="text-9xl text-blue-700 m-5 ">  <FontAwesomeIcon icon={faHeart} /> </div>
-            <div className=""> 
-               <h4 className=" text-blue-500 ">
-              
-               Giá trị cốt lõi
-            </h4>
-            <p className="text-2xl">
-        
-                -Bảo mật
-                <br /> –Tận tâm <br />
-                –Chuyên nghiệp
-              
-              </p>
-             </div>
-        
-            </div>       
-            </div>
+              <div className="grid-cols-2 grid-row-2 flex">
+                <div className="text-9xl text-red-600 m-5">
+                  <FontAwesomeIcon icon={faFire} />
+                </div>
+                <div>
+                  <h4 className="text-red-500">Fields of Operation</h4>
+                  <p className="text-2xl">
+                    GROUP6 Psychology Institute operates in the following areas:
+                    <br />
+                    -Psychological Research
+                    <br />
+                    -Expert Training
+                    <br />
+                    -Psychological Therapy Services
+                    <br />
+                    -Aiming to improve mental health in Vietnam
+                  </p>
+                </div>
+              </div>
 
+              <div className="grid-cols-2 grid-row-2 flex">
+                <div className="text-9xl text-blue-700 m-5">
+                  <FontAwesomeIcon icon={faHeart} />
+                </div>
+                <div>
+                  <h4 className="text-blue-500">Core Values</h4>
+                  <p className="text-2xl">
+                    -Confidentiality
+                    <br /> –Dedication <br />
+                    –Professionalism
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className=" relative w-250 h-150 m-5">
+          <div className="relative w-250 h-150 m-5">
             <img
               src="https://plus.unsplash.com/premium_photo-1661308281704-f5b562260e1b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8UHN5Y2hvbG9naWNhbCUyMGNvbnN1bHRhbnR8ZW58MHx8MHx8fDA%3D"
               alt=""
               className="w-full h-full object-cover"
             />
-        
           </div>
         </div>
       </div>
       <div className="service my-10 px-4">
         <div className="row flex flex-col md:flex-row gap-8">
           <div className="col-6 flex flex-col justify-center items-center">
-            <h4 className="text-red-400">Dịch vụ</h4>
-            <h3 className="text-sky-600 text-2xl font-bold my-2">Dịch vụ của chúng tôi</h3>
+            <h4 className="text-red-400">Services</h4>
+            <h3 className="text-sky-600 text-2xl font-bold my-2">Our Services</h3>
             <p className="text-2xl text-center">
-              Cung cấp giải pháp tâm lý chuyên nghiệp, toàn diện, cá nhân hóa,
-              nâng cao sức khỏe tinh thần.
+              Providing professional, comprehensive, personalized psychological
+              solutions to enhance mental health.
             </p>
           </div>
 
@@ -254,8 +248,8 @@ const handleClick = () => {
           </div>
         </div>
       </div>
-      <div className="happy bg-sky-800 w-full h-20  text-white flex justify-center">
-        <h4>“HẠNH PHÚC CỦA BẠN – SỨ MỆNH CỦA CHÚNG TÔI”</h4>
+      <div className="happy bg-sky-800 w-full h-20 text-white flex justify-center">
+        <h4>"YOUR HAPPINESS - OUR MISSION"</h4>
       </div>
       <div className="row flex flex-col-2 flex-row-2 justify-between">
         <div className="col-8">
@@ -266,53 +260,54 @@ const handleClick = () => {
           />
         </div>
         <div className="col-4 w-full h-full mt-30 p-10">
-          <h4 className="text-red-500 font-bold">Nổi bật</h4>
-          <h3 className="text-blue-600 font-bold">VÌ SAO CHỌN CHÚNG TÔI</h3>
-          <p className="text-4xl ">
-            Tự hào là đơn vị uy tín với đội ngũ chuyên gia giàu kinh nghiệm,
+          <h4 className="text-red-500 font-bold">Featured</h4>
+          <h3 className="text-blue-600 font-bold">WHY CHOOSE US</h3>
+          <p className="text-4xl">
+            Proud to be a reputable institution with experienced experts,
             <br />
-            phương pháp khoa học và dịch vụ tận tâm, Viện Tâm lý GROUP6
+            scientific methods, and dedicated service. GROUP6 Psychology
+            Institute
             <br />
-            luôn cam kết mang đến những giải pháp tối ưu, đáp ứng <br />
-            hiệu quả mọi nhu cầu về sức khỏe tinh thần.
+            is committed to providing optimal solutions, effectively meeting
+            <br />
+            all mental health needs.
           </p>
           <div className="mt-5">
             <p className="text-3xl p-2">
               <FontAwesomeIcon icon={faShield} className="text-blue-700 pr-2" />
-              Đội ngũ chuyên gia được đào tạo bài bản từ các trường đại học danh
-              tiếng <br /> trong nước và quốc tế.
+              Expert team trained at prestigious universities nationally and
+              internationally.
             </p>
             <p className="text-3xl p-2">
               <FontAwesomeIcon icon={faStar} className="text-blue-700 pr-2" />
-              Phương pháp khoa học, cá nhân hóa phù hợp cho từng người.
+              Scientific methods, personalized to suit each individual.
             </p>
             <p className="text-3xl p-2">
               <FontAwesomeIcon
                 icon={faChalkboardUser}
                 className="text-blue-700 pr-2"
               />
-              Không gian trị liệu hiện đại, an toàn và chuyên nghiệp.
+              Modern, safe, and professional therapy space.
             </p>
             <p className="text-3xl p-2">
               <FontAwesomeIcon icon={faShield} className="text-blue-700 pr-2" />
-              Cam kết bảo mật tuyệt đối thông tin khách hàng.
+              Absolute confidentiality of customer information.
             </p>
           </div>
         </div>
       </div>
       <div className="guest w-full h-auto">
         <div className="content flex flex-col h-110 bg-sky-200 items-center justify-center text-center">
-          <h5 className="text-red-600 font-bold">Trải nghiệm khách hàng</h5>
-          <h4 className="font-bold text-sky-900 ">PHẢN HỒI TỪ KHÁCH HÀNG</h4>
-          <p className="text-xl ">
-            Những chia sẻ từ khách hàng là minh chứng cho chất lượng và sự tận
-            tâm của chúng tôi,
+          <h5 className="text-red-600 font-bold">Customer Experience</h5>
+          <h4 className="font-bold text-sky-900">CUSTOMER FEEDBACK</h4>
+          <p className="text-xl">
+            Customer feedback is proof of our quality and dedication,
             <br />
-            là động lực để không ngừng cải thiện mỗi ngày.
+            and a motivation to continuously improve every day.
           </p>
           <div className="flex flex-col-3 flex-row-3 mt-5 gap-3">
             <div className="comment1 w-[28%]">
-              <div className="text-yellow-500 text-2xl ">
+              <div className="text-yellow-500 text-2xl">
                 <FontAwesomeIcon icon={faStar} />
                 <FontAwesomeIcon icon={faStar} />
                 <FontAwesomeIcon icon={faStar} />
@@ -320,16 +315,16 @@ const handleClick = () => {
                 <FontAwesomeIcon icon={faStar} />
               </div>
 
-              <h5>Sinh viên Nguyên Văn …</h5>
+              <h5>Student Nguyen Van …</h5>
               <p className="text-lg font-bold">
-                “Nhờ sự đồng hành tận tâm của các chuyên gia tại Viện Tâm lý
-                GROUP6, tôi đã vượt qua được những căng thẳng và lấy lại sự cân
-                bằng trong cuộc sống. Thật sự biết ơn!”
+                “Thanks to the dedicated support of experts at GROUP6 Psychology
+                Institute, I have overcome stress and regained balance in life.
+                Truly grateful!”
               </p>
             </div>
 
             <div className="comment1 w-[28%]">
-              <div className="text-yellow-500 text-2xl ">
+              <div className="text-yellow-500 text-2xl">
                 <FontAwesomeIcon icon={faStar} />
                 <FontAwesomeIcon icon={faStar} />
                 <FontAwesomeIcon icon={faStar} />
@@ -338,15 +333,15 @@ const handleClick = () => {
                 <FontAwesomeIcon icon={faStar} />
               </div>
 
-              <h5>Khách hàng Lê Thị…</h5>
+              <h5>Customer Le Thi…</h5>
               <p className="text-lg font-bold">
-                “Dịch vụ tại đây rất chuyên nghiệp và chu đáo. Tôi cảm nhận được
-                sự an toàn và thoải mái trong suốt quá trình trị liệu.”
+                “The service here is very professional and attentive. I felt
+                safe and comfortable throughout the therapy process.”
               </p>
             </div>
 
             <div className="comment1 w-[28%]">
-              <div className="text-yellow-500 text-2xl ">
+              <div className="text-yellow-500 text-2xl">
                 <FontAwesomeIcon icon={faStar} />
                 <FontAwesomeIcon icon={faStar} />
                 <FontAwesomeIcon icon={faStar} />
@@ -355,11 +350,11 @@ const handleClick = () => {
                 <FontAwesomeIcon icon={faStar} />
               </div>
 
-              <h5>Khách tư vấn tâm lý …</h5>
+              <h5>Psychological Counseling Client …</h5>
               <p className="text-lg font-bold">
-                “Tôi ấn tượng với không gian hiện đại và cách làm việc khoa học
-                của Viện. Đây là nơi tôi tìm thấy sự đồng cảm và giải pháp cho
-                vấn đề của mình.”
+                “I am impressed with the modern space and scientific working
+                methods of the Institute. This is where I found empathy and
+                solutions for my problems.”
               </p>
             </div>
           </div>
@@ -368,14 +363,16 @@ const handleClick = () => {
       <div className="lecture py-10">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
-            <h5 className="text-red-700">Chuyên gia</h5>
-            <p className="text-2xl font-bold text-blue-900 my-2">ĐỘI NGŨ CHUYÊN GIA</p>
+            <h5 className="text-red-700">Experts</h5>
+            <p className="text-2xl font-bold text-blue-900 my-2">
+              OUR EXPERT TEAM
+            </p>
             <p className="text-xl font-bold max-w-3xl mx-auto">
-              Chuyên gia giàu kinh nghiệm, tận tâm và chuyên nghiệp, luôn đồng
-              hành cùng bạn tìm lại sự cân bằng và hạnh phúc.
+              Experienced, dedicated, and professional experts, always
+              accompanying you to find balance and happiness.
             </p>
           </div>
-          
+
           <div className="w-full">
             <Slider {...settings} className="mx-4">
               {Profiles.map((profile, index) => (
@@ -386,8 +383,12 @@ const handleClick = () => {
                       alt={profile.name}
                       className="w-40 h-40 rounded-full object-cover transition-transform duration-300 hover:scale-110"
                     />
-                    <h5 className="text-center mt-4 font-semibold">{profile.name}</h5>
-                    <p className="text-center text-sm text-gray-600">{profile.specialization}</p>
+                    <h5 className="text-center mt-4 font-semibold">
+                      {profile.name}
+                    </h5>
+                    <p className="text-center text-sm text-gray-600">
+                      {profile.specialization}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -398,35 +399,36 @@ const handleClick = () => {
       <div className="mt-5 m-auto flex justify-center">
         <button
           onClick={handleClick}
-          className="mr-auto w-30 h-10 border-w-1px rounded-full border border-red-600 bg-red-600 text-white  font-bold cursor-pointer"
+          className="mr-auto w-30 h-10 border-w-1px rounded-full border border-red-600 bg-red-600 text-white font-bold cursor-pointer"
         >
-          Chi Tiết
+          Details
         </button>
       </div>
 
       <div className="row flex justify-center mt-10">
         <div className="col-6 w-150 h-140">
           <div className="text-3xl">
-            <h5 className="text-red-600 text-xl font-bold">Kiến thức</h5>
-            <h4 className="text-blue-700 font-bold">CHUYÊN TRANG TÂM LÝ</h4>
+            <h5 className="text-red-600 text-xl font-bold">Knowledge</h5>
+            <h4 className="text-blue-700 font-bold">PSYCHOLOGY PAGE</h4>
             <p className="font-bold text-xl">
-              Khám phá tâm lý học từ gốc rễ đến chiều sâu <br /> chuyên môn
+              Explore psychology from the roots to the depth of expertise
+              <br /> with GROUP6 Psychology Institute.
             </p>
             <span className="text-xl">
-              Cùng Viện Tâm lý GROUP6, bạn sẽ bước vào thế giới tâm lý học với
-              những bài viết và chia sẻ hữu ích, dễ tiếp cận. Tại đây, bạn có
-              thể tìm hiểu kiến thức về tâm lý con người, học cách quản lý cảm
-              xúc, cải thiện sức khỏe tinh thần, và áp dụng chúng vào cuộc sống.
+              With GROUP6 Psychology Institute, you will enter the world of
+              psychology with useful and accessible articles and shares. Here,
+              you can learn about human psychology, learn how to manage
+              emotions, improve mental health, and apply them to life.
               <br />
-              Dù bạn là chuyên gia hay đang tìm kiếm sự hỗ trợ, hành trình{" "}
+              Whether you are an expert or seeking support, this journey
               <br />
-              này sẽ giúp bạn hiểu sâu hơn về bản thân và kết nối ý nghĩa với
-              mọi người xung quanh
+              will help you understand yourself better and connect meaningfully
+              with those around you.
             </span>
           </div>
           <div className="mt-10 ml-5 m-auto flex border-red-400 text-lg">
-            <button className="mr-auto w-30 h-10 border-w-1px rounded-full border border-red-600 bg-red-600 text-white  font-bold cursor-pointer">
-              Chi Tiết
+            <button className="mr-auto w-30 h-10 border-w-1px rounded-full border border-red-600 bg-red-600 text-white font-bold cursor-pointer">
+              Details
             </button>
           </div>
         </div>
@@ -443,13 +445,13 @@ const handleClick = () => {
       <div className="doitac mt-12">
         <div className="context">
           <p className="flex justify-center text-2xl font-bold text-red-500">
-            Đối tác
+            Partners
           </p>
           <p className="flex justify-center text-3xl mt-2 font-bold text-sky-800">
-            ĐỐI TÁC CỦA CHÚNG TÔI
+            OUR PARTNERS
           </p>
         </div>
-        <div className="flex gap-20 m-auto  p-10 mt-5 overflow-hidden justify-center">
+        <div className="flex gap-20 m-auto p-10 mt-5 overflow-hidden justify-center">
           <img
             className="w-50 h-50 rounded-full object-cover transform transition-all ease-in-out duration-300 hover:scale-120"
             src="https://tamlyvietphap.vn/wp-content/uploads/2025/01/12-Saigon_International_University_SIU_1311085749.jpg"
@@ -483,27 +485,27 @@ const handleClick = () => {
           <div className="flex flex-col md:flex-row gap-8">
             <div className="md:w-1/2">
               <h4 className="text-blue-700 text-2xl font-bold mb-6">
-                Bạn đang gặp vấn đề nào?
+                What problem are you facing?
               </h4>
               <div className="space-y-4 text-xl">
-                <p>- Rối Loạn Lo Âu</p>
-                <p>- Rối Loạn Tăng Động Giảm Chú Ý – ADHD</p>
-                <p>- Rối Loạn Trầm Cảm</p>
-                <p>- Sang Chấn Tâm Lý – PTSD</p>
-                <p>- Tự Kỉ</p>
-                <p className="font-bold mt-6">HÃY ĐẾN NGAY VỚI CHÚNG TÔI</p>
+                <p>- Anxiety Disorders</p>
+                <p>- Attention Deficit Hyperactivity Disorder – ADHD</p>
+                <p>- Depression</p>
+                <p>- Post-Traumatic Stress Disorder – PTSD</p>
+                <p>- Autism</p>
+                <p className="font-bold mt-6">COME TO US IMMEDIATELY</p>
               </div>
             </div>
 
             <div className="md:w-1/2">
               <div className="bg-white rounded-2xl p-6 shadow-lg">
                 <h4 className="text-3xl font-bold mb-4 text-center text-blue-800">
-                  Liên hệ với chúng tôi
+                  Contact us
                 </h4>
                 <form className="space-y-4">
                   <div>
                     <label className="block text-lg font-black text-black">
-                      Tên Khách Hàng:
+                      Customer Name:
                     </label>
                     <input
                       type="text"
@@ -513,7 +515,7 @@ const handleClick = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-black text-black">
-                      Địa Chỉ
+                      Address
                     </label>
                     <input
                       type="text"
@@ -523,7 +525,7 @@ const handleClick = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-black text-black">
-                      Số Điện Thoại
+                      Phone Number
                     </label>
                     <input
                       type="text"
@@ -549,7 +551,7 @@ const handleClick = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="Bạn đang cần trợ giúp gì?"
+                      placeholder="What help do you need?"
                       required
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
@@ -558,7 +560,7 @@ const handleClick = () => {
                     type="submit"
                     className="w-full h-11 bg-orange-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    Đăng kí
+                    Register
                   </button>
                 </form>
               </div>

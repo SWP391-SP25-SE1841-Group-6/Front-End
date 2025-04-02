@@ -1,13 +1,14 @@
 import { AppBar, Box, Button, Toolbar, Typography, Avatar, Menu, MenuItem } from "@mui/material";
 import { Outlet, Link, useNavigate } from "react-router-dom";
- // Đường dẫn tương đối phù hợp với Vite
+// Relative path appropriate for Vite
 import { useState } from "react";
 import { useAuth } from "../Auth/AuthContext";
+import logo from '../../assets/images/logofinal.png';
 export default function Hg() {
-  const { isAuthenticated, logout } = useAuth(); // Lấy trạng thái và hàm logout
+  const { isAuthenticated, logout } = useAuth(); // Get state and logout function
   const navigate = useNavigate();
 
-  // State cho menu dropdown
+  // State for dropdown menu
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -20,14 +21,14 @@ export default function Hg() {
   };
 
   const handleLogout = () => {
-    logout(); // Gọi hàm logout từ AuthContext
-    setAnchorEl(null); // Đóng menu khi logout
-    navigate("/"); // Điều hướng về trang login sau khi đăng xuất
+    logout(); // Call logout function from AuthContext
+    setAnchorEl(null); // Close menu when logging out
+    navigate("/"); // Navigate to login page after logout
   };
 
   const handleNavigate = (path) => {
     navigate(path);
-    setAnchorEl(null); // Đóng menu sau khi điều hướng
+    setAnchorEl(null); // Close menu after navigation
   };
 
   return (
@@ -36,50 +37,53 @@ export default function Hg() {
         component="nav"
         position="static"
         style={{
-          height: 90,
-          padding: 20,
+          height: 80, // Reduced from 90
+          padding: 16, // Reduced from 20
           margin: 1,
           backgroundColor: "#006699",
         }}
       >
         <Toolbar>
-          <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-            <img
-              src="https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-modern-vector-logo-of-psychology-letter-psi-in-creative-style-png-image_4850550.png"
-              alt="Logo"
-              className="w-40 h-40 object-cover p-5 rounded-full"
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}> {/* Changed from h3 */}
+            <img 
+              src={logo} 
+              alt="School Psychology Logo" 
+              className="w-22 h-22 object-contain rounded-full " // Reduced from w-26 h-26
             />
           </Typography>
 
           <Box>
-            <div className="flex justify-between pr-90 gap-8">         
+            <div className="flex justify-between pr-90 gap-6"> {/* Reduced gap from 8 */}         
               <Button
                 component={Link}
                 to="/home"
                 sx={{ color: "#fff" }}
-                style={{ fontSize: 25 }}
+                style={{ fontSize: 18 }} // Reduced from 25
               >
-                Trang chủ
+                Home
               </Button>
 
               <Button
                 component={Link}
                 to="/studenthome/tailieu"
                 sx={{ color: "#fff" }}
-                style={{ fontSize: 25 }}
+                style={{ fontSize: 18 }} // Reduced from 25
               >
-                Tài liệu & Sức khỏe tâm lí
+                Resources & Mental Health
               </Button>
            
-
-             
               {isAuthenticated ? (
                 <div>
                   <Avatar
                     alt="User Avatar"
-                    src="https://via.placeholder.com/40" 
+                    src="https://via.placeholder.com/32" // Reduced from 40
                     onClick={handleAvatarClick}
-                    sx={{ cursor: "pointer", bgcolor: "grey" }}
+                    sx={{ 
+                      cursor: "pointer", 
+                      bgcolor: "grey",
+                      width: 32, // Added explicit size
+                      height: 32 // Added explicit size
+                    }}
                   />
                   <Menu
                     anchorEl={anchorEl}
@@ -93,11 +97,16 @@ export default function Hg() {
                       vertical: "top",
                       horizontal: "right",
                     }}
+                    PaperProps={{
+                      style: {
+                        fontSize: '14px' // Added smaller font size for menu items
+                      }
+                    }}
                   >
-                    <MenuItem onClick={() => handleNavigate("/profile")}>Hồ Sơ</MenuItem>
-                    <MenuItem onClick={() => handleNavigate("/timetable")}>Thời Khóa Biểu</MenuItem>
-                    <MenuItem onClick={() => handleNavigate("/program")}>Chương Trình</MenuItem>
-                    <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+                    <MenuItem onClick={() => handleNavigate("/profile")} style={{ fontSize: '14px' }}>Profile</MenuItem>
+                    <MenuItem onClick={() => handleNavigate("/timetable")} style={{ fontSize: '14px' }}>Schedule</MenuItem>
+                    <MenuItem onClick={() => handleNavigate("/program")} style={{ fontSize: '14px' }}>Program</MenuItem>
+                    <MenuItem onClick={handleLogout} style={{ fontSize: '14px' }}>Logout</MenuItem>
                   </Menu>
                 </div>
               ) : (
@@ -105,9 +114,9 @@ export default function Hg() {
                   component={Link}
                   to="/login"
                   sx={{ color: "#fff" }}
-                  style={{ fontSize: 25 }}
+                  style={{ fontSize: 18 }} // Reduced from 25
                 >
-                  Đăng nhập
+                  Login
                 </Button>
               )}
             </div>
