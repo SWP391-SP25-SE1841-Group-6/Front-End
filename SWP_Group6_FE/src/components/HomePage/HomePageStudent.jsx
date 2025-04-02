@@ -132,6 +132,26 @@ const settings = {
   arrows: true,
   nextArrow: <NextArrow />,
   prevArrow: <PrevArrow />,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+      }
+    }
+  ]
 };
 
 const HomePageStudent = () => {
@@ -207,28 +227,27 @@ const handleClick = () => {
           </div>
         </div>
       </div>
-      <div className="service">
-        <div className="row">
-          <div className="col-6 flex flex-col justify-center items-center m-auto">
-            <h4 className="text-red-400 ">Dịch vụ</h4>
-            <h3 className="text-sky-600">Dịch vụ của chúng tôi</h3>
-            <p className="text-2xl">
+      <div className="service my-10 px-4">
+        <div className="row flex flex-col md:flex-row gap-8">
+          <div className="col-6 flex flex-col justify-center items-center">
+            <h4 className="text-red-400">Dịch vụ</h4>
+            <h3 className="text-sky-600 text-2xl font-bold my-2">Dịch vụ của chúng tôi</h3>
+            <p className="text-2xl text-center">
               Cung cấp giải pháp tâm lý chuyên nghiệp, toàn diện, cá nhân hóa,
               nâng cao sức khỏe tinh thần.
             </p>
           </div>
 
-          <div className="col-6 flex flex-col justify-center">
-            <div className="title text-center mb-15 "></div>
-            <Slider {...settings} className=" pl-60 flex justify-center ">
+          <div className="col-6 w-full">
+            <Slider {...settings} className="px-4">
               {images.map((image, index) => (
-                <div key={index} className="flex justify-between gap-1">
+                <div key={index} className="px-2">
                   <img
                     src={image.src}
                     alt={image.title}
-                    style={{ width: "70%" }}
+                    className="w-full h-auto object-cover"
                   />
-                  <h5 className="w-[65%] text-center  ml-2">{image.title}</h5>
+                  <h5 className="text-center mt-2">{image.title}</h5>
                 </div>
               ))}
             </Slider>
@@ -346,30 +365,34 @@ const handleClick = () => {
           </div>
         </div>
       </div>
-      <div className="lecture w-full h-full">
-        <div className="context w-full ">
-          <h5 className="flex justify-center text-red-700">Chuyên gia</h5>
-          <p className="flex justify-center text-2xl font-bold text-blue-900">
-            ĐỘI NGŨ CHUYÊN GIA
-          </p>
-          <p className="flex justify-center text-xl mt-2 font-bold">
-            Chuyên gia giàu kinh nghiệm, tận tâm và chuyên nghiệp, luôn đồng
-            hành cùng bạn tìm lại sự cân bằng và hạnh phúc.
-          </p>
-        </div>
-        <div className="w-full px-4">
-          <Slider {...settings} className="gap-10">
-            {Profiles.map((profile, index) => (
-              <div key={index} className="p-2">
-                <img
-                  src={profile.image}
-                  alt={profile.name}
-                  className="mt-5 w-40 h-40 rounded-full object-cover mx-auto transition-transform duration-300 hover:scale-120"
-                />
-                <h5 className="text-center mt-2">{profile.name}</h5>
-              </div>
-            ))}
-          </Slider>
+      <div className="lecture py-10">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h5 className="text-red-700">Chuyên gia</h5>
+            <p className="text-2xl font-bold text-blue-900 my-2">ĐỘI NGŨ CHUYÊN GIA</p>
+            <p className="text-xl font-bold max-w-3xl mx-auto">
+              Chuyên gia giàu kinh nghiệm, tận tâm và chuyên nghiệp, luôn đồng
+              hành cùng bạn tìm lại sự cân bằng và hạnh phúc.
+            </p>
+          </div>
+          
+          <div className="w-full">
+            <Slider {...settings} className="mx-4">
+              {Profiles.map((profile, index) => (
+                <div key={index} className="px-4">
+                  <div className="flex flex-col items-center">
+                    <img
+                      src={profile.image}
+                      alt={profile.name}
+                      className="w-40 h-40 rounded-full object-cover transition-transform duration-300 hover:scale-110"
+                    />
+                    <h5 className="text-center mt-4 font-semibold">{profile.name}</h5>
+                    <p className="text-center text-sm text-gray-600">{profile.specialization}</p>
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
         </div>
       </div>
       <div className="mt-5 m-auto flex justify-center">
@@ -455,96 +478,90 @@ const handleClick = () => {
         </div>
       </div>
 
-      <div className="contactt">
-        <div className="row flex w-full h-auto bg-gray-100 justify-between">
-          <h4 className="flex  text-blue-700">Bạn đang đang gặp vấn đề nào?</h4>
-          <div className="col-6 flex  relative mb-auto pl-10">
-            <div className="relative  rounded-2xl  flex justify-center items-center">
-              {/* <img
-          src="https://images.unsplash.com/photo-1620389701363-b1d7a601e0c9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fFBzeWNob2xvZ2ljYWwlMjBIZWFsdGh8ZW58MHx8MHx8fDA%3D"
-          alt=""
-          className="w-[100%] "
-        /> */}
-              <div className="flex-col-1 pl-50">
-                <div className="text-4xl">
-                  <p>-Rối Loạn Lo Âu</p>
-                  <p>-Rối Loạn Tăng Động Giảm Chú Ý – ADHD</p>
-                  <p>-Rối Loạn Trầm Cảm</p>
-                  <p>-Sang Chấn Tâm Lý – PTSD</p>
-                  <p>-Tự Kỉ</p>
-                  <p>...</p>
-                  <p>HÃY ĐẾN NGAY VỚI CHÚNG TÔI</p>
-                </div>
+      <div className="contactt bg-gray-100 py-10">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="md:w-1/2">
+              <h4 className="text-blue-700 text-2xl font-bold mb-6">
+                Bạn đang gặp vấn đề nào?
+              </h4>
+              <div className="space-y-4 text-xl">
+                <p>- Rối Loạn Lo Âu</p>
+                <p>- Rối Loạn Tăng Động Giảm Chú Ý – ADHD</p>
+                <p>- Rối Loạn Trầm Cảm</p>
+                <p>- Sang Chấn Tâm Lý – PTSD</p>
+                <p>- Tự Kỉ</p>
+                <p className="font-bold mt-6">HÃY ĐẾN NGAY VỚI CHÚNG TÔI</p>
               </div>
             </div>
-          </div>
 
-          <div className="col-6 flex mt-2 ">
-            <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg">
-              <h4 className="text-3xl font-bold mb-4 text-center text-blue-800">
-                Liên hệ với chúng tôi
-              </h4>
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-lg font-black text-black">
-                    Tên Khách Hàng:
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    className="mt-1 w-full bg-white rounded-md p-2 text-lg border-amber-600"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-black text-black">
-                    Địa Chỉ
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-black text-black">
-                    Số Điện Thoại
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="VD:09222xxxx"
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-black text-black">
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="VD:example@gmail.com"
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-black text-black">
-                    Notes
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Bạn đang cần trợ giúp gì?"
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full h-11 bg-orange-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Đăng kí
-                </button>
-              </form>
+            <div className="md:w-1/2">
+              <div className="bg-white rounded-2xl p-6 shadow-lg">
+                <h4 className="text-3xl font-bold mb-4 text-center text-blue-800">
+                  Liên hệ với chúng tôi
+                </h4>
+                <form className="space-y-4">
+                  <div>
+                    <label className="block text-lg font-black text-black">
+                      Tên Khách Hàng:
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="mt-1 w-full bg-white rounded-md p-2 text-lg border-amber-600"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-black text-black">
+                      Địa Chỉ
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-black text-black">
+                      Số Điện Thoại
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="VD:09222xxxx"
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-black text-black">
+                      Email
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="VD:example@gmail.com"
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-black text-black">
+                      Notes
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Bạn đang cần trợ giúp gì?"
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full h-11 bg-orange-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Đăng kí
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>

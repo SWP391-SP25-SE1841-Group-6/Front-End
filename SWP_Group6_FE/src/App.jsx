@@ -117,6 +117,7 @@ import TestDetails from "./components/TestDetails";
 import TestCreate from "./components/AdminPages/TestCreate";
 import AddQuestions from "./components/AdminPages/AddQuestions";
 import ResultScreen from "./components/Student/ProgramSick/ResultScreen";
+import QuestionCRUD from "./components/AdminPages/QuestionCRUD";
 //import { ThemeProvider } from "@mui/material";
 function App() {
 
@@ -238,10 +239,18 @@ function App() {
       element: <AddQuestions />,
       roles: ["Manager"],
     },
+
+    {
+      path: "/admin/questions",
+      element: <QuestionCRUD/>,
+      roles: ["Manager"],
+    },
+
     {
       path: "/psychologist",
       element: <PsyDashboard />,
     }
+    
   ]);
   
 

@@ -33,7 +33,7 @@ export default function Hg() {
   console.log("role: " + localStorage.getItem("role"));
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-white shadow-md py-4 px-6 fixed top-0 w-full z-50">
+      <header className="bg-blue-100 shadow-md py-4 px-6 fixed top-0 w-full z-50">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Navigation Links */}
           <nav className="flex items-center space-x-8">

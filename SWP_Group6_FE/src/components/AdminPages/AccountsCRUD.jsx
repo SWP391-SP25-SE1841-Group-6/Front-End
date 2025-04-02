@@ -40,6 +40,7 @@ import { AddIcon } from '@chakra-ui/icons'
 import { useEffect, useState } from "react";
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 
 export default function Accounts() {
     const [accounts, setAccounts] = useState([]);
@@ -51,7 +52,6 @@ export default function Accounts() {
     const [accName, setAccName] = useState('');
     const [role, setRole] = useState('');
     const [dob, setDob] = useState('');
-    const [gender, setGender] = useState('');
 
     const [formData, setFormData] = useState({
         accName: '',
@@ -179,171 +179,204 @@ export default function Accounts() {
                         <Accordion allowToggle>
                         <AccordionItem>
                             <h5>
-                            <AccordionButton bg='blue.700' textColor='white'>
-                                <Box as='span' flex='1' textAlign='left'>
-                                 Add an account
-                                </Box>
-                                <AccordionIcon />
+                            <AccordionButton
+                                bg='blue.700'
+                                textColor='white'
+                                _hover={{
+                                    bg: 'blue.600',
+                                    transform: 'translateY(-2px)',
+                                    shadow: 'lg'
+                                }}
+                                _expanded={{
+                                    bg: 'blue.800',
+                                    transform: 'translateY(0)',
+                                }}
+                                transition="all 0.2s"
+                                borderRadius="lg"
+                                py={4}
+                                px={6}
+                            >
+                                <HStack flex='1' spacing={3}>
+                                    <Icon as={AddIcon} w={5} h={5} />
+                                    <Box as='span' textAlign='left' fontSize="lg" fontWeight="bold">
+                                        Add an Account
+                                    </Box>
+                                </HStack>
+                                <AccordionIcon w={6} h={6} />
                             </AccordionButton>
                             </h5>
-                            <AccordionPanel pb={4} bg='blue.700' textColor='white' pt={4} px={4} >
-                                <Box as="form" onSubmit={handleSubmit} 
-                                 sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flexWrap: 'wrap',
-                                    width: '100%',
-                                    gap: 2,
-                                  }}
+                            <AccordionPanel 
+                                pb={6} 
+                                bg='white' 
+                                borderRadius="lg"
+                                mt={2}
+                                shadow="lg"
+                            >
+                                <Box 
+                                    as="form" 
+                                    onSubmit={handleSubmit} 
+                                    sx={{
+                                        display: 'grid',
+                                        gridTemplateColumns: 'repeat(2, 1fr)',
+                                        gap: 6,
+                                        p: 4
+                                    }}
                                 >
-                                    
-                                        
-                                            <FormControl isRequired isInvalid={!!formErrors.accName}>
-                                                <FormLabel>Name</FormLabel>
-                                                Value:{accName}
-                                                <Input
-                                                    name="accName"
-                                                    value={accName}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter full name"
-                                                    width="100px"
-                                                />
-                                                <FormErrorMessage>{formErrors.accName}</FormErrorMessage>
-                                            </FormControl>
+                                    <FormControl isRequired isInvalid={!!formErrors.accName}>
+                                        <FormLabel fontWeight="medium">Name</FormLabel>
+                                        <Input
+                                            name="accName"
+                                            value={accName}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter full name"
+                                            bg="white"
+                                            borderColor="gray.300"
+                                            _hover={{ borderColor: 'blue.400' }}
+                                            _focus={{ borderColor: 'blue.500', shadow: 'outline' }}
+                                        />
+                                        <FormErrorMessage>{formErrors.accName}</FormErrorMessage>
+                                    </FormControl>
 
-                                            <FormControl isRequired isInvalid={!!formErrors.accEmail}>
-                                                <FormLabel>Email</FormLabel>
-                                                Value:{accEmail}
-                                                <Input
-                                                    name="accEmail"
-                                                    type="email"
-                                                    value={accEmail}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter email"
-                                                    width="100px"
-                                                />
-                                                <FormErrorMessage>{formErrors.accEmail}</FormErrorMessage>
-                                            </FormControl>
-                                        
+                                    <FormControl isRequired isInvalid={!!formErrors.accEmail}>
+                                        <FormLabel fontWeight="medium">Email</FormLabel>
+                                        <Input
+                                            name="accEmail"
+                                            type="email"
+                                            value={accEmail}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter email"
+                                            bg="white"
+                                            borderColor="gray.300"
+                                            _hover={{ borderColor: 'blue.400' }}
+                                            _focus={{ borderColor: 'blue.500', shadow: 'outline' }}
+                                        />
+                                        <FormErrorMessage>{formErrors.accEmail}</FormErrorMessage>
+                                    </FormControl>
 
-                                        
-                                            <FormControl isRequired isInvalid={!!formErrors.accPass}>
-                                                <FormLabel>Password</FormLabel>
-                                                Value:{accPass}
-                                                <Input
-                                                    name="accPass"
-                                                    type="password"
-                                                    value={accPass}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter password"
-                                                    width="100px"
-                                                />
-                                                <FormErrorMessage>{formErrors.accPass}</FormErrorMessage>
-                                            </FormControl>
+                                    <FormControl isRequired isInvalid={!!formErrors.accPass}>
+                                        <FormLabel fontWeight="medium">Password</FormLabel>
+                                        <Input
+                                            name="accPass"
+                                            type="password"
+                                            value={accPass}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter password"
+                                            bg="white"
+                                            borderColor="gray.300"
+                                            _hover={{ borderColor: 'blue.400' }}
+                                            _focus={{ borderColor: 'blue.500', shadow: 'outline' }}
+                                        />
+                                        <FormErrorMessage>{formErrors.accPass}</FormErrorMessage>
+                                    </FormControl>
 
-                                            
-                                        
+                                    <FormControl isRequired isInvalid={!!formErrors.dob}>
+                                        <FormLabel fontWeight="medium">Date of Birth</FormLabel>
+                                        <Input
+                                            name="dob"
+                                            type="date"
+                                            value={dob}
+                                            onChange={handleInputChange}
+                                            bg="white"
+                                            borderColor="gray.300"
+                                            _hover={{ borderColor: 'blue.400' }}
+                                            _focus={{ borderColor: 'blue.500', shadow: 'outline' }}
+                                        />
+                                        <FormErrorMessage>{formErrors.dob}</FormErrorMessage>
+                                    </FormControl>
 
-                                        
-                                            <FormControl isRequired>
-                                                <FormLabel>Role</FormLabel>
-                                                Value:{role}
-                                                <ButtonGroup size='sm' isAttached variant='outline'>
-                                                    <Button
-                                                        onClick={() => handleInputChange({
-                                                            target: { name: 'role', value: 'Student' }
-                                                        })}
-                                                        colorScheme={formData.role === 'Student' ? 'green' : 'gray'}
-                                                        width="100px"
-                                                    >
-                                                        Student
-                                                    </Button>
-                                                    <Button
-                                                        onClick={() => handleInputChange({
-                                                            target: { name: 'role', value: 'Parent' }
-                                                        })}
-                                                        colorScheme={formData.role === 'Parent' ? 'purple' : 'gray'}
-                                                        width="100px"
-                                                    >
-                                                        Parent
-                                                    </Button>
-                                                    <Button
-                                                        onClick={() => handleInputChange({
-                                                            target: { name: 'role', value: 'Psychologist' }
-                                                        })}
-                                                        colorScheme={formData.role === 'Psychologist' ? 'blue' : 'gray'}
-                                                        width="100px"
-                                                    >
-                                                        Psychologist
-                                                    </Button>
-                                                </ButtonGroup>
-                                            </FormControl>
-
-                                            <FormControl isRequired isInvalid={!!formErrors.dob}>
-                                                <FormLabel>Date of Birth</FormLabel>
-                                                Value:{dob}
-                                                <Input
-                                                    name="dob"
-                                                    type="date"
-                                                    value={dob}
-                                                    onChange={handleInputChange}
-                                                    width="100px"
-                                                />
-                                                <FormErrorMessage>{formErrors.dob}</FormErrorMessage>
-                                            </FormControl>
-                                       
-
-                                        <FormControl isRequired>
-                                            <FormLabel>Gender</FormLabel>
-                                            Value:{gender}
-                                            <RadioGroup
-                                                value={gender}
-                                                onChange={(value) => handleInputChange({
-                                                    target: { name: 'gender', value }
-                                                })}
-                                            >
-                                                <Stack direction="row">
-                                                    <Radio value="true">Male</Radio>
-                                                    <Radio value="false">Female</Radio>
-                                                </Stack>
-                                            </RadioGroup>
-                                        </FormControl>
-
-                                        <Button
-                                            mt={4}
-                                            colorScheme="blue"
-                                            type="submit"
-                                            width="full"
+                                    <FormControl isRequired>
+                                        <FormLabel fontWeight="medium">Role</FormLabel>
+                                        <RadioGroup
+                                            value={formData.role}
+                                            onChange={(value) => handleInputChange({
+                                                target: { name: 'role', value }
+                                            })}
                                         >
-                                            Create Account
-                                        </Button>
-                                    
+                                            <Stack direction="row" spacing={8}>
+                                                <Radio 
+                                                    value="Student" 
+                                                    colorScheme="green"
+                                                    size="lg"
+                                                >
+                                                    Student
+                                                </Radio>
+                                                <Radio 
+                                                    value="Parent" 
+                                                    colorScheme="purple"
+                                                    size="lg"
+                                                >
+                                                    Parent
+                                                </Radio>
+                                                <Radio 
+                                                    value="Psychologist" 
+                                                    colorScheme="blue"
+                                                    size="lg"
+                                                >
+                                                    Psychologist
+                                                </Radio>
+                                            </Stack>
+                                        </RadioGroup>
+                                    </FormControl>
+
+                                    <FormControl isRequired>
+                                        <FormLabel fontWeight="medium">Gender</FormLabel>
+                                        <RadioGroup
+                                            value={formData.gender}
+                                            onChange={(value) => handleInputChange({
+                                                target: { name: 'gender', value }
+                                            })}
+                                        >
+                                            <Stack direction="row" spacing={8}>
+                                                <Radio value="true" colorScheme="blue">Male</Radio>
+                                                <Radio value="false" colorScheme="pink">Female</Radio>
+                                            </Stack>
+                                        </RadioGroup>
+                                    </FormControl>
+
+                                    <Button
+                                        gridColumn="span 2"
+                                        mt={6}
+                                        colorScheme="blue"
+                                        type="submit"
+                                        size="lg"
+                                        _hover={{ transform: 'translateY(-2px)' }}
+                                        transition="all 0.2s"
+                                    >
+                                        Create Account
+                                    </Button>
                                 </Box>
                             </AccordionPanel>
                         </AccordionItem>
                         </Accordion>
                         </Box>
-                        <Box overflowX="auto" bg='blue.700' textColor='white' rounded='md'>
-                            
+                        <Box overflowX="auto" bg='white' shadow="xl" rounded='lg' my={4}>
                             <TableContainer>
-                                <Table variant="simple">
-                                    <Thead>
+                                <Table variant="simple" colorScheme="blue">
+                                    <Thead bg="blue.700">
                                         <Tr>
-                                            <Th>Account Name</Th>
-                                            <Th>Email</Th>
-                                            <Th>Role</Th>
-                                            <Th>Date of Birth</Th>
-                                            <Th>Gender</Th>
-                                            <Th>Status</Th>
+                                            <Th textColor='white' fontSize="md">Account Name</Th>
+                                            <Th textColor='white' fontSize="md">Email</Th>
+                                            <Th textColor='white' fontSize="md">Role</Th>
+                                            <Th textColor='white' fontSize="md">Date of Birth</Th>
+                                            <Th textColor='white' fontSize="md">Gender</Th>
+                                            <Th textColor='white' fontSize="md">Status</Th>
+                                            <Th textColor='white' fontSize="md">Actions</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
                                         {accounts.map((account) => (
-                                            <Tr key={account.accID}>
-                                                <Td>{account.accName}</Td>
+                                            <Tr 
+                                                key={account.accID}
+                                                _hover={{ bg: "gray.50" }}
+                                                transition="background-color 0.2s"
+                                            >
+                                                <Td fontWeight="medium">{account.accName}</Td>
                                                 <Td>{account.accEmail}</Td>
                                                 <Td>
                                                     <Badge
+                                                        px={3}
+                                                        py={1}
+                                                        borderRadius="full"
                                                         colorScheme={
                                                             account.role === 'Student' ? 'green' :
                                                             account.role === 'Parent' ? 'purple' :
@@ -354,24 +387,49 @@ export default function Accounts() {
                                                     </Badge>
                                                 </Td>
                                                 <Td>{new Date(account.dob).toLocaleDateString()}</Td>
-                                                <Td>{account.gender ? 'Male' : 'Female'}</Td>
                                                 <Td>
                                                     <Badge
+                                                        px={2}
+                                                        py={1}
+                                                        borderRadius="full"
+                                                        colorScheme={account.gender ? 'blue' : 'pink'}
+                                                    >
+                                                        {account.gender ? 'Male' : 'Female'}
+                                                    </Badge>
+                                                </Td>
+                                                <Td>
+                                                    <Badge
+                                                        px={3}
+                                                        py={1}
+                                                        borderRadius="full"
                                                         colorScheme={account.isApproved ? 'green' : 'red'}
                                                     >
                                                         {account.isApproved ? 'Approved' : 'Pending'}
                                                     </Badge>
                                                 </Td>
                                                 <Td>
-                                                    <Button  size={'lg'} rounded={'md'}>
-                                                        Edit
-                                                    </Button>
-                                                    
-                                                </Td>
-                                                <Td>
-                                                    <Button  size={'lg'} rounded={'md'} onClick={() => handleDelete(account.accId)}>
-                                                        Delete
-                                                    </Button>
+                                                    <ButtonGroup spacing={2} size="sm">
+                                                        <Button
+                                                            leftIcon={<EditIcon />}
+                                                            colorScheme="yellow"
+                                                            variant="solid"
+                                                            onClick={() => handleEdit(account)}
+                                                            _hover={{ transform: 'translateY(-2px)' }}
+                                                            transition="all 0.2s"
+                                                        >
+                                                            Edit
+                                                        </Button>
+                                                        <Button
+                                                            leftIcon={<DeleteIcon />}
+                                                            colorScheme="red"
+                                                            variant="solid"
+                                                            onClick={() => handleDelete(account.accId)}
+                                                            _hover={{ transform: 'translateY(-2px)' }}
+                                                            transition="all 0.2s"
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                    </ButtonGroup>
                                                 </Td>
                                             </Tr>
                                         ))}

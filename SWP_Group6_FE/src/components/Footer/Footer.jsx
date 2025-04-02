@@ -15,34 +15,34 @@ const Footer = () => {
                 alt="logo"
                 className="w-30 border rounded-3xl"
               />
-              <h5 className="white-text">Điều trị tâm lý học đường</h5>
+              <h5 className="white-text">School Psychology Treatment</h5>
               <p className="grey-text text-lighten-4">
-                Chúng tôi cung cấp các dịch vụ tư vấn và hỗ trợ tâm lý cho học
-                sinh, giúp xây dựng môi trường học tập lành mạnh và phát triển
-                toàn diện.
+                We provide counseling services and psychological support for students,
+                helping to build a healthy learning environment and comprehensive
+                development.
               </p>
             </div>
             <div className="col l4 offset-l2 s12">
-              <h5 className="white-text">Giới thiệu</h5>
+              <h5 className="white-text">About Us</h5>
               <ul>
                 <li>
                   <a className="grey-text text-lighten-3" href="#!">
-                    Chương trình
+                    Programs
                   </a>
                 </li>
                 <li>
                   <a className="grey-text text-lighten-3" href="#!">
-                    Giảng viên
+                    Lecturers
                   </a>
                 </li>
                 <li>
                   <a className="grey-text text-lighten-3" href="#!">
-                    Tin tức
+                    News
                   </a>
                 </li>
                 <li>
                   <a className="grey-text text-lighten-3" href="#!">
-                    Liên hệ
+                    Contact
                   </a>
                 </li>
               </ul>
@@ -51,7 +51,7 @@ const Footer = () => {
         </div>
         <div className="footer-copyright">
           <div className="container flex justify-center">
-            © 2023 Trung tâm Tư vấn Tâm lý học đường
+            © 2023 School Psychology Counseling Center
           </div>
         </div>
       </footer>

@@ -1,4 +1,3 @@
-
 import {
   Box,
   Flex,
@@ -22,7 +21,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-
+import logo from '../../assets/images/logofinal.png';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -42,9 +41,22 @@ export default function AdminMenuBar() {
   return (
     <>
       <Flex width={"100vw"} py='10px' alignItems={"center"} justifyContent={"center"} bg={"gray.100"}>
-        <Box>
-          <img src="https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-modern-vector-logo-of-psychology-letter-psi-in-creative-style-png-image_4850550.png" alt="logo" 
-          className="w-20 h-20"/>
+        <Box
+          p={2}
+          borderWidth="3px"
+          borderColor="blue.700"
+          borderRadius="full"
+          overflow="hidden"
+          transition="transform 0.2s"
+          _hover={{
+            transform: "scale(1.05)",
+          }}
+        >
+          <img 
+            src={logo} 
+            alt="School Psychology Logo" 
+            className="w-36 h-36 object-contain rounded-full"
+          />
         </Box>
       </Flex>
       

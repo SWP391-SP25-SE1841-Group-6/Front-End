@@ -10,142 +10,142 @@ import {
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 
-
 const IntroPageStudent = () => {
   return (
-    <div className="bg-gray-100   ">
-      <div className="row flex " >
-        <div className="col-6 w-[60%] ml-2 ">
-          <div className="grid grid-cols-2 grid-rows-2  gap-4 m-2 rounded-full w-360 h-250">
-            <div
-              className=" relative bg-cover bg-center bg-no-repeat text-white rounded-lg p-4 flex flex-col items-center"
-              style={{
-                backgroundImage:
-                  "url(https://files.123freevectors.com/wp-content/original/163911-abstract-pink-blue-and-white-graphic-background-design.jpg)",
-              }}
-            >
-              <div className="absolute inset-0 rounded-lg text-9xl  ">
-                <FontAwesomeIcon
-                  icon={faBrain}
-                  className="m-10 text-blue-900"
-                />
+    <div className="bg-gray-100 min-h-screen">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Left Column */}
+          <div className="lg:w-3/5">
+            <div className="grid grid-cols-2 gap-6 relative">
+              {/* Mental Health Card */}
+              <div className="card-wrapper col-span-2 sm:col-span-1">
+                <div className="relative rounded-lg overflow-hidden h-64">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: "url(https://files.123freevectors.com/wp-content/original/163911-abstract-pink-blue-and-white-graphic-background-design.jpg)"
+                    }}
+                  />
+                  <div className="relative z-10 h-full flex flex-col items-center justify-between p-6">
+                    <FontAwesomeIcon
+                      icon={faBrain}
+                      className="text-6xl text-blue-900"
+                    />
+                    <Link to="/studenthome/Sknt">
+                      <p className="text-2xl lg:text-3xl text-blue-900 font-bold text-center">
+                        COGNITIVE HEALTH
+                      </p>
+                    </Link>
+                  </div>
+                </div>
               </div>
 
-              <Link to="/studenthome/Sknt">
-                <p className="relative text-6xl w-100 mr-30 mt-45 text-blue-900 text-center  rounded-3xl font-bold ">
-                  SỨC KHỎE NHẬN THỨC
-                </p>
-              </Link>
-            </div>
-
-            <div
-              className="relative bg-cover bg-center bg-no-repeat text-white rounded-lg p-4 flex flex-col items-center"
-              style={{
-                backgroundImage:
-                  "url(https://static.vecteezy.com/system/resources/previews/040/520/293/non_2x/purple-abstract-modern-geometric-memphis-background-vector.jpg)",
-              }}
-            >
-              <div className="absolute inset-0    text-9xl rounded-lg">
-              <FontAwesomeIcon
-               icon={faHandshake} 
-                  className="m-10 text-white"
-              />
+              {/* Social Health Card */}
+              <div className="card-wrapper col-span-2 sm:col-span-1">
+                <div className="relative rounded-lg overflow-hidden h-64">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: "url(https://static.vecteezy.com/system/resources/previews/040/520/293/non_2x/purple-abstract-modern-geometric-memphis-background-vector.jpg)"
+                    }}
+                  />
+                  <div className="relative z-10 h-full flex flex-col items-center justify-between p-6">
+                    <FontAwesomeIcon
+                      icon={faHandshake}
+                      className="text-6xl text-white"
+                    />
+                    <Link to="/studenthome/Skxh">
+                      <p className="text-2xl lg:text-3xl text-white font-bold text-center">
+                        SOCIAL HEALTH
+                      </p>
+                    </Link>
+                  </div>
+                </div>
               </div>
 
-              <Link to="/studenthome/Skxh">
-              <p className="relative text-6xl w-100 mr-10 mt-45 text-white text-center  rounded-3xl font-bold ">
-                  SỨC KHỎE XÃ HỘI
-                </p>
-              </Link>
-              
-          
-            </div>
-
-            <div
-              className="relative bg-cover bg-center bg-no-repeat text-white rounded-lg p-4 flex flex-col items-center"
-              style={{
-                backgroundImage:
-                  "url(https://static.vecteezy.com/system/resources/previews/040/520/293/non_2x/purple-abstract-modern-geometric-memphis-background-vector.jpg)",
-              }}
-            >
-              <div className="absolute inset-0    text-9xl rounded-lg">
-              <FontAwesomeIcon icon={faHeartCirclePlus} 
-                  className="m-10 text-white"
-              />
+              {/* Emotional Health Card */}
+              <div className="card-wrapper col-span-2 sm:col-span-1">
+                <div className="relative rounded-lg overflow-hidden h-64">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: "url(https://static.vecteezy.com/system/resources/previews/040/520/293/non_2x/purple-abstract-modern-geometric-memphis-background-vector.jpg)"
+                    }}
+                  />
+                  <div className="relative z-10 h-full flex flex-col items-center justify-between p-6">
+                    <FontAwesomeIcon
+                      icon={faHeartCirclePlus}
+                      className="text-6xl text-white"
+                    />
+                    <Link to="/studenthome/Skcx">
+                      <p className="text-2xl lg:text-3xl text-white font-bold text-center">
+                        EMOTIONAL HEALTH
+                      </p>
+                    </Link>
+                  </div>
+                </div>
               </div>
 
-              <Link to="/studenthome/Skcx">
-              <p className="relative text-6xl w-100 mr-10 mt-45 text-white text-center  rounded-3xl font-bold ">
-                  SỨC KHỎE CẢM XÚC
-                </p>
-              </Link>
-              
-          
-            </div>
-
-            <div
-              className=" relative bg-cover bg-center bg-no-repeat text-white rounded-lg p-4 flex flex-col items-center"
-              style={{
-                backgroundImage:
-                  "url(https://files.123freevectors.com/wp-content/original/163911-abstract-pink-blue-and-white-graphic-background-design.jpg)",
-              }}
-            >
-              <div className="absolute inset-0 rounded-lg text-9xl  ">
-                <FontAwesomeIcon
-                  icon={faBrain}
-                  className="m-10 text-blue-900"
-                />
+              {/* Physical Health Card */}
+              <div className="card-wrapper col-span-2 sm:col-span-1">
+                <div className="relative rounded-lg overflow-hidden h-64">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: "url(https://files.123freevectors.com/wp-content/original/163911-abstract-pink-blue-and-white-graphic-background-design.jpg)"
+                    }}
+                  />
+                  <div className="relative z-10 h-full flex flex-col items-center justify-between p-6">
+                    <FontAwesomeIcon
+                      icon={faBrain}
+                      className="text-6xl text-blue-900"
+                    />
+                    <Link to="/studenthome/Sktc">
+                      <p className="text-2xl lg:text-3xl text-blue-900 font-bold text-center">
+                        PHYSICAL HEALTH
+                      </p>
+                    </Link>
+                  </div>
+                </div>
               </div>
 
-              <Link to="/studenthome/Sktc">
-                <p className="relative text-6xl w-100 mr-30 mt-45 text-blue-900 text-center  rounded-3xl font-bold ">
-                  SỨC KHỎE THỂ CHẤT
-                </p>
-              </Link>
-            </div>
-            <div className="absolute bg-white w-90 h-90  ml-130 mt-50 rounded-full bg-conic-120 from-indigo-300 via-indigo-50 to-indigo-300"
-           >
-              <div className="text-5xl m-10 mt-30 text-center text-black font-bold ">
-                <p>SỨC KHỎE TÂM LÍ</p>
+              {/* Center Circle */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-lg">
+                  <p className="text-2xl text-center text-black font-bold p-4">
+                    MENTAL HEALTH
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className=" col-6">
-          <div>
-            <p className=" text-8xl text-blue-900">SỨC KHỎE TÂM LÍ</p>
-            <p className="mt-5 mr-25 text-3xl text-center">
-              Dành 5 phút để tìm hiểu về sức khỏe tâm lí của bạn
-            </p>
-          </div>
-          <div className="text-3xl mt-20 bg-blue-950 !w-70m run decoration-violet-50  p-3 h-15  rounded-xl ">
-            <Link to="/studenthome/test" className=" !text-white !p-6 ">
-           
-              BẮT ĐẦU NGAY
-            </Link>
-          </div>
-          <div className="flex mt-20 justify-between text-2xl text-blue-950 font-bold cursor-pointer">
-          <Link to="/studenthome/khaosat" className="!text-blue-900" >
-              <FontAwesomeIcon icon={faClock} className="!text-blue-900"/>  Bỏ qua khảo sát
-            </Link>
-            <Link to="/studenthome/hengap" className="!text-blue-900" >
-            <FontAwesomeIcon icon={faCircleXmark}  className="!text-blue-900"/> Hẹn gặp
-            </Link>
-            
-            <Link to="/studenthome/khancap" className="!text-blue-900" >
-            <FontAwesomeIcon icon={faPhone}  className="!text-blue-900"/> Khần cấp
-            </Link>
-       
+          {/* Right Column */}
+          <div className="lg:w-2/5 flex flex-col justify-center space-y-8">
+            <div className="text-center lg:text-left">
+              <h1 className="text-5xl lg:text-6xl text-blue-900 font-bold mb-4">
+                MENTAL HEALTH
+              </h1>
+              <p className="text-xl lg:text-2xl">
+                Take 5 minutes to learn about your mental health
+              </p>
+            </div>
+
+            <div className="flex justify-center lg:justify-start">
+              <Link 
+                to="/studenthome/test"
+                className="bg-blue-950 text-white px-8 py-3 rounded-xl text-xl hover:bg-blue-800 transition-colors"
+              >
+                START NOW
+              </Link>
+            </div>
 
           </div>
         </div>
       </div>
       
-      <div className="mt-5 w-full">
-        {" "}
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };
